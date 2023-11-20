@@ -1,5 +1,6 @@
 package com.gmail.eamosse.idbdata.datasources
 
+import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.toToken
 import com.gmail.eamosse.idbdata.api.service.MovieService
 import com.gmail.eamosse.idbdata.data.Token
@@ -19,11 +20,32 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
      * Si [Result.Succes], tout s'est bien passé
      * Sinon, une erreur est survenue
      */
+
     override suspend fun getToken(): Result<Token> {
         return try {
             val response = service.getToken()
             if (response.isSuccessful) {
                 Result.Succes(response.body()!!.toToken())
+            } else {
+                Result.Error(
+                    exception = Exception(),
+                    message = response.message(),
+                    code = response.code()
+                )
+            }
+        } catch (e: Exception) {
+            Result.Error(
+                exception = e,
+                message = e.message ?: "No message",
+                code = -1
+            )
+        }
+    }
+    suspend fun getCategories(): Result<List<CategoryResponse.Genre>> {
+        return try {
+            val response = service.getCategories()
+            if (response.isSuccessful) {
+                Result.Succes(response.body()!!.genres)
             } else {
                 Result.Error(
                     exception = Exception(),

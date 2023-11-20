@@ -13,7 +13,7 @@ import javax.inject.Named
 object AppModule {
     @Named ("API_KEY")
     @Provides
-    fun provideApiKey() = "507a86e6d98ae2b2cd600e594ee02637"
+    fun provideApiKey() = "78a4d36a87d4e73636316f45d17af54b"
 
     @Named ("BASE_URL")
     @Provides
