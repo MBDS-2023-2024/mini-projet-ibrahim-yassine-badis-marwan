@@ -1,5 +1,6 @@
 package com.gmail.eamosse.idbdata.datasources
 
+import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.toToken
 import com.gmail.eamosse.idbdata.api.service.MovieService
 import com.gmail.eamosse.idbdata.data.Token
@@ -39,7 +40,26 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
             )
         }
     }
-
+    suspend fun getCategories(): Result<List<CategoryResponse.Genre>> {
+        return try {
+            val response = service.getCategories()
+            if (response.isSuccessful) {
+                Result.Succes(response.body()!!.genres)
+            } else {
+                Result.Error(
+                    exception = Exception(),
+                    message = response.message(),
+                    code = response.code()
+                )
+            }
+        } catch (e: Exception) {
+            Result.Error(
+                exception = e,
+                message = e.message ?: "No message",
+                code = -1
+            )
+        }
+    }
     override suspend fun saveToken(token: Token) {
         TODO("I don't know how to save a token, the local datasource probably does")
     }
