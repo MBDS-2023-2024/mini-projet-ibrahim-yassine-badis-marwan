@@ -1,9 +1,11 @@
 package com.gmail.eamosse.idbdata.datasources
 
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
-import com.gmail.eamosse.idbdata.api.response.toToken
 import com.gmail.eamosse.idbdata.api.service.MovieService
 import com.gmail.eamosse.idbdata.data.Token
+import com.gmail.eamosse.idbdata.api.response.toToken
+import com.gmail.eamosse.idbdata.parse
+import com.gmail.eamosse.idbdata.safeCall
 import com.gmail.eamosse.idbdata.utils.Result
 import javax.inject.Inject
 
@@ -12,7 +14,8 @@ import javax.inject.Inject
  * Cette classe est interne au module, ne peut être initialisé ou exposé aux autres composants
  * de l'application
  */
-internal class OnlineDataSource @Inject constructor(private val service: MovieService): MovieDataSource {
+internal class OnlineDataSource @Inject constructor(private val service: MovieService) :
+    MovieDataSource {
 
     /**
      * Récupérer le token du serveur
@@ -22,25 +25,17 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
      */
 
     override suspend fun getToken(): Result<Token> {
-        return try {
-            val response = service.getToken()
-            if (response.isSuccessful) {
-                Result.Succes(response.body()!!.toToken())
-            } else {
-                Result.Error(
-                    exception = Exception(),
-                    message = response.message(),
-                    code = response.code()
-                )
+        return safeCall {
+            val response = service.getToken().parse()
+            when (response) {
+                is Result.Succes -> {
+                    Result.Succes(response.data.toToken())
+                }
+                is Result.Error -> response
             }
-        } catch (e: Exception) {
-            Result.Error(
-                exception = e,
-                message = e.message ?: "No message",
-                code = -1
-            )
         }
     }
+
     suspend fun getCategories(): Result<List<CategoryResponse.Genre>> {
         return try {
             val response = service.getCategories()
