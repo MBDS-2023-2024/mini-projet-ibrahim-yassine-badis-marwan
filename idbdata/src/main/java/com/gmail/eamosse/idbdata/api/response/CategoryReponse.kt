@@ -2,6 +2,7 @@ package com.gmail.eamosse.idbdata.api.response
 
 import com.gmail.eamosse.idbdata.data.Category
 import com.google.gson.annotations.SerializedName
+import retrofit2.Response
 
 internal data class CategoryResponse(
     @SerializedName("genres")
@@ -18,5 +19,7 @@ internal data class CategoryResponse(
             return Category(id, name)
         }
     }
+
+
 
 }

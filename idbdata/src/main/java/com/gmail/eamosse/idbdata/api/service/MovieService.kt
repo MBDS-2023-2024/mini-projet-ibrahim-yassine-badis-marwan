@@ -8,6 +8,6 @@ import retrofit2.http.GET
 internal interface MovieService {
     @GET("authentication/token/new")
     suspend fun getToken(): Response<TokenResponse>
-    @GET("/genre/movie/list")
+    @GET("genre/movie/list")
     suspend fun getCategories(): Response<CategoryResponse>
 }
