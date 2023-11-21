@@ -13,7 +13,7 @@ internal data class CategoryResponse(
         @SerializedName("name")
         val name: String
     ) {
-        fun toCategory() = Category(
+       internal fun toCategory() = Category(
             id = id,
             name = name
         )

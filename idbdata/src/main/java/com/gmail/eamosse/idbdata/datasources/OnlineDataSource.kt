@@ -36,6 +36,7 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
         }
     }
 
+    /*
     suspend fun getCategories(): Result<List<CategoryResponse.Genre>> {
         return try {
             val response = service.getCategories()
@@ -54,6 +55,18 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
                 message = e.message ?: "No message",
                 code = -1
             )
+        }
+    }
+     */
+
+    suspend fun getCategories(): Result<List<CategoryResponse.Genre>> {
+        return safeCall {
+            when (val response = service.getCategories().parse()) {
+                is Result.Succes -> {
+                    Result.Succes(response.data.genres)
+                }
+                is Result.Error -> response
+            }
         }
     }
 
