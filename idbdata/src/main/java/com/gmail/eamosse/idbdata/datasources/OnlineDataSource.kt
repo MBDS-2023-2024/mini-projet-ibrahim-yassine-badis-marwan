@@ -1,6 +1,7 @@
 package com.gmail.eamosse.idbdata.datasources
 
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
+import com.gmail.eamosse.idbdata.api.response.MovieResponse
 import com.gmail.eamosse.idbdata.api.service.MovieService
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.api.response.toToken
@@ -64,6 +65,18 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
             when (val response = service.getCategories().parse()) {
                 is Result.Succes -> {
                     Result.Succes(response.data.genres)
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
+
+    suspend fun getMoviesByCategoryId(id: Int): Result<List<MovieResponse.Item>> {
+        return safeCall {
+            when (val response = service.getListMoviesById(id).parse()) {
+                is Result.Succes -> {
+                    Result.Succes(response.data.items)
                 }
                 is Result.Error -> response
             }

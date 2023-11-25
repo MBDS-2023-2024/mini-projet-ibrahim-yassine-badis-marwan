@@ -3,7 +3,7 @@
     <data>
         <variable
             name="item"
-            type="com.gmail.eamosse.idbdata.data.Category" />
+            type="com.gmail.eamosse.idbdata.data.Movie" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,33 +12,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_margin="5dp"
-        >
-
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginStart="2dp">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/category_img"
+            android:id="@+id/movie_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/action"
+            android:src="@drawable/baseline_video_label_24"
             android:scaleType="centerInside"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/category_name"
+            android:id="@+id/movie_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:text="@{item.name}"
-            app:layout_constraintTop_toBottomOf="@id/category_img"
-            app:layout_constraintEnd_toEndOf="@id/category_img"
-            app:layout_constraintStart_toStartOf="@id/category_img"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:fontFamily="serif"
+            android:textSize="10dp"
+            android:text="@{item.originalTitle}"
+            app:layout_constraintBottom_toBottomOf="@id/movie_img"
+            app:layout_constraintEnd_toEndOf="@id/movie_img"
+            app:layout_constraintStart_toStartOf="@id/movie_img"
+            app:layout_constraintTop_toTopOf="@id/movie_img"
             tools:text="Actions et Aventures" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

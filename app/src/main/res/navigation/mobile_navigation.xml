@@ -27,6 +27,12 @@
         <argument
             android:name="myArg"
             app:argType="string" />
+        <argument
+            android:name="myId"
+            app:argType="string" />
+        <argument
+            android:name="GenreName"
+            app:argType="string" />
     </fragment>
 
     <fragment
