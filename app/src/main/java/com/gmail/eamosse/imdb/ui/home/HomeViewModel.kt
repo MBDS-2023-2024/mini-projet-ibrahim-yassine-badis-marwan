@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.Token
+import com.gmail.eamosse.idbdata.data.Trailer
 import com.gmail.eamosse.idbdata.repository.MovieRepository
 import com.gmail.eamosse.idbdata.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,19 +18,22 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repository: MovieRepository) : ViewModel() {
 
+    /***Category****/
     private val _categories: MutableLiveData<List<Category>> = MutableLiveData()
     val categories: LiveData<List<Category>>
         get() = _categories
 
+    /***Token****/
     private val _token: MutableLiveData<Token> = MutableLiveData()
     val token: LiveData<Token>
         get() = _token
 
+    /***Error****/
     private val _error: MutableLiveData<String> = MutableLiveData()
     val error: LiveData<String>
         get() = _error
 
-    // LiveData pour suivre l'état de chargement
+    /***Loading****/
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean>
         get() = _isLoading
@@ -38,8 +42,11 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     private val _movies: MutableLiveData<List<Movie>> = MutableLiveData()
     val movies: LiveData<List<Movie>>
         get() = _movies
-    /***Movies****/
 
+    /***Trailer****/
+    private val _trailer: MutableLiveData<Trailer> = MutableLiveData()
+    val trailer: LiveData<Trailer>
+        get() = _trailer
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -88,8 +95,42 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         }
     }
 
+    fun getMovieById(id: Int): Movie? {
+        val currentMovies = _movies.value ?: return null // Return early if movies are null
+
+        val movie = currentMovies.find { it.id == id } // Find the movie with the given ID
+        if (movie != null) {
+            return movie
+        } else {
+            return null
+            _error.postValue("Movie not found") // Handle the case where the movie is not in the list
+        }
+
+    }
+
+    fun getTrailerByMovieId(id: Int) {
+        _isLoading.postValue(true) // Début du chargement
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getTrailerByMovieId(id)) {
+                is Result.Succes -> {
+                    _isLoading.postValue(false)
+                    _trailer.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _error.postValue(result.message)
+                }
+
+                else -> {}
+            }
+        }
+    }
+
    fun clearMovies(){
        _movies.postValue(emptyList());
+   }
+
+   fun clearMovieDetails(){
+       _trailer.postValue(Trailer(null, null, null, null, null, null, null, null, null, ""))
    }
 
 

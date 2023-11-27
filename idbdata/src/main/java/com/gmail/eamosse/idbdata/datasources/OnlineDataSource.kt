@@ -2,6 +2,7 @@ package com.gmail.eamosse.idbdata.datasources
 
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
+import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
 import com.gmail.eamosse.idbdata.api.service.MovieService
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.api.response.toToken
@@ -77,6 +78,20 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
             when (val response = service.getListMoviesById(id).parse()) {
                 is Result.Succes -> {
                     Result.Succes(response.data.items)
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
+    suspend fun getTrailerByMovieId(id: Int): Result<MovieTrailerResponse.Result> {
+        return safeCall {
+            when (val response = service.getTrailerByMovieId(id).parse()) {
+                is Result.Succes -> {
+                    /**
+                     * On recupere une liste des videos et le trailer se trouve à la fin de la liste
+                      */
+                    Result.Succes(response.data.results.last())
                 }
                 is Result.Error -> response
             }

@@ -29,8 +29,8 @@ class MovieAdapter(private val items: List<Movie>, movieHandler: MovieHandler) :
             Glide.with(binding.root.context)
                 .load(imageUrl)
                 .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.baseline_video_label_24)
+                .error(R.drawable.baseline_video_label_24)
                 .into(binding.movieImg)
 
         }

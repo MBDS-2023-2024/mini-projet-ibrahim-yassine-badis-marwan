@@ -21,8 +21,12 @@
         android:label="@string/home_second"
         tools:layout="@layout/fragment_home_second">
         <action
-            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/navigation_home" />
+            android:id="@+id/action_HomeSecondFragment_to_MovieDetailsFragment"
+            app:destination="@id/navigation_movie_details">
+            <argument
+                android:name="id"
+                app:argType="string" />
+        </action>
 
         <argument
             android:name="myArg"
@@ -32,6 +36,17 @@
             app:argType="string" />
         <argument
             android:name="GenreName"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_movie_details"
+        android:name="com.gmail.eamosse.imdb.ui.home.HomeMovieDetailsFragment"
+        android:label="@string/movie_details"
+        tools:layout="@layout/fragment_home_movie_details">
+
+        <argument
+            android:name="id"
             app:argType="string" />
     </fragment>
 

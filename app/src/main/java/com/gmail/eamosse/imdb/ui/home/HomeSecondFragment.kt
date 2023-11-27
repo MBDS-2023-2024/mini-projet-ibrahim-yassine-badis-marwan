@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.gmail.eamosse.idbdata.data.Movie
@@ -75,24 +77,60 @@ class HomeSecondFragment : Fragment(), MovieHandler {
 
             error.observe(viewLifecycleOwner, Observer {
                 //afficher l'erreur
-                Toast.makeText(context, "probléme de recuperation de la liste", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, "probléme de recuperation de la liste", Toast.LENGTH_SHORT).show()
 
             })
         }
 
-        /*
-        view.findViewById<Button>(R.id.button_home_second).setOnClickListener {
-            findNavController().navigate(R.id.action_HomeSecondFragment_to_HomeFragment)
+        val selectedColor = this.activity?.let { ContextCompat.getColor(it, R.color.white) }
+        val deselectedColor = this.activity?.let { ContextCompat.getColor(it, R.color.black) }
+
+        if (selectedColor != null) {
+            binding.moviesBtn.setBackgroundColor(selectedColor)
+        } // Assuming Movies is selected by default
+        if (deselectedColor != null) {
+            binding.seriesBtn.setBackgroundColor(deselectedColor)
         }
-         */
+
+        binding.toggleButtonGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
+
+            if (checkedId == R.id.movies_btn ) {
+                if (selectedColor != null && deselectedColor != null) {
+                    binding.moviesBtn.setBackgroundColor(selectedColor)
+                    binding.moviesBtn.setTextColor(deselectedColor)
+                    binding.seriesBtn.setBackgroundColor(deselectedColor)
+                    binding.seriesBtn.setTextColor(selectedColor)
+                }
+                // Handle Movies button logic here
+            } else if (checkedId == R.id.series_btn ) {
+                if (selectedColor != null && deselectedColor != null) {
+                    binding.seriesBtn.setBackgroundColor(selectedColor)
+                    binding.seriesBtn.setTextColor(deselectedColor)
+                    binding.moviesBtn.setBackgroundColor(deselectedColor)
+                    binding.moviesBtn.setTextColor(selectedColor)
+                    }
+                }
+                // Handle Series button logic here
+            }
+
+        }
+
+    override fun onShowMovieDetails(id: Int) {
+        val action = HomeSecondFragmentDirections
+            .actionHomeSecondFragmentToMovieDetailsFragment(id.toString())
+        NavHostFragment.findNavController(this@HomeSecondFragment)
+            .navigate(action)
+    }
+
+    /*
+    view.findViewById<Button>(R.id.button_home_second).setOnClickListener {
+        findNavController().navigate(R.id.action_HomeSecondFragment_to_HomeFragment)
+    }
+     */
         /*
         view.findViewById<TextView>(R.id.textview_home_second).text =
                 getString(R.string.hello_home_second, args.myArg)
          */
+
     }
 
-    override fun onShowMovieDetails(id: Int) {
-        TODO("Not yet implemented")
-    }
-
-}
