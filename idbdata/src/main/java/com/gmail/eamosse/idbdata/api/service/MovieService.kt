@@ -1,11 +1,16 @@
 package com.gmail.eamosse.idbdata.api.service
 
+import com.gmail.eamosse.idbdata.api.request.RatingBody
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
 import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
+import com.gmail.eamosse.idbdata.api.response.RatingResponse
 import com.gmail.eamosse.idbdata.api.response.TokenResponse
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 internal interface MovieService {
@@ -23,6 +28,14 @@ internal interface MovieService {
 
     @GET("movie/{movie_id}/videos")
     suspend fun getTrailerByMovieId(@Path("movie_id") id: Int): Response<MovieTrailerResponse>
+
+    @POST("movie/{movie_id}/rating")
+    suspend fun addRating(
+        @Path("movie_id") movieId: Int,
+        @Body rating: RatingBody
+    ): Response<RatingResponse>
+
+
 
     //chaines  movie/38/watch/providers
     // video   movie/movie_id/videos?language=en-US'

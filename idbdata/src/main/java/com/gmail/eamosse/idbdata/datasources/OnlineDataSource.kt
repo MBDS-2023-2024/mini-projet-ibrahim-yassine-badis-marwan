@@ -1,11 +1,14 @@
 package com.gmail.eamosse.idbdata.datasources
 
+import com.gmail.eamosse.idbdata.api.request.RatingBody
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
 import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
+import com.gmail.eamosse.idbdata.api.response.RatingResponse
 import com.gmail.eamosse.idbdata.api.service.MovieService
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.api.response.toToken
+import com.gmail.eamosse.idbdata.data.Rating
 import com.gmail.eamosse.idbdata.parse
 import com.gmail.eamosse.idbdata.safeCall
 import com.gmail.eamosse.idbdata.utils.Result
@@ -92,6 +95,20 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
                      * On recupere une liste des videos et le trailer se trouve à la fin de la liste
                       */
                     Result.Succes(response.data.results.last())
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
+    suspend fun addRating(id: Int, rating: RatingBody): Result<Boolean> {
+        return safeCall {
+            when (val response = service.addRating(id, rating).parse()) {
+                is Result.Succes -> {
+                    /**
+                     * On recupere une liste des videos et le trailer se trouve à la fin de la liste
+                     */
+                    Result.Succes(response.data.success)
                 }
                 is Result.Error -> response
             }

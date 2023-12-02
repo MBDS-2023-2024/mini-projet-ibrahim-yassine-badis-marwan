@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.webkit.WebView
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.gmail.eamosse.idbdata.api.request.RatingBody
 import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.imdb.R
 import com.gmail.eamosse.imdb.databinding.FragmentHomeMovieDetailsBinding
@@ -79,6 +81,26 @@ class HomeMovieDetailsFragment : Fragment() {
 
         binding.btnFavorite.setOnClickListener {
             makeItINFavorite()
+        }
+
+        binding.editTextNote.setOnEditorActionListener {  v, actionId, event->
+                if (actionId == EditorInfo.IME_ACTION_DONE){
+                    with(homeViewModel){
+                        postAddRating(id.toInt(), RatingBody(binding.editTextNote.text.toString().toDouble()))
+                        homeViewModel.ratingResult.observe(viewLifecycleOwner) {
+                            if (it == true) {
+                                Toast.makeText(context, "succes", Toast.LENGTH_SHORT).show()
+                            }
+                            else {
+                                Toast.makeText(context, "probleme", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    true
+                }else {
+                    false
+                }
+
         }
 
     }

@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gmail.eamosse.idbdata.api.request.RatingBody
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
+import com.gmail.eamosse.idbdata.data.Rating
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
 import com.gmail.eamosse.idbdata.repository.MovieRepository
@@ -47,6 +49,12 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     private val _trailer: MutableLiveData<Trailer> = MutableLiveData()
     val trailer: LiveData<Trailer>
         get() = _trailer
+
+    /***Rating****/
+    private var _ratingResult: MutableLiveData<Boolean> = MutableLiveData()
+    val ratingResult: LiveData<Boolean>
+        get() = _ratingResult
+
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -115,6 +123,23 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
                 is Result.Succes -> {
                     _isLoading.postValue(false)
                     _trailer.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _error.postValue(result.message)
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+    fun postAddRating(id: Int, rating: RatingBody) {
+        _isLoading.postValue(true)
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.addRating(id, rating)) {
+                is Result.Succes -> {
+                    _isLoading.postValue(false)
+                    _ratingResult.postValue(result.data)
                 }
                 is Result.Error -> {
                     _error.postValue(result.message)

@@ -1,7 +1,11 @@
 package com.gmail.eamosse.idbdata.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.gmail.eamosse.idbdata.api.request.RatingBody
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
+import com.gmail.eamosse.idbdata.data.Rating
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
 import com.gmail.eamosse.idbdata.datasources.LocalDataSource
@@ -64,6 +68,16 @@ class MovieRepository @Inject internal constructor(
             is Result.Succes -> {
                 val trailer = result.data.toMovieTrailer()
                 Result.Succes(trailer)
+            }
+            is Result.Error -> result
+        }
+    }
+
+    suspend fun addRating(id: Int, rating: RatingBody): Result<Boolean> {
+        return when(val result = online.addRating(id,rating)) {
+            is Result.Succes -> {
+                val ratingResponse = result.data
+                Result.Succes(ratingResponse)
             }
             is Result.Error -> result
         }

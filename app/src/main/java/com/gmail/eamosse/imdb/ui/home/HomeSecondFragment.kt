@@ -37,7 +37,6 @@ class HomeSecondFragment : Fragment(), MovieHandler {
             savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeSecondBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -80,6 +79,9 @@ class HomeSecondFragment : Fragment(), MovieHandler {
                 //Toast.makeText(context, "probléme de recuperation de la liste", Toast.LENGTH_SHORT).show()
 
             })
+
+
+
         }
 
         val selectedColor = this.activity?.let { ContextCompat.getColor(it, R.color.white) }
@@ -100,6 +102,9 @@ class HomeSecondFragment : Fragment(), MovieHandler {
                     binding.moviesBtn.setTextColor(deselectedColor)
                     binding.seriesBtn.setBackgroundColor(deselectedColor)
                     binding.seriesBtn.setTextColor(selectedColor)
+                    with(homeViewModel){
+
+                    }
                 }
                 // Handle Movies button logic here
             } else if (checkedId == R.id.series_btn ) {
@@ -108,10 +113,11 @@ class HomeSecondFragment : Fragment(), MovieHandler {
                     binding.seriesBtn.setTextColor(deselectedColor)
                     binding.moviesBtn.setBackgroundColor(deselectedColor)
                     binding.moviesBtn.setTextColor(selectedColor)
-                    }
                 }
-                // Handle Series button logic here
             }
+            // Handle Series button logic here
+        }
+
 
         }
 
