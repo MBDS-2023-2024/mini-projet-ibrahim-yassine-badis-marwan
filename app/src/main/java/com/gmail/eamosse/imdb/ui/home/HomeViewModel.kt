@@ -1,5 +1,6 @@
 package com.gmail.eamosse.imdb.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -100,11 +101,16 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
 
         val movie = currentMovies.find { it.id == id } // Find the movie with the given ID
         if (movie != null) {
+
             return movie
         } else {
             return null
             _error.postValue("Movie not found") // Handle the case where the movie is not in the list
         }
+
+    }
+    fun getbyid(id: Int):Movie?{
+        repository.get
 
     }
 

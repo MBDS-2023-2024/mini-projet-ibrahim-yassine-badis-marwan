@@ -20,7 +20,11 @@ class DashboardViewModel  @Inject constructor(private val repository: MovieRepos
     private val _popularMovies: MutableLiveData<List<Movie>> = MutableLiveData()
 
     val popularMovies: LiveData<List<Movie>> get() = _popularMovies
+    private val _topRatedMovies = MutableLiveData<List<Movie>>()
+    val topRatedMovies: LiveData<List<Movie>> get() = _topRatedMovies
 
+    private val _upcomingMovies = MutableLiveData<List<Movie>>()
+    val upcomingMovies: LiveData<List<Movie>> get() = _upcomingMovies
     /***Error****/
     private val _error: MutableLiveData<String> = MutableLiveData()
     val error: LiveData<String>
@@ -49,7 +53,6 @@ class DashboardViewModel  @Inject constructor(private val repository: MovieRepos
             when (val result = repository.getPopularMovies()) {
                 is Result.Succes ->{
                     Log.d("1111111111111", "Number of Popular Movies: ${result}")
-
                     _popularMovies.postValue(result.data)
                 }
 
@@ -65,7 +68,43 @@ class DashboardViewModel  @Inject constructor(private val repository: MovieRepos
 
     }
 
+    fun getTopRatedMovies() {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getTopRatedMovies()) {
+                is Result.Succes ->{
+                    Log.d("1111111111111", "Number of Popular Movies: ${result}")
+                    _topRatedMovies.postValue(result.data)
+                }
 
+                is Result.Error -> {
+                    Log.d("1111111111111", "Number of Popular Movies: ${result}")
 
+                    _error.postValue(result.message)
+                }
+
+                else -> {}
+            }
+        }
+
+    }
+    fun getUpcomingMovies() {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getUpcomingMovies()) {
+                is Result.Succes ->{
+                    Log.d("1111111111111", "Number of Popular Movies: ${result}")
+                    _upcomingMovies.postValue(result.data)
+                }
+
+                is Result.Error -> {
+                    Log.d("1111111111111", "Number of Popular Movies: ${result}")
+
+                    _error.postValue(result.message)
+                }
+
+                else -> {}
+            }
+        }
+
+    }
 
 }

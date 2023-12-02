@@ -12,7 +12,7 @@ import com.gmail.eamosse.imdb.databinding.CategoryListItemBinding
 import com.gmail.eamosse.imdb.databinding.MovieListItemBinding
 
 
-class MovieAdapter(private val items: List<Movie>, movieHandler: MovieHandler) :
+class MovieAdapter(private var items: List<Movie>, movieHandler: MovieHandler) :
     RecyclerView.Adapter<MovieAdapter.ViewHolder>(){
 
     private val mMovieHandler = movieHandler
@@ -52,7 +52,10 @@ class MovieAdapter(private val items: List<Movie>, movieHandler: MovieHandler) :
         }
 
     }
-
+    fun setItems(movies: List<Movie>) {
+        items = movies
+        notifyDataSetChanged()
+    }
     override fun getItemCount(): Int = items.size
 
 }

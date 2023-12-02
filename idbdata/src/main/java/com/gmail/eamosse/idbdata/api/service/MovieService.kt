@@ -3,6 +3,7 @@ package com.gmail.eamosse.idbdata.api.service
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
 import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
+import com.gmail.eamosse.idbdata.api.response.PopularMoviesResponse
 import com.gmail.eamosse.idbdata.api.response.TokenResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -26,13 +27,13 @@ internal interface MovieService {
 
 
     @GET("movie/popular")
-    suspend fun getPopularMovies(): Response<MovieResponse>
+    suspend fun getPopularMovies(): Response<PopularMoviesResponse>
 
     @GET("movie/top_rated")
-    suspend fun getTopRatedMovies(): Response<MovieResponse>
+    suspend fun getTopRatedMovies(): Response<PopularMoviesResponse>
 
     @GET("movie/upcoming")
-    suspend fun getUpcomingMovies(): Response<MovieResponse>
+    suspend fun getUpcomingMovies(): Response<PopularMoviesResponse>
 
     //chaines  movie/38/watch/providers
     // video   movie/movie_id/videos?language=en-US'

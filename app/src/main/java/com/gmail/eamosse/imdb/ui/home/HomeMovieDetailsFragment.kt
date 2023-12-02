@@ -1,6 +1,7 @@
 package com.gmail.eamosse.imdb.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,7 @@ class HomeMovieDetailsFragment : Fragment() {
     private val homeViewModel: HomeViewModel by activityViewModels()
     private lateinit var binding: FragmentHomeMovieDetailsBinding
     private var movie: Movie? = null
+    private var test: Movie?= null
     private var isFavorite = false
 
     override fun onCreateView(
@@ -43,11 +45,16 @@ class HomeMovieDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        Log.d("this is id ", "Displaying movie title: ${args.id.toInt()}")
 
         val id: String = args.id
 
         with(homeViewModel){
-            movie = getMovieById(id.toInt())
+            val myId = args.id.toInt()
+            test = getMovieById(1)
+            movie = getMovieById(myId)
+            Log.d("HomeMovieDetailsFragment", "Displaying movie title: ${test}")
+
             getTrailerByMovieId(id.toInt())
 
             if (movie != null){

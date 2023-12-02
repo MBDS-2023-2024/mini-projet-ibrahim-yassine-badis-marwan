@@ -12,12 +12,27 @@
         android:layout_height="match_parent"
         tools:context=".ui.dashboard.DashboardFragment">
 
+        <!-- Popular Movies Title -->
+        <TextView
+            android:id="@+id/popular_movies_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Popular Movies"
+            android:textColor="@color/white"
+
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0" />
+
         <!-- Popular Movies -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_popular_movies"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/popular_movies_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/divider1"
@@ -34,17 +49,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Top Rated Movies -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_top_rated_movies"
+        <!-- Top Rated Movies Title -->
+        <TextView
+            android:id="@+id/top_rated_movies_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="Top Rated Movies"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@+id/divider1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/divider2"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintHorizontal_bias="0" />
+
+        <!-- Top Rated Movies -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_top_rated_movies"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/top_rated_movies_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/divider2"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0"
+
+            />
 
         <!-- Divider 2 -->
         <View
@@ -56,12 +89,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Upcoming Movies Title -->
+        <TextView
+            android:id="@+id/upcoming_movies_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Upcoming Movies"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/divider2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0" />
+
         <!-- Upcoming Movies -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_upcoming_movies"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/divider2"
+            app:layout_constraintTop_toBottomOf="@+id/upcoming_movies_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

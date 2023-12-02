@@ -1,8 +1,10 @@
 package com.gmail.eamosse.idbdata.datasources
 
+import android.util.Log
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
 import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
+import com.gmail.eamosse.idbdata.api.response.PopularMoviesResponse
 import com.gmail.eamosse.idbdata.api.service.MovieService
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.api.response.toToken
@@ -103,34 +105,38 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
         TODO("I don't know how to save a token, the local datasource probably does")
     }
 
-    suspend fun getPopularMovies(): Result<List<Movie>> {
+    suspend fun getPopularMovies(): Result<List<PopularMoviesResponse.Items>> {
         return safeCall {
             when (val response = service.getPopularMovies().parse()) {
                 is Result.Succes -> {
-                    Result.Succes(response.data.items.map { it.toMovie() })
+                    Log.d("online data source 1212121212121221", "Number of Popular Movies:")
+                    Result.Succes(response.data.results)
                 }
-                is Result.Error -> response
+                is Result.Error -> {
+                    Log.d("online data source 33333333333333333", "Number of Popular Movies: ")
+
+                    response}
             }
         }
     }
 
 
-    suspend fun getTopRatedMovies(): Result<List<Movie>> {
+    suspend fun getTopRatedMovies(): Result<List<PopularMoviesResponse.Items>> {
         return safeCall {
             when (val response = service.getTopRatedMovies().parse()) {
                 is Result.Succes -> {
-                    Result.Succes(response.data.items.map { it.toMovie() })
+                    Result.Succes(response.data.results)
                 }
                 is Result.Error -> response
             }
         }
     }
 
-    suspend fun getUpcomingMovies(): Result<List<Movie>> {
+    suspend fun getUpcomingMovies(): Result<List<PopularMoviesResponse.Items>> {
         return safeCall {
             when (val response = service.getUpcomingMovies().parse()) {
                 is Result.Succes -> {
-                    Result.Succes(response.data.items.map { it.toMovie() })
+                    Result.Succes(response.data.results)
                 }
                 is Result.Error -> response
             }

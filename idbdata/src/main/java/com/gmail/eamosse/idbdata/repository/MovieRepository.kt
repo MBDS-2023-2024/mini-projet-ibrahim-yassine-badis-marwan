@@ -1,5 +1,7 @@
 package com.gmail.eamosse.idbdata.repository
 
+import android.util.Log
+import com.gmail.eamosse.idbdata.api.response.PopularMoviesResponse
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.Token
@@ -71,17 +73,21 @@ class MovieRepository @Inject internal constructor(
     suspend fun getPopularMovies(): Result<List<Movie>> {
         return when (val result = online.getPopularMovies()) {
             is Result.Succes -> {
-                Result.Succes(result.data)
+                val popularMovies = result.data.map { it.toMovie()
+                }
+                Result.Succes(popularMovies)
             }
-            is Result.Error -> result
+            is Result.Error -> {
+                result}
         }
     }
 
     suspend fun getTopRatedMovies(): Result<List<Movie>> {
         return when (val result = online.getTopRatedMovies()) {
             is Result.Succes -> {
-                // Process the result as needed (e.g., save to local database)
-                Result.Succes(result.data)
+                val popularMovies = result.data.map { it.toMovie()
+                }
+                Result.Succes(popularMovies)
             }
             is Result.Error -> result
         }
@@ -90,8 +96,9 @@ class MovieRepository @Inject internal constructor(
     suspend fun getUpcomingMovies(): Result<List<Movie>> {
         return when (val result = online.getUpcomingMovies()) {
             is Result.Succes -> {
-                // Process the result as needed (e.g., save to local database)
-                Result.Succes(result.data)
+                val upcomingMovies = result.data.map { it.toMovie()
+                }
+                Result.Succes(upcomingMovies)
             }
             is Result.Error -> result
         }
