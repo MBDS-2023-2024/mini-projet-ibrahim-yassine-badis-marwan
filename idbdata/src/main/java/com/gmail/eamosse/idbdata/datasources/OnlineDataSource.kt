@@ -6,6 +6,7 @@ import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
 import com.gmail.eamosse.idbdata.api.service.MovieService
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.api.response.toToken
+import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.parse
 import com.gmail.eamosse.idbdata.safeCall
 import com.gmail.eamosse.idbdata.utils.Result
@@ -101,5 +102,40 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
     override suspend fun saveToken(token: Token) {
         TODO("I don't know how to save a token, the local datasource probably does")
     }
+
+    suspend fun getPopularMovies(): Result<List<Movie>> {
+        return safeCall {
+            when (val response = service.getPopularMovies().parse()) {
+                is Result.Succes -> {
+                    Result.Succes(response.data.items.map { it.toMovie() })
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
+
+    suspend fun getTopRatedMovies(): Result<List<Movie>> {
+        return safeCall {
+            when (val response = service.getTopRatedMovies().parse()) {
+                is Result.Succes -> {
+                    Result.Succes(response.data.items.map { it.toMovie() })
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
+    suspend fun getUpcomingMovies(): Result<List<Movie>> {
+        return safeCall {
+            when (val response = service.getUpcomingMovies().parse()) {
+                is Result.Succes -> {
+                    Result.Succes(response.data.items.map { it.toMovie() })
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
 }
 

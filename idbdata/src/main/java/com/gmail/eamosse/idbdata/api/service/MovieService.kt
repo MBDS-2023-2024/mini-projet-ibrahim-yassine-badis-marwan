@@ -24,6 +24,16 @@ internal interface MovieService {
     @GET("movie/{movie_id}/videos")
     suspend fun getTrailerByMovieId(@Path("movie_id") id: Int): Response<MovieTrailerResponse>
 
+
+    @GET("movie/popular")
+    suspend fun getPopularMovies(): Response<MovieResponse>
+
+    @GET("movie/top_rated")
+    suspend fun getTopRatedMovies(): Response<MovieResponse>
+
+    @GET("movie/upcoming")
+    suspend fun getUpcomingMovies(): Response<MovieResponse>
+
     //chaines  movie/38/watch/providers
     // video   movie/movie_id/videos?language=en-US'
     // add Rating movie/{movie_id}/rating  https://developer.themoviedb.org/reference/movie-add-rating

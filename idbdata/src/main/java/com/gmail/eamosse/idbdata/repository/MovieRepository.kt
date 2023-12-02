@@ -68,7 +68,34 @@ class MovieRepository @Inject internal constructor(
             is Result.Error -> result
         }
     }
+    suspend fun getPopularMovies(): Result<List<Movie>> {
+        return when (val result = online.getPopularMovies()) {
+            is Result.Succes -> {
+                Result.Succes(result.data)
+            }
+            is Result.Error -> result
+        }
+    }
 
+    suspend fun getTopRatedMovies(): Result<List<Movie>> {
+        return when (val result = online.getTopRatedMovies()) {
+            is Result.Succes -> {
+                // Process the result as needed (e.g., save to local database)
+                Result.Succes(result.data)
+            }
+            is Result.Error -> result
+        }
+    }
+
+    suspend fun getUpcomingMovies(): Result<List<Movie>> {
+        return when (val result = online.getUpcomingMovies()) {
+            is Result.Succes -> {
+                // Process the result as needed (e.g., save to local database)
+                Result.Succes(result.data)
+            }
+            is Result.Error -> result
+        }
+    }
 
 
 
