@@ -44,6 +44,11 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     val movies: LiveData<List<Movie>>
         get() = _movies
 
+
+    private val _myMovie: MutableLiveData<Movie> = MutableLiveData()
+    val myMovie: LiveData<Movie>
+        get() = _myMovie
+
     /***Trailer****/
     private val _trailer: MutableLiveData<Trailer> = MutableLiveData()
     val trailer: LiveData<Trailer>
@@ -84,10 +89,12 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = repository.getMoviesByCategoryId(id)) {
                 is Result.Succes -> {
+
                     _isLoading.postValue(false)
                     _movies.postValue(result.data)
                 }
                 is Result.Error -> {
+
                     _error.postValue(result.message)
                 }
 
@@ -109,10 +116,8 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         }
 
     }
-    fun getbyid(id: Int):Movie?{
-        repository.get
 
-    }
+
 
     fun getTrailerByMovieId(id: Int) {
         _isLoading.postValue(true) // Début du chargement
@@ -139,6 +144,21 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
        _trailer.postValue(Trailer(null, null, null, null, null, null, null, null, null, ""))
    }
 
+    fun getMoviesById(id: Int): LiveData<Movie?> {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getMovies(id)) {
+                is Result.Succes -> {
+                    _myMovie.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _error.postValue(result.message)
+                }
+            }
+        }
+
+        // Return the same MutableLiveData instance
+        return _myMovie
+    }
 
 
 }

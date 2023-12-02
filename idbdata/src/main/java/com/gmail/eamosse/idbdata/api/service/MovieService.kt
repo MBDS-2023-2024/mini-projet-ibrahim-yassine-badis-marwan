@@ -1,6 +1,7 @@
 package com.gmail.eamosse.idbdata.api.service
 
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
+import com.gmail.eamosse.idbdata.api.response.MovieIdResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
 import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
 import com.gmail.eamosse.idbdata.api.response.PopularMoviesResponse
@@ -20,7 +21,7 @@ internal interface MovieService {
     suspend fun getListMoviesById(@Path("id") id: Int): Response<MovieResponse>
 
     @GET("movie/{id}")
-    suspend fun getMovieById(@Path("id") id: Int): Response<MovieResponse>
+    suspend fun getMovieById(@Path("id") id: Int): Response<MovieIdResponse>
 
     @GET("movie/{movie_id}/videos")
     suspend fun getTrailerByMovieId(@Path("movie_id") id: Int): Response<MovieTrailerResponse>

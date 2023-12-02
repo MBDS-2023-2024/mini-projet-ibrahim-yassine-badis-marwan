@@ -104,6 +104,19 @@ class MovieRepository @Inject internal constructor(
         }
     }
 
+    suspend fun getMovies(id: Int): Result<Movie> {
+        return when(val result = online.getMovies(id)) {
+            is Result.Succes -> {
+                Log.d("repo CCCCC", "Displaying movie title: ${result.data}")
+                Result.Succes(result.data)
+            }
+            is Result.Error ->{
+                Log.d("DDDDDDD ", "Displaying movie title: ")
+
+                result
+            }
+        }
+    }
 
 
 }

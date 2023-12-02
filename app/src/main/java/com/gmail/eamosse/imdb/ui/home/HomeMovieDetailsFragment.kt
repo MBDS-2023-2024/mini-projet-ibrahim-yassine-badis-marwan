@@ -44,25 +44,25 @@ class HomeMovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        Log.d("this is id ", "Displaying movie title: ${args.id.toInt()}")
-
         val id: String = args.id
 
         with(homeViewModel){
+
             val myId = args.id.toInt()
-            test = getMovieById(1)
-            movie = getMovieById(myId)
-            Log.d("HomeMovieDetailsFragment", "Displaying movie title: ${test}")
+
+
+            getMoviesById(myId).observe(viewLifecycleOwner, Observer { movieResult ->
+                if (movieResult != null) {
+                    Log.d("repo eeee", "Displaying movie title: ${movieResult.title}")
+                    movie = movieResult
+                    displayMovieInfo()
+                } else {
+
+                }
+            })
+
 
             getTrailerByMovieId(id.toInt())
-
-            if (movie != null){
-                displayMovieInfo()
-            }
-            else {
-               // displayErrorMessage()
-            }
 
             homeViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
                 binding.progressBar.isVisible = isLoading
@@ -73,9 +73,9 @@ class HomeMovieDetailsFragment : Fragment() {
             })
 
             error.observe(viewLifecycleOwner, Observer {
-                //afficher l'erreur
-                Toast.makeText(context, "probléme de recuperation de trailer", Toast.LENGTH_SHORT).show()
-                //displayVideo(it.key)
+                // Afficher l'erreur
+                Toast.makeText(context, "Problème de récupération de trailer", Toast.LENGTH_SHORT).show()
+                // Display video with a default value or handle the error
                 binding.progressBar.isVisible = false
             })
         }
@@ -87,8 +87,8 @@ class HomeMovieDetailsFragment : Fragment() {
         binding.btnFavorite.setOnClickListener {
             makeItINFavorite()
         }
-
     }
+
 
     private fun makeItINFavorite() {
         isFavorite = !isFavorite

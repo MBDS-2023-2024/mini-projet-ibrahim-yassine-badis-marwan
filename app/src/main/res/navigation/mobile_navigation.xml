@@ -84,4 +84,8 @@
         android:name="com.gmail.eamosse.imdb.ui.home.AboutFragment"
         android:label="About"
         tools:layout="@layout/fragment_about" />
+
+
+
+
 </navigation>

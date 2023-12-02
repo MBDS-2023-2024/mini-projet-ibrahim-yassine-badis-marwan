@@ -2,6 +2,7 @@ package com.gmail.eamosse.idbdata.datasources
 
 import android.util.Log
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
+import com.gmail.eamosse.idbdata.api.response.MovieIdResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
 import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
 import com.gmail.eamosse.idbdata.api.response.PopularMoviesResponse
@@ -142,6 +143,22 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
             }
         }
     }
+    suspend fun getMovies(id: Int): Result<Movie>{
+        return safeCall {
+            when (val response = service.getMovieById(id).parse()) {
+                is Result.Succes -> {
+                    Log.d("AAAAA", "Displaying movie titles: ${response.data}")
+                    Result.Succes(response.data.toMovie())
+                }
+                is Result.Error -> {
+                    Log.d("BBBBBBBBBBBB", "Displaying movie titles: ")
+
+                    response
+                }
+            }
+        }
+    }
+
 
 }
 
