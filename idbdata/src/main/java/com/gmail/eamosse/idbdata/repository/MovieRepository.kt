@@ -1,5 +1,6 @@
 package com.gmail.eamosse.idbdata.repository
 
+import com.gmail.eamosse.idbdata.api.response.WatchProvidersResponse
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.Token
@@ -64,6 +65,16 @@ class MovieRepository @Inject internal constructor(
             is Result.Succes -> {
                 val trailer = result.data.toMovieTrailer()
                 Result.Succes(trailer)
+            }
+            is Result.Error -> result
+        }
+    }
+
+    suspend fun getProvidersByMovieId(id: Int): Result<WatchProvidersResponse.CountryResult> {
+        return when(val result = online.getProvidersByMovieId(id)) {
+            is Result.Succes -> {
+                val provider = result.data.toCountryResult()
+                Result.Succes(provider)
             }
             is Result.Error -> result
         }
