@@ -84,6 +84,11 @@ class MovieRepository @Inject internal constructor(
     }
 
 
+    suspend fun insertFavoriteMovie(favoriteMovie: Movie) {
+     local.insertFavoriteMovie(favoriteMovie)
+    }
+
+
 
 
 }

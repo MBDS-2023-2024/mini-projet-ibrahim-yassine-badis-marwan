@@ -1,5 +1,7 @@
 package com.gmail.eamosse.idbdata.datasources
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import com.gmail.eamosse.idbdata.api.request.RatingBody
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
@@ -8,6 +10,7 @@ import com.gmail.eamosse.idbdata.api.response.RatingResponse
 import com.gmail.eamosse.idbdata.api.service.MovieService
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.api.response.toToken
+import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.Rating
 import com.gmail.eamosse.idbdata.parse
 import com.gmail.eamosse.idbdata.safeCall
@@ -117,6 +120,18 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
 
     override suspend fun saveToken(token: Token) {
         TODO("I don't know how to save a token, the local datasource probably does")
+    }
+
+    override suspend fun getFavoriteMovies(): LiveData<List<Movie>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertFavoriteMovie(movie: Movie) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteFavoriteMovie(movie: Movie) {
+        TODO("Not yet implemented")
     }
 }
 

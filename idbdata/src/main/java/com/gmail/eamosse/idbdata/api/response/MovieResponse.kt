@@ -50,7 +50,7 @@ internal data class MovieResponse(
          overview = overview,
          posterPath = posterPath ,
          mediaType =  mediaType,
-         genreIds =  genreIds,
+         //genreIds =  genreIds,
          popularity =  popularity,
          releaseDate = releaseDate,
          video = video,

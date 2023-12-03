@@ -1,7 +1,14 @@
 package com.gmail.eamosse.idbdata.datasources
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Transformations
+import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.Token
+import com.gmail.eamosse.idbdata.local.daos.FavoriteMovieDao
 import com.gmail.eamosse.idbdata.local.daos.TokenDao
+import com.gmail.eamosse.idbdata.local.entities.FavoriteMovieEntity
 import com.gmail.eamosse.idbdata.local.entities.TokenEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -10,7 +17,8 @@ import javax.inject.Singleton
 import com.gmail.eamosse.idbdata.utils.Result
 
 @Singleton
-internal class LocalDataSource @Inject constructor(private val tokenDao: TokenDao) :
+internal class LocalDataSource @Inject constructor(private val tokenDao: TokenDao, private val favoriteMovieDao: FavoriteMovieDao,
+                                                   ) :
     MovieDataSource {
 
     override suspend fun getToken(): Result<Token> = withContext(Dispatchers.IO) {
@@ -28,6 +36,30 @@ internal class LocalDataSource @Inject constructor(private val tokenDao: TokenDa
             tokenDao.insert(token.toEntity())
         }
     }
+
+    override suspend fun getFavoriteMovies(): LiveData<List<Movie>> {
+        return Transformations.map(favoriteMovieDao.retrieve()) { entities ->
+            entities.map { entity ->
+                entity.toFavoriteMovie()
+            }
+        }
+    }
+
+
+    override suspend fun insertFavoriteMovie(movie: Movie) {
+        val movieEntity = movie.toFavoriteMovieEntity()
+        withContext(Dispatchers.IO) {
+            Log.i("insertTest","yess")
+            favoriteMovieDao.insert(movieEntity);
+        }
+    }
+
+    override suspend fun deleteFavoriteMovie(movie: Movie) {
+        val movieEntity = movie.toFavoriteMovieEntity()
+        withContext(Dispatchers.IO) {
+            favoriteMovieDao.delete(movieEntity);
+        }
+    }
 }
 
 internal fun Token.toEntity() = TokenEntity(
@@ -38,4 +70,39 @@ internal fun Token.toEntity() = TokenEntity(
 internal fun TokenEntity.toToken() = Token(
     expiresAt = this.expiresAt,
     requestToken = this.token
+)
+
+internal fun Movie.toFavoriteMovieEntity() = FavoriteMovieEntity(
+     adult = this.adult,
+     backdropPath = this.backdropPath,
+     id =  this.id.toLong(),
+     title =  this.title.toString(),
+     originalLanguage = this.originalLanguage.toString(),
+     originalTitle =  this.originalTitle.toString(),
+     overview =  this.overview.toString(),
+     posterPath = this.posterPath.toString() ,
+     mediaType =  this.mediaType.toString(),
+     popularity = this.popularity,
+     releaseDate = this.releaseDate.toString(),
+     video =  this.video,
+     voteAverage = this.voteAverage,
+     voteCount = this.voteCount,
+)
+
+
+internal fun FavoriteMovieEntity.toFavoriteMovie() = Movie(
+    adult = this.adult,
+    backdropPath = this.backdropPath,
+    id =  this.id.toInt(),
+    title =  this.title,
+    originalLanguage = this.originalLanguage,
+    originalTitle =  this.originalTitle,
+    overview =  this.overview,
+    posterPath = this.posterPath,
+    mediaType =  this.mediaType,
+    popularity = this.popularity,
+    releaseDate = this.releaseDate,
+    video =  this.video,
+    voteAverage = this.voteAverage,
+    voteCount = this.voteCount,
 )

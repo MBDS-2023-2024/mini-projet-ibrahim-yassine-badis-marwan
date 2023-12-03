@@ -55,6 +55,12 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     val ratingResult: LiveData<Boolean>
         get() = _ratingResult
 
+    /***Favorite****/
+    private var _favorite: MutableLiveData<Boolean> = MutableLiveData()
+    val favorite: LiveData<Boolean>
+        get() = _favorite
+
+
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -147,6 +153,12 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
 
                 else -> {}
             }
+        }
+    }
+
+    fun addToFavorites(id: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            getMovieById(id)?.let { repository.insertFavoriteMovie(it) }
         }
     }
 

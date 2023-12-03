@@ -110,6 +110,9 @@ class HomeMovieDetailsFragment : Fragment() {
 
         if (isFavorite) {
             binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
+            with(homeViewModel){
+                addToFavorites(id);
+            }
         } else {
             binding.btnFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
         }
