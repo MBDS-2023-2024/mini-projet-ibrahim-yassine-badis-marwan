@@ -1,11 +1,14 @@
 package com.gmail.eamosse.imdb.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gmail.eamosse.idbdata.api.response.WatchProvidersResponse
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
+import com.gmail.eamosse.idbdata.data.MovieProvider.CountryResult
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
 import com.gmail.eamosse.idbdata.repository.MovieRepository
@@ -47,6 +50,11 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     private val _trailer: MutableLiveData<Trailer> = MutableLiveData()
     val trailer: LiveData<Trailer>
         get() = _trailer
+
+    /***Provider****/
+    private val _provider: MutableLiveData<WatchProvidersResponse.CountryResult> = MutableLiveData()
+    val provider: MutableLiveData<WatchProvidersResponse.CountryResult>
+        get() = _provider
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -120,6 +128,21 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
                     _error.postValue(result.message)
                 }
 
+                else -> {}
+            }
+        }
+    }
+
+    fun getProvidersByMovieId(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getProvidersByMovieId(id)) {
+                is Result.Succes -> {
+                    Log.d("repo DDDDDD", "Displaying movie title: ${result.data}")
+                    _provider.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _error.postValue(result.message)
+                }
                 else -> {}
             }
         }

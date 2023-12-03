@@ -43,12 +43,12 @@ class HomeMovieDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
         val id: String = args.id
 
         with(homeViewModel){
             movie = getMovieById(id.toInt())
             getTrailerByMovieId(id.toInt())
+            getProvidersByMovieId(id.toInt())
 
             if (movie != null){
                 displayMovieInfo()
@@ -64,6 +64,13 @@ class HomeMovieDetailsFragment : Fragment() {
             trailer.observe(viewLifecycleOwner, Observer {
                 displayVideo(it.key)
             })
+
+            /*
+            provider.observe(viewLifecycleOwner, Observer {
+                displayVideo(it.key)
+            })
+            */
+
 
             error.observe(viewLifecycleOwner, Observer {
                 //afficher l'erreur
@@ -93,8 +100,6 @@ class HomeMovieDetailsFragment : Fragment() {
         }
     }
 
-
-
     private fun displayMovieInfo() {
         displayImage(movie?.posterPath)
         binding.movieRating.text = getString(R.string.rating) + ": " + movie?.voteAverage + " ( "+ movie?.voteCount + " " + getString(R.string.votes) + ")"
@@ -102,6 +107,7 @@ class HomeMovieDetailsFragment : Fragment() {
         binding.movieDescription.text = movie?.overview
         binding.movieReleaseDate.text = getString(R.string.releaseDate)+ ": " + movie?.releaseDate
     }
+
 
     private fun displayImage(posterPath: String?) {
         val baseUrl = "https://image.tmdb.org/t/p/w500"
