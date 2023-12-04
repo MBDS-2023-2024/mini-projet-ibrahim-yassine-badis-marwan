@@ -6,7 +6,7 @@ data class WatchProvidersResponse(
     @SerializedName("id")
     val id: Int,
     @SerializedName("results")
-    val results:  CountryResult
+    val results:  Map<String, CountryResult>
 ) {
     data class CountryResult(
         @SerializedName("link")
@@ -20,10 +20,10 @@ data class WatchProvidersResponse(
     )
     {
         internal fun toCountryResult() = CountryResult(
-            link = link,
-            buy = buy?.map { it.toMovieProvider() } ?: emptyList(),
-            rent = rent?.map { it.toMovieProvider() } ?: emptyList(),
-            flatrate = flatrate?.map { it.toMovieProvider() } ?: emptyList()
+            link = link.orEmpty(),
+            buy = buy.orEmpty().map { it.toMovieProvider() },
+            rent = rent.orEmpty().map { it.toMovieProvider() },
+            flatrate = flatrate.orEmpty().map { it.toMovieProvider() }
         )
     }
     data class MovieProvider(

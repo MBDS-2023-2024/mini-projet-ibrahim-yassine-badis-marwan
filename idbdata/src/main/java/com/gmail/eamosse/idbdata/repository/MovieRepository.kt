@@ -70,10 +70,10 @@ class MovieRepository @Inject internal constructor(
         }
     }
 
-    suspend fun getProvidersByMovieId(id: Int): Result<WatchProvidersResponse.CountryResult> {
+    suspend fun getProvidersByMovieId(id: Int): Result<WatchProvidersResponse> {
         return when(val result = online.getProvidersByMovieId(id)) {
             is Result.Succes -> {
-                val provider = result.data.toCountryResult()
+                val provider = result.data
                 Result.Succes(provider)
             }
             is Result.Error -> result

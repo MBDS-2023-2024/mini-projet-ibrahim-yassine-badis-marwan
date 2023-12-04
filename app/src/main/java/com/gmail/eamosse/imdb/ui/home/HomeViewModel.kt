@@ -52,8 +52,8 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         get() = _trailer
 
     /***Provider****/
-    private val _provider: MutableLiveData<WatchProvidersResponse.CountryResult> = MutableLiveData()
-    val provider: MutableLiveData<WatchProvidersResponse.CountryResult>
+    private val _provider: MutableLiveData<WatchProvidersResponse> = MutableLiveData()
+    val provider: MutableLiveData<WatchProvidersResponse>
         get() = _provider
 
     init {

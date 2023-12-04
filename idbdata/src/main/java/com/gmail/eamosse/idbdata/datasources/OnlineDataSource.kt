@@ -100,12 +100,12 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
         }
     }
 
-    suspend fun getProvidersByMovieId(id: Int): Result<WatchProvidersResponse.CountryResult> {
+    suspend fun getProvidersByMovieId(id: Int): Result<WatchProvidersResponse> {
         return safeCall {
             when (val response = service.getProvidersByMovieId(id).parse()) {
                 is Result.Succes -> {
-                    Log.d("repo CCCCC", "Displaying movie title: ${response.data.results.toCountryResult()}")
-                    Result.Succes(response.data.results)
+                    Log.d("repo CCCCC", "Displaying movie title: ${response.data}")
+                    Result.Succes(response.data)
                 }
                 is Result.Error -> {
                     Log.d("repo badis", "Displaying movie title:")

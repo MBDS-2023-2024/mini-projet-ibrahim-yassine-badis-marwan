@@ -1,6 +1,7 @@
 package com.gmail.eamosse.imdb.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.gmail.eamosse.idbdata.api.response.WatchProvidersResponse
 import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.imdb.R
 import com.gmail.eamosse.imdb.databinding.FragmentHomeMovieDetailsBinding
@@ -29,6 +31,7 @@ class HomeMovieDetailsFragment : Fragment() {
     private lateinit var binding: FragmentHomeMovieDetailsBinding
     private var movie: Movie? = null
     private var isFavorite = false
+    private lateinit var providerA: WatchProvidersResponse.CountryResult
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +53,7 @@ class HomeMovieDetailsFragment : Fragment() {
             getTrailerByMovieId(id.toInt())
             getProvidersByMovieId(id.toInt())
 
+
             if (movie != null){
                 displayMovieInfo()
             }
@@ -65,11 +69,10 @@ class HomeMovieDetailsFragment : Fragment() {
                 displayVideo(it.key)
             })
 
-            /*
+
             provider.observe(viewLifecycleOwner, Observer {
-                displayVideo(it.key)
+                Log.d("repo aaaaaa", "Displaying movie title: ")
             })
-            */
 
 
             error.observe(viewLifecycleOwner, Observer {
@@ -142,11 +145,14 @@ class HomeMovieDetailsFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        homeViewModel.clearMovieDetails()
+    private fun displayProvider() {
 
     }
 
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        homeViewModel.clearMovieDetails()
+    }
 
 }
