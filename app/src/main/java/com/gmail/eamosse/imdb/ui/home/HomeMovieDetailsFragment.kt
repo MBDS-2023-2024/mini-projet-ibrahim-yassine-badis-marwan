@@ -48,10 +48,9 @@ class HomeMovieDetailsFragment : Fragment() {
         with(homeViewModel){
 
 
-            /****/
+            /**Favorite**/
             isFavorite(id.toLong())
-
-            getFavoriteMovies()
+            //getFavoriteMovies()
 
             favoriteM.observe(viewLifecycleOwner) {
                 if (it != null){

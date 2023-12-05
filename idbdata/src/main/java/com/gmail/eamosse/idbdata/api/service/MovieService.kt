@@ -36,6 +36,8 @@ internal interface MovieService {
 
 
 
+
+    // add url person/popular
     //chaines  movie/38/watch/providers
     // video   movie/movie_id/videos?language=en-US'
     // add Rating movie/{movie_id}/rating  https://developer.themoviedb.org/reference/movie-add-rating

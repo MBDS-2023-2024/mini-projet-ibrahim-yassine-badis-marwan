@@ -54,12 +54,8 @@ class CategoryAdapter(private val items: List<Category>, categoryAdapterHandler:
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
         val category = items[position]
-
         holder.itemView.setOnClickListener{
             mCategoryAdapterHandler.onShowMoviesByCategory(category.id, category.name)
         }
-
     }
-
-
 }
