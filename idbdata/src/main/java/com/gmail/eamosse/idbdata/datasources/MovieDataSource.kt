@@ -16,4 +16,6 @@ interface MovieDataSource {
     suspend fun insertFavoriteMovie(movie: Movie)
 
     suspend fun deleteFavoriteMovie(movie: Movie)
+
+    suspend fun getFavoriteMovieById(id: Long): Movie?
 }

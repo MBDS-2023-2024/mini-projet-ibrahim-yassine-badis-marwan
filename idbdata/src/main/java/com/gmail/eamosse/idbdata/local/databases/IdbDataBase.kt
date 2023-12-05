@@ -15,7 +15,7 @@ import com.gmail.eamosse.idbdata.local.entities.TokenEntity
  */
 @Database(
     entities = [TokenEntity::class, FavoriteMovieEntity::class],
-    version = 3
+    version = 4
 )
 internal abstract class IdbDataBase : RoomDatabase() {
     abstract fun tokenDao(): TokenDao

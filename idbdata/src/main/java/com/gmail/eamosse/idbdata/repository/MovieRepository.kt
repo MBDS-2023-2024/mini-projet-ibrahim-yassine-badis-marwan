@@ -1,11 +1,11 @@
 package com.gmail.eamosse.idbdata.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.gmail.eamosse.idbdata.api.request.RatingBody
+import com.gmail.eamosse.idbdata.api.request.RatingBodyRequest
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
-import com.gmail.eamosse.idbdata.data.Rating
+import com.gmail.eamosse.idbdata.data.RatingBody
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
 import com.gmail.eamosse.idbdata.datasources.LocalDataSource
@@ -85,9 +85,22 @@ class MovieRepository @Inject internal constructor(
 
 
     suspend fun insertFavoriteMovie(favoriteMovie: Movie) {
-     local.insertFavoriteMovie(favoriteMovie)
+        Log.i("insertfavorite", "je suis dans repository")
+        local.insertFavoriteMovie(favoriteMovie)
     }
 
+    suspend fun getFavoriteMovies(): LiveData<List<Movie>> {
+        Log.i("getfavorite", "je suis dans repository")
+        return local.getFavoriteMovies()
+    }
+
+    suspend fun deleteFavoriteMovie(favoriteMovie: Movie){
+        local.deleteFavoriteMovie(favoriteMovie)
+    }
+
+    suspend fun getFavoriteMovieById(id: Long): Movie?{
+        return local.getFavoriteMovieById(id)
+    }
 
 
 

@@ -121,7 +121,7 @@ class HomeSecondFragment : Fragment(), MovieHandler {
 
         }
 
-    override fun onShowMovieDetails(id: Int) {
+    override fun onShowMovieDetails(id: Long) {
         val action = HomeSecondFragmentDirections
             .actionHomeSecondFragmentToMovieDetailsFragment(id.toString())
         NavHostFragment.findNavController(this@HomeSecondFragment)

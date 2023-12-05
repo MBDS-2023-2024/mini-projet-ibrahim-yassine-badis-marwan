@@ -1,13 +1,16 @@
 package com.gmail.eamosse.imdb.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gmail.eamosse.idbdata.api.request.RatingBody
+
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.Rating
+import com.gmail.eamosse.idbdata.data.RatingBody
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
 import com.gmail.eamosse.idbdata.repository.MovieRepository
@@ -41,6 +44,7 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         get() = _isLoading
 
     /***Movies****/
+    private lateinit var _moviesForDetails: List<Movie>
     private val _movies: MutableLiveData<List<Movie>> = MutableLiveData()
     val movies: LiveData<List<Movie>>
         get() = _movies
@@ -60,6 +64,10 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     val favorite: LiveData<Boolean>
         get() = _favorite
 
+
+    private var _favoriteM: MutableLiveData<Movie?> = MutableLiveData()
+    val favoriteM: LiveData<Movie?>
+        get() = _favoriteM
 
 
     init {
@@ -112,7 +120,7 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     fun getMovieById(id: Int): Movie? {
         val currentMovies = _movies.value ?: return null // Return early if movies are null
 
-        val movie = currentMovies.find { it.id == id } // Find the movie with the given ID
+        val movie = currentMovies.find { it.id == id.toLong() } // Find the movie with the given ID
         if (movie != null) {
             return movie
         } else {
@@ -156,19 +164,68 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         }
     }
 
+    /**Probleme*/
+
     fun addToFavorites(id: Int){
-        viewModelScope.launch(Dispatchers.IO) {
-            getMovieById(id)?.let { repository.insertFavoriteMovie(it) }
+        val currentMovies = _moviesForDetails ?: null // Return early if movies are null
+        val movie = currentMovies?.find { it.id == id.toLong() }
+        Log.i("favorite", "je suis dans viewModel")
+        // getMovieById(id)?.let { repository.insertFavoriteMovie(it) }
+        if (movie != null) {
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.insertFavoriteMovie(movie)
+            }
+        }
+        else {
+            Log.i("favorite", "je suis dans viewModel movie == null")
         }
     }
 
-   fun clearMovies(){
-       _movies.postValue(emptyList());
-   }
+    private val _favoriteMovies = MediatorLiveData<List<Movie>>()
+    fun getFavoriteMovies(){
+        viewModelScope.launch(Dispatchers.IO) {
+            _favoriteMovies.addSource(repository.getFavoriteMovies()){
+                    entities -> _favoriteMovies.value = entities
+            }
+        }
+    }
 
-   fun clearMovieDetails(){
-       _trailer.postValue(Trailer(null, null, null, null, null, null, null, null, null, ""))
-   }
+    fun deleteFavoriteMovie(id: Int){
+        val currentMovies = _moviesForDetails ?: null // Return early if movies are null
+        val movie = currentMovies?.find { it.id == id.toLong() }
+        Log.i("favorite", "je suis dans viewModel")
+        // getMovieById(id)?.let { repository.insertFavoriteMovie(it) }
+        if (movie != null) {
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.deleteFavoriteMovie(movie)
+            }
+        }
+        else {
+            Log.i("favorite", "je suis dans viewModel movie == null")
+        }
+    }
+
+    fun isFavorite(id: Long){
+        viewModelScope.launch(Dispatchers.IO) {
+            if (repository.getFavoriteMovieById(id) == null){
+                _favoriteM.postValue(null)
+            } else {
+                _favoriteM.postValue(repository.getFavoriteMovieById(id))
+            }
+
+        }
+    }
+
+
+
+    fun clearMovies(){
+        _moviesForDetails = _movies.value!!
+        _movies.postValue(emptyList());
+    }
+
+    fun clearMovieDetails(){
+        _trailer.postValue(Trailer(null, null, null, null, null, null, null, null, null, ""))
+    }
 
 
 

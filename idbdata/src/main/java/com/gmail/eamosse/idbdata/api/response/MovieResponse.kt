@@ -43,7 +43,7 @@ internal data class MovieResponse(
         internal fun toMovie() = Movie(
              adult = adult ,
         backdropPath =  backdropPath?: "7BsvSuDQuoqhWmU2fL7W2GOcZHU.jpg",
-         id = id,
+         id = id.toLong(),
          title =  title,
          originalLanguage =  originalLanguage,
          originalTitle = originalTitle,

@@ -1,6 +1,7 @@
 package com.gmail.eamosse.imdb.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +15,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.gmail.eamosse.idbdata.api.request.RatingBody
+
 import com.gmail.eamosse.idbdata.data.Movie
+import com.gmail.eamosse.idbdata.data.Rating
+import com.gmail.eamosse.idbdata.data.RatingBody
 import com.gmail.eamosse.imdb.R
 import com.gmail.eamosse.imdb.databinding.FragmentHomeMovieDetailsBinding
-import com.gmail.eamosse.imdb.databinding.FragmentHomeSecondBinding
-import com.gmail.eamosse.imdb.ui.home.adapter.CategoryAdapter
-import com.gmail.eamosse.imdb.ui.home.adapter.MovieAdapter
 
 
 class HomeMovieDetailsFragment : Fragment() {
@@ -31,7 +31,7 @@ class HomeMovieDetailsFragment : Fragment() {
     private lateinit var binding: FragmentHomeMovieDetailsBinding
     private var movie: Movie? = null
     private var isFavorite = false
-
+    private lateinit var id: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,11 +44,26 @@ class HomeMovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-        val id: String = args.id
+        id = args.id
 
         with(homeViewModel){
+
+
+            /****/
+            isFavorite(id.toLong())
+
+            favoriteM.observe(viewLifecycleOwner) {
+                if (it != null){
+                    binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
+                    isFavorite = true
+                }
+                else {
+                    binding.btnFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
+                    isFavorite = false
+                }
+            };
+
+
             movie = getMovieById(id.toInt())
             getTrailerByMovieId(id.toInt())
 
@@ -56,7 +71,7 @@ class HomeMovieDetailsFragment : Fragment() {
                 displayMovieInfo()
             }
             else {
-               // displayErrorMessage()
+                // displayErrorMessage()
             }
 
             homeViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
@@ -69,7 +84,7 @@ class HomeMovieDetailsFragment : Fragment() {
 
             error.observe(viewLifecycleOwner, Observer {
                 //afficher l'erreur
-                Toast.makeText(context, "probléme de recuperation de trailer", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "problÃ©me de recuperation de trailer", Toast.LENGTH_SHORT).show()
                 //displayVideo(it.key)
                 binding.progressBar.isVisible = false
             })
@@ -84,23 +99,22 @@ class HomeMovieDetailsFragment : Fragment() {
         }
 
         binding.editTextNote.setOnEditorActionListener {  v, actionId, event->
-                if (actionId == EditorInfo.IME_ACTION_DONE){
-                    with(homeViewModel){
-                        postAddRating(id.toInt(), RatingBody(binding.editTextNote.text.toString().toDouble()))
-                        homeViewModel.ratingResult.observe(viewLifecycleOwner) {
-                            if (it == true) {
-                                Toast.makeText(context, "succes", Toast.LENGTH_SHORT).show()
-                            }
-                            else {
-                                Toast.makeText(context, "probleme", Toast.LENGTH_SHORT).show()
-                            }
+            if (actionId == EditorInfo.IME_ACTION_DONE){
+                with(homeViewModel){
+                    postAddRating(id.toInt(), RatingBody(binding.editTextNote.text.toString().toDouble()))
+                    homeViewModel.ratingResult.observe(viewLifecycleOwner) {
+                        if (it == true) {
+                            Toast.makeText(context, "succes", Toast.LENGTH_SHORT).show()
+                        }
+                        else {
+                            Toast.makeText(context, "probleme", Toast.LENGTH_SHORT).show()
                         }
                     }
-                    true
-                }else {
-                    false
                 }
-
+                true
+            }else {
+                false
+            }
         }
 
     }
@@ -111,10 +125,13 @@ class HomeMovieDetailsFragment : Fragment() {
         if (isFavorite) {
             binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
             with(homeViewModel){
-                addToFavorites(id);
+                addToFavorites(id.toInt());
             }
         } else {
             binding.btnFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
+            with(homeViewModel){
+                deleteFavoriteMovie(id.toInt());
+            }
         }
     }
 

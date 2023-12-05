@@ -1,6 +1,7 @@
 package com.gmail.eamosse.idbdata.local.daos
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -20,4 +21,7 @@ internal interface FavoriteMovieDao {
 
     @Delete
     fun delete(entity: FavoriteMovieEntity)
+
+    @Query("SELECT * FROM idb_favoriteMovies WHERE id = :id")
+    fun getFavoriteMovieById(id: Long): FavoriteMovieEntity?
 }

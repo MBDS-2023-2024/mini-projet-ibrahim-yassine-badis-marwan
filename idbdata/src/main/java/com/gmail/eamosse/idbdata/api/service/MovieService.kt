@@ -1,6 +1,6 @@
 package com.gmail.eamosse.idbdata.api.service
 
-import com.gmail.eamosse.idbdata.api.request.RatingBody
+import com.gmail.eamosse.idbdata.api.request.RatingBodyRequest
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
 import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
@@ -9,7 +9,6 @@ import com.gmail.eamosse.idbdata.api.response.TokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -32,7 +31,7 @@ internal interface MovieService {
     @POST("movie/{movie_id}/rating")
     suspend fun addRating(
         @Path("movie_id") movieId: Int,
-        @Body rating: RatingBody
+        @Body rating: RatingBodyRequest
     ): Response<RatingResponse>
 
 
