@@ -5,8 +5,20 @@ import com.gmail.eamosse.idbdata.data.Movie
 import com.google.gson.annotations.SerializedName
 
 internal data class MovieResponse(
-    @SerializedName("items")
-    val items: List<Item>
+
+    @SerializedName("page")
+    val page: Int,
+
+    @SerializedName("results")
+    val items: List<Item>,
+
+    @SerializedName("total_pages")
+    val totalPages:Int,
+
+    @SerializedName("total_results")
+    val totalResults:Int
+
+
 ) {
     data class Item(
         @SerializedName("adult")
