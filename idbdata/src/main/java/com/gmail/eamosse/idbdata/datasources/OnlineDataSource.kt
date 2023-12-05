@@ -5,6 +5,7 @@ import com.gmail.eamosse.idbdata.api.request.RatingBodyRequest
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
 import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
+import com.gmail.eamosse.idbdata.api.response.PopularPersonResponse
 import com.gmail.eamosse.idbdata.api.service.MovieService
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.api.response.toToken
@@ -110,6 +111,17 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
                      * On recupere une liste des videos et le trailer se trouve à la fin de la liste
                      */
                     Result.Succes(response.data.success)
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
+    suspend fun getPopularPersons(): Result<List<PopularPersonResponse.Item>> {
+        return safeCall {
+            when (val response = service.getPopularPersons().parse()) {
+                is Result.Succes -> {
+                    Result.Succes(response.data.results)
                 }
                 is Result.Error -> response
             }

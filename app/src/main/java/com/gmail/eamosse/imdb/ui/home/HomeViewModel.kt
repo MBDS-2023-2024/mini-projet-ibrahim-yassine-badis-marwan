@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
+import com.gmail.eamosse.idbdata.data.PopularPerson
 import com.gmail.eamosse.idbdata.data.Rating
 import com.gmail.eamosse.idbdata.data.RatingBody
 import com.gmail.eamosse.idbdata.data.Token
@@ -68,6 +69,12 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     private var _favoriteM: MutableLiveData<Movie?> = MutableLiveData()
     val favoriteM: LiveData<Movie?>
         get() = _favoriteM
+
+    /***PopularPerson****/
+    private val _popularPersons: MutableLiveData<List<PopularPerson>> = MutableLiveData()
+    val popularPersons: LiveData<List<PopularPerson>>
+        get() = _popularPersons
+
 
 
     init {
@@ -218,6 +225,35 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
             }
 
         }
+    }
+
+    fun getAllPopularPersons() {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getListAllPopularPersons()) {
+                is Result.Succes -> {
+                    _popularPersons.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _error.postValue(result.message)
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+    fun getListPopularPersons(id: Long): MutableList<PopularPerson>{
+        val listPersonsInMovie: MutableList<PopularPerson> = mutableListOf()
+        val listPersons = popularPersons.value
+        listPersons?.forEach {
+            for (i in it.moviesId){
+                if (i == id.toInt()){
+                    listPersonsInMovie.add(it)
+                }
+            }
+
+        }
+        return listPersonsInMovie
     }
 
 

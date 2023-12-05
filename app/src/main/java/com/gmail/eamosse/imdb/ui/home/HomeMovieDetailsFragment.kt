@@ -47,6 +47,13 @@ class HomeMovieDetailsFragment : Fragment() {
 
         with(homeViewModel){
 
+            /***PopularPerson***/
+            getAllPopularPersons()
+
+            popularPersons.observe(viewLifecycleOwner, Observer{
+             getListPopularPersons(id.toLong())
+            })
+
 
             /**Favorite**/
             isFavorite(id.toLong())

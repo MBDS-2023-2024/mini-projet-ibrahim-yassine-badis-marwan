@@ -4,6 +4,7 @@ import com.gmail.eamosse.idbdata.api.request.RatingBodyRequest
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
 import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
+import com.gmail.eamosse.idbdata.api.response.PopularPersonResponse
 import com.gmail.eamosse.idbdata.api.response.RatingResponse
 import com.gmail.eamosse.idbdata.api.response.TokenResponse
 import retrofit2.Response
@@ -33,6 +34,10 @@ internal interface MovieService {
         @Path("movie_id") movieId: Int,
         @Body rating: RatingBodyRequest
     ): Response<RatingResponse>
+
+    @GET("person/popular")
+    suspend fun getPopularPersons(): Response<PopularPersonResponse>
+
 
 
 

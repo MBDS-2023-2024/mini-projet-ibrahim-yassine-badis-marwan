@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.gmail.eamosse.idbdata.api.request.RatingBodyRequest
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
+import com.gmail.eamosse.idbdata.data.PopularPerson
 import com.gmail.eamosse.idbdata.data.RatingBody
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
@@ -100,6 +101,20 @@ class MovieRepository @Inject internal constructor(
 
     suspend fun getFavoriteMovieById(id: Long): Movie?{
         return local.getFavoriteMovieById(id)
+    }
+
+    suspend fun getListAllPopularPersons(): Result<List<PopularPerson>> {
+        return when(val result = online.getPopularPersons()) {
+            is Result.Succes -> {
+                // On utilise la fonction map pour convertir les catégories de la réponse serveur
+                // en liste de categories d'objets de l'application
+                val popularPersons = result.data.map {
+                    it.toPopularPerson()
+                }
+                Result.Succes(popularPersons)
+            }
+            is Result.Error -> result
+        }
     }
 
 
