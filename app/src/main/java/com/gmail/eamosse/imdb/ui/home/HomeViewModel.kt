@@ -181,12 +181,16 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         }
     }
 
-    private val _favoriteMovies = MediatorLiveData<List<Movie>>()
+    private lateinit var _favoriteMovies : List<Movie>
     fun getFavoriteMovies(){
         viewModelScope.launch(Dispatchers.IO) {
+            /*
             _favoriteMovies.addSource(repository.getFavoriteMovies()){
                     entities -> _favoriteMovies.value = entities
             }
+
+             */
+            _favoriteMovies = repository.getFavoriteMovies()
         }
     }
 

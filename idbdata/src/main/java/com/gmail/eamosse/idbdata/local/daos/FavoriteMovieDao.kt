@@ -17,7 +17,7 @@ internal interface FavoriteMovieDao {
     fun insert(entity: FavoriteMovieEntity)
 
     @Query("SELECT * from idb_favoriteMovies")
-    fun retrieve(): LiveData<List<FavoriteMovieEntity>>
+    fun retrieve(): List<FavoriteMovieEntity>
 
     @Delete
     fun delete(entity: FavoriteMovieEntity)

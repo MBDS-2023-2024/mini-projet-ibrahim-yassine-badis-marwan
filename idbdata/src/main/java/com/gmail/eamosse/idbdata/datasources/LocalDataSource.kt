@@ -37,16 +37,18 @@ internal class LocalDataSource @Inject constructor(private val tokenDao: TokenDa
         }
     }
 
-    override suspend fun getFavoriteMovies(): MediatorLiveData<List<Movie>> {
-        val listFavoriteMovies = MediatorLiveData<List<Movie>>()
-        listFavoriteMovies.addSource(favoriteMovieDao.retrieve()) { entities ->
-            entities.map { entity ->
-                entity.toFavoriteMovie()
-            }
+    override suspend fun getFavoriteMovies(): List<Movie> {
+        // Récupération de la liste des entités FavoriteMovie depuis la base de données
+        val favoriteMovieEntities = favoriteMovieDao.retrieve()
 
+        // Transformation de chaque FavoriteMovieEntity en Movie
+        val listFavoriteMovies = favoriteMovieEntities.map { entity ->
+            entity.toFavoriteMovie()
         }
+
         return listFavoriteMovies
     }
+
     /*Transformations.map(favoriteMovieDao.retrieve()) { entities ->
             entities.map { entity ->
                 entity.toFavoriteMovie()

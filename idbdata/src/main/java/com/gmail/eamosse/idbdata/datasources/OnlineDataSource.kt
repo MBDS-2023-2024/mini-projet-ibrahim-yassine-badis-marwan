@@ -120,7 +120,7 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
         TODO("I don't know how to save a token, the local datasource probably does")
     }
 
-    override suspend fun getFavoriteMovies(): LiveData<List<Movie>> {
+    override suspend fun getFavoriteMovies(): List<Movie> {
         TODO("Not yet implemented")
     }
 

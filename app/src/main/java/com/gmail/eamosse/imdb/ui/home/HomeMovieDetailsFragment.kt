@@ -24,7 +24,6 @@ import com.gmail.eamosse.imdb.databinding.FragmentHomeMovieDetailsBinding
 
 
 class HomeMovieDetailsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
 
     private val args: HomeMovieDetailsFragmentArgs by navArgs()
     private val homeViewModel: HomeViewModel by activityViewModels()
@@ -51,6 +50,8 @@ class HomeMovieDetailsFragment : Fragment() {
 
             /****/
             isFavorite(id.toLong())
+
+            getFavoriteMovies()
 
             favoriteM.observe(viewLifecycleOwner) {
                 if (it != null){
@@ -84,7 +85,7 @@ class HomeMovieDetailsFragment : Fragment() {
 
             error.observe(viewLifecycleOwner, Observer {
                 //afficher l'erreur
-                Toast.makeText(context, "problÃ©me de recuperation de trailer", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, "problÃ©me de recuperation de trailer", Toast.LENGTH_SHORT).show()
                 //displayVideo(it.key)
                 binding.progressBar.isVisible = false
             })

@@ -11,7 +11,7 @@ interface MovieDataSource {
 
     suspend fun getToken(): Result<Token>
     suspend fun saveToken(token: Token)
-    suspend fun getFavoriteMovies(): LiveData<List<Movie>>
+    suspend fun getFavoriteMovies(): List<Movie>
 
     suspend fun insertFavoriteMovie(movie: Movie)
 

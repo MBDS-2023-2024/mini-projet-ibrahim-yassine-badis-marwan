@@ -89,7 +89,7 @@ class MovieRepository @Inject internal constructor(
         local.insertFavoriteMovie(favoriteMovie)
     }
 
-    suspend fun getFavoriteMovies(): LiveData<List<Movie>> {
+    suspend fun getFavoriteMovies(): List<Movie> {
         Log.i("getfavorite", "je suis dans repository")
         return local.getFavoriteMovies()
     }
