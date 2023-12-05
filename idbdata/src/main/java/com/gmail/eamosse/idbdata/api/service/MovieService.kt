@@ -12,6 +12,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 internal interface MovieService {
     @GET("authentication/token/new")
@@ -20,8 +21,14 @@ internal interface MovieService {
     @GET("genre/movie/list")
     suspend fun getCategories(): Response<CategoryResponse>
 
+   /*
     @GET("list/{id}")
     suspend fun getListMoviesById(@Path("id") id: Int): Response<MovieResponse>
+    */
+   @GET("discover/movie")
+   suspend fun getListMoviesById(
+       @Query("with_genres") genreId: Int
+   ): Response<MovieResponse>
 
     @GET("movie/{id}")
     suspend fun getMovieById(@Path("id") id: Int): Response<MovieResponse>
