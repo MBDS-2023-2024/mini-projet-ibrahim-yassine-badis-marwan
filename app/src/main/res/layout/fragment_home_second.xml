@@ -55,6 +55,20 @@
             app:spanCount="3"
             tools:listitem="@layout/movie_list_item"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/serie_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/toggle_button_group"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:spanCount="3"
+            tools:listitem="@layout/serie_list_item"
+            android:visibility="gone"
+            />
+
         <!-- TextView for not found message -->
         <TextView
             android:id="@+id/secondHome_textView_notFound"

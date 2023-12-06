@@ -7,6 +7,7 @@ import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.PopularPerson
 import com.gmail.eamosse.idbdata.data.RatingBody
+import com.gmail.eamosse.idbdata.data.Serie
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
 import com.gmail.eamosse.idbdata.datasources.LocalDataSource
@@ -64,10 +65,35 @@ class MovieRepository @Inject internal constructor(
         }
     }
 
+    suspend fun getSeriesByCategoryId(id: Int): Result<List<Serie>> {
+        return when(val result = online.getSeriesByCategoryId(id)) {
+            is Result.Succes -> {
+                val movies = result.data.map {
+                    it.toSerie()
+                }
+                Result.Succes(movies)
+            }
+            is Result.Error -> result
+        }
+    }
+
+
+
+
     suspend fun getTrailerByMovieId(id: Int): Result<Trailer> {
         return when(val result = online.getTrailerByMovieId(id)) {
             is Result.Succes -> {
-                val trailer = result.data.toMovieTrailer()
+                val trailer = result.data.toTrailer()
+                Result.Succes(trailer)
+            }
+            is Result.Error -> result
+        }
+    }
+
+    suspend fun getTrailerBySeriesId(id: Int): Result<Trailer> {
+        return when(val result = online.getTrailerBySeriesId(id)) {
+            is Result.Succes -> {
+                val trailer = result.data.toTrailer()
                 Result.Succes(trailer)
             }
             is Result.Error -> result
@@ -103,6 +129,23 @@ class MovieRepository @Inject internal constructor(
         return local.getFavoriteMovieById(id)
     }
 
+    suspend fun insertFavoriteSeries(favoriteSeries: Serie) {
+        local.insertFavoriteSeries(favoriteSeries)
+    }
+
+
+    suspend fun getFavoriteSeries(): List<Serie> {
+        return local.getFavoriteSeries()
+    }
+
+    suspend fun deleteFavoriteSeries(favoriteSeries: Serie){
+        local.deleteFavoriteSeries(favoriteSeries)
+    }
+
+    suspend fun getFavoriteSeriesById(id: Long): Serie?{
+        return local.getFavoriteSeriesById(id)
+    }
+
     suspend fun getListAllPopularPersons(): Result<List<PopularPerson>> {
         return when(val result = online.getPopularPersons()) {
             is Result.Succes -> {
@@ -116,7 +159,5 @@ class MovieRepository @Inject internal constructor(
             is Result.Error -> result
         }
     }
-
-
 
 }

@@ -26,6 +26,9 @@
             <argument
                 android:name="id"
                 app:argType="string" />
+            <argument
+                android:name="type"
+                app:argType="string" />
         </action>
 
         <argument
@@ -47,6 +50,10 @@
 
         <argument
             android:name="id"
+            app:argType="string" />
+
+        <argument
+            android:name="type"
             app:argType="string" />
     </fragment>
 

@@ -3,9 +3,10 @@ package com.gmail.eamosse.idbdata.api.service
 import com.gmail.eamosse.idbdata.api.request.RatingBodyRequest
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
-import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
+import com.gmail.eamosse.idbdata.api.response.TrailerResponse
 import com.gmail.eamosse.idbdata.api.response.PopularPersonResponse
 import com.gmail.eamosse.idbdata.api.response.RatingResponse
+import com.gmail.eamosse.idbdata.api.response.SerieResponse
 import com.gmail.eamosse.idbdata.api.response.TokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -21,6 +22,8 @@ internal interface MovieService {
     @GET("genre/movie/list")
     suspend fun getCategories(): Response<CategoryResponse>
 
+
+
    /*
     @GET("list/{id}")
     suspend fun getListMoviesById(@Path("id") id: Int): Response<MovieResponse>
@@ -30,11 +33,19 @@ internal interface MovieService {
        @Query("with_genres") genreId: Int
    ): Response<MovieResponse>
 
+    @GET("discover/tv")
+    suspend fun getListSeriesById(
+        @Query("with_genres") genreId: Int
+    ): Response<SerieResponse>
+
     @GET("movie/{id}")
     suspend fun getMovieById(@Path("id") id: Int): Response<MovieResponse>
 
     @GET("movie/{movie_id}/videos")
-    suspend fun getTrailerByMovieId(@Path("movie_id") id: Int): Response<MovieTrailerResponse>
+    suspend fun getTrailerByMovieId(@Path("movie_id") id: Int): Response<TrailerResponse>
+
+    @GET("tv/{series_id}/videos")
+    suspend fun getTrailerBySeriesId(@Path("series_id") id: Int): Response<TrailerResponse>
 
     @POST("movie/{movie_id}/rating")
     suspend fun addRating(

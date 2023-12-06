@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.Rating
 import com.gmail.eamosse.idbdata.data.RatingBody
+import com.gmail.eamosse.idbdata.data.Serie
 import com.gmail.eamosse.imdb.R
 import com.gmail.eamosse.imdb.databinding.FragmentHomeMovieDetailsBinding
 
@@ -29,8 +30,10 @@ class HomeMovieDetailsFragment : Fragment() {
     private val homeViewModel: HomeViewModel by activityViewModels()
     private lateinit var binding: FragmentHomeMovieDetailsBinding
     private var movie: Movie? = null
+    private var serie: Serie? = null
     private var isFavorite = false
     private lateinit var id: String
+    private lateinit var type: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,38 +47,70 @@ class HomeMovieDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         id = args.id
+        type = args.type
 
         with(homeViewModel){
 
             /***PopularPerson***/
-            getAllPopularPersons()
+          //  getAllPopularPersons()
 
-            popularPersons.observe(viewLifecycleOwner, Observer{
+          /* popularPersons.observe(viewLifecycleOwner, Observer{
              getListPopularPersons(id.toLong())
             })
 
+           */
+
 
             /**Favorite**/
-            isFavorite(id.toLong())
-            //getFavoriteMovies()
+            if (type == "movie"){
+                isFavorite(id.toLong())
+                //getFavoriteMovies()
 
-            favoriteM.observe(viewLifecycleOwner) {
-                if (it != null){
-                    binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
-                    isFavorite = true
-                }
-                else {
-                    binding.btnFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
-                    isFavorite = false
-                }
-            };
+                favoriteM.observe(viewLifecycleOwner) {
+                    if (it != null){
+                        binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
+                        isFavorite = true
+                    }
+                    else {
+                        binding.btnFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
+                        isFavorite = false
+                    }
+                };
+
+            }
+            else {
+                isFavoriteSeries(id.toLong())
+                //getFavoriteMovies()
+
+                favoriteS.observe(viewLifecycleOwner) {
+                    if (it != null){
+                        binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
+                        isFavorite = true
+                    }
+                    else {
+                        binding.btnFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
+                        isFavorite = false
+                    }
+                };
+
+            }
+
+            if (type == "movie"){
+                movie = getMovieById(id.toInt())
+                getTrailerByMovieId(id.toInt())
+            }
+            else {
+                serie = getSerieById(id.toInt())
+                getTrailerBySeriesId(id.toInt())
+            }
 
 
-            movie = getMovieById(id.toInt())
-            getTrailerByMovieId(id.toInt())
 
-            if (movie != null){
+            if (type == "movie" && movie != null){
                 displayMovieInfo()
+            }
+            else if (type == "serie" && serie != null){
+                displaySerieInfo()
             }
             else {
                 // displayErrorMessage()
@@ -132,12 +167,24 @@ class HomeMovieDetailsFragment : Fragment() {
         if (isFavorite) {
             binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
             with(homeViewModel){
-                addToFavorites(id.toInt());
+                if (type == "movie"){
+                    addToFavorites(id.toInt());
+                }
+                else {
+                    addToFavoriteSeries(id.toInt());
+                }
+
             }
         } else {
             binding.btnFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
             with(homeViewModel){
-                deleteFavoriteMovie(id.toInt());
+                if (type == "movie"){
+                    deleteFavoriteMovie(id.toInt());
+                }
+                else {
+                    deleteFavoriteSeries(id.toInt())
+                }
+
             }
         }
     }
@@ -150,6 +197,14 @@ class HomeMovieDetailsFragment : Fragment() {
         binding.movieTitle.text = movie?.title
         binding.movieDescription.text = movie?.overview
         binding.movieReleaseDate.text = getString(R.string.releaseDate)+ ": " + movie?.releaseDate
+    }
+
+    private fun displaySerieInfo() {
+        displayImage(serie?.posterPath)
+        binding.movieRating.text = getString(R.string.rating) + ": " + serie?.voteAverage + " ( "+ serie?.voteCount + " " + getString(R.string.votes) + ")"
+        binding.movieTitle.text = serie?.originalName
+        binding.movieDescription.text = serie?.overview
+        binding.movieReleaseDate.text = getString(R.string.releaseDate)+ ": " + serie?.firstAirDate
     }
 
     private fun displayImage(posterPath: String?) {
@@ -190,6 +245,8 @@ class HomeMovieDetailsFragment : Fragment() {
         homeViewModel.clearMovieDetails()
 
     }
+
+
 
 
 }
