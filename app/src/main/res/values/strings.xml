@@ -22,4 +22,5 @@
     <string name="series">Series</string>
     <string name="movie">Movies</string>
     <string name="note">Add a rating out of 10</string>
+    <string name="persons">List of actors</string>
 </resources>

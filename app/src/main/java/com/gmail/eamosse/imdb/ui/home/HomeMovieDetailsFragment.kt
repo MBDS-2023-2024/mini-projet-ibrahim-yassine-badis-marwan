@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
@@ -22,9 +23,11 @@ import com.gmail.eamosse.idbdata.data.RatingBody
 import com.gmail.eamosse.idbdata.data.Serie
 import com.gmail.eamosse.imdb.R
 import com.gmail.eamosse.imdb.databinding.FragmentHomeMovieDetailsBinding
+import com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleAdapter
+import com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleHandler
 
 
-class HomeMovieDetailsFragment : Fragment() {
+class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
 
     private val args: HomeMovieDetailsFragmentArgs by navArgs()
     private val homeViewModel: HomeViewModel by activityViewModels()
@@ -52,13 +55,16 @@ class HomeMovieDetailsFragment : Fragment() {
         with(homeViewModel){
 
             /***PopularPerson***/
-          //  getAllPopularPersons()
+            getAllPopularPersons()
 
-          /* popularPersons.observe(viewLifecycleOwner, Observer{
-             getListPopularPersons(id.toLong())
-            })
+           popularPersons.observe(viewLifecycleOwner, Observer{
+               val recyclerView = binding.recyclerPopularPeople
+               val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+               recyclerView.layoutManager = layoutManager
+               recyclerView.adapter = PopularPeopleAdapter(it, this@HomeMovieDetailsFragment)
+           })
 
-           */
+
 
 
             /**Favorite**/
@@ -246,7 +252,17 @@ class HomeMovieDetailsFragment : Fragment() {
 
     }
 
+    override fun onShowPeopleDetails(id: Int) {
 
+    }
+
+    override fun onShowEmptyListPeopleMsg() {
+
+    }
+
+    override fun removeEmptyListPeopleMsg() {
+
+    }
 
 
 }
