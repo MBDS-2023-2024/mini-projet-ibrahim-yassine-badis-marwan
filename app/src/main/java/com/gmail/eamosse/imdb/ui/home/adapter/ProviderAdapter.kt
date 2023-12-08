@@ -4,35 +4,35 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.gmail.eamosse.idbdata.api.response.WatchProvidersResponse
+import com.gmail.eamosse.idbdata.data.MovieProvider
 import com.gmail.eamosse.imdb.R
-import com.gmail.eamosse.imdb.databinding.FragmentHomeMovieDetailsBinding
+import com.gmail.eamosse.imdb.databinding.ProviderListItemBinding
 
 
-class ProviderAdapter(private val items: List<WatchProvidersResponse.MovieProvider>) :
+class ProviderAdapter(private val items: List<MovieProvider>) :
     RecyclerView.Adapter<ProviderAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: FragmentHomeMovieDetailsBinding) :
+    inner class ViewHolder(private val binding: ProviderListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: WatchProvidersResponse.MovieProvider) {
+        fun bind(item: MovieProvider) {
             binding.itemProvider = item
 
             // Charger l'image du logo du fournisseur
-            val baseUrl = "base_url_here"
+            val baseUrl = "https://image.tmdb.org/t/p/w500"
             val imageUrl = baseUrl + item.logoPath
 
             Glide.with(binding.root.context)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_baseline_error_24) // Remplacez par votre image de placeholder
                 .error(R.drawable.ic_baseline_error_24)
-                .into(binding.movieImage)
+                .into(binding.providerImg)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProviderAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(FragmentHomeMovieDetailsBinding.inflate(inflater, parent, false))
+        return ViewHolder(ProviderListItemBinding.inflate(inflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: ProviderAdapter.ViewHolder, position: Int) {

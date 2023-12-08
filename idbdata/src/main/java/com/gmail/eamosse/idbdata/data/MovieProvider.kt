@@ -1,4 +1,4 @@
-package com.gmail.eamosse.idbdata.data.MovieProvider
+package com.gmail.eamosse.idbdata.data
 
 data class MovieProvider (
     val logoPath: String,

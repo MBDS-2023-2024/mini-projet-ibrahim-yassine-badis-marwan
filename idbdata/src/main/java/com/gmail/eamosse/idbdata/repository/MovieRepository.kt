@@ -1,8 +1,8 @@
 package com.gmail.eamosse.idbdata.repository
 
-import com.gmail.eamosse.idbdata.api.response.WatchProvidersResponse
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
+import com.gmail.eamosse.idbdata.data.MovieProviderPackage.CountryResult
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
 import com.gmail.eamosse.idbdata.datasources.LocalDataSource
@@ -70,11 +70,13 @@ class MovieRepository @Inject internal constructor(
         }
     }
 
-    suspend fun getProvidersByMovieId(id: Int): Result<WatchProvidersResponse> {
+    suspend fun getProvidersByMovieId(id: Int): Result<Collection<CountryResult>> {
         return when(val result = online.getProvidersByMovieId(id)) {
             is Result.Succes -> {
-                val provider = result.data
-                Result.Succes(provider)
+                val providers = result.data.map {
+                    it.toCountryResult()
+                }
+                Result.Succes(providers)
             }
             is Result.Error -> result
         }

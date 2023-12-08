@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.gmail.eamosse.idbdata.api.response.WatchProvidersResponse
@@ -21,6 +22,7 @@ import com.gmail.eamosse.imdb.databinding.FragmentHomeMovieDetailsBinding
 import com.gmail.eamosse.imdb.databinding.FragmentHomeSecondBinding
 import com.gmail.eamosse.imdb.ui.home.adapter.CategoryAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.MovieAdapter
+import com.gmail.eamosse.imdb.ui.home.adapter.ProviderAdapter
 
 
 class HomeMovieDetailsFragment : Fragment() {
@@ -31,7 +33,7 @@ class HomeMovieDetailsFragment : Fragment() {
     private lateinit var binding: FragmentHomeMovieDetailsBinding
     private var movie: Movie? = null
     private var isFavorite = false
-    private lateinit var providerA: WatchProvidersResponse.CountryResult
+    private lateinit var providerA: WatchProvidersResponse
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +56,8 @@ class HomeMovieDetailsFragment : Fragment() {
             getProvidersByMovieId(id.toInt())
 
 
+
+
             if (movie != null){
                 displayMovieInfo()
             }
@@ -71,7 +75,23 @@ class HomeMovieDetailsFragment : Fragment() {
 
 
             provider.observe(viewLifecycleOwner, Observer {
-                Log.d("repo aaaaaa", "Displaying movie title: ")
+                val recyclerBuyView= binding.recyclerBuyProviderMovies
+                val layoutBuyManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                recyclerBuyView.layoutManager = layoutBuyManager
+                recyclerBuyView.adapter = ProviderAdapter(it.toList()[31].buy)
+
+                val recyclerRentView= binding.recyclerRentProviderMovies
+                val layoutRentManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                recyclerRentView.layoutManager = layoutRentManager
+                recyclerRentView.adapter = ProviderAdapter(it.toList()[31].rent)
+
+                val recyclerFlatrateView= binding.recyclerFlatrateProviderMovies
+                val layoutFlatrateManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                recyclerFlatrateView.layoutManager = layoutFlatrateManager
+                recyclerFlatrateView.adapter = ProviderAdapter(it.toList()[31].flatrate)
             })
 
 

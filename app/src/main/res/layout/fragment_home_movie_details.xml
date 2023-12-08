@@ -6,7 +6,7 @@
     <data>
         <variable
             name="itemProvider"
-            type="com.gmail.eamosse.idbdata.api.response.WatchProvidersResponse.MovieProvider" />
+            type="com.gmail.eamosse.idbdata.api.response.WatchProvidersResponse" />
     </data>
 
 
@@ -137,11 +137,12 @@
             android:textColor="@color/white"
             />
 
+        <!-- Providers : I used id 31 to retrieve French providers -->
         <TextView
             android:id="@+id/movie_providers"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Providers: "
+            android:text="Providers "
             app:layout_constraintTop_toBottomOf="@id/movie_release_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -169,6 +170,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/flatrate_provider_movie"
+            app:layout_constraintBottom_toTopOf="@+id/rent_provider_movie"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
@@ -181,7 +183,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Rent: "
-            app:layout_constraintTop_toBottomOf="@id/flatrate_provider_movie"
+            app:layout_constraintTop_toBottomOf="@id/recycler_flatrate_provider_movies"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_rent_provider_movies"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
@@ -194,6 +197,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/rent_provider_movie"
+            app:layout_constraintBottom_toTopOf="@+id/buy_provider_movie"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
@@ -206,7 +210,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Buy: "
-            app:layout_constraintTop_toBottomOf="@id/rent_provider_movie"
+            app:layout_constraintTop_toBottomOf="@id/recycler_rent_provider_movies"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_buy_provider_movies"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
