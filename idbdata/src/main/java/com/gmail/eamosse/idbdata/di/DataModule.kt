@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.gmail.eamosse.idbdata.BuildConfig
 import com.gmail.eamosse.idbdata.api.service.MovieService
+import com.gmail.eamosse.idbdata.local.daos.FavoriteMovieDao
+import com.gmail.eamosse.idbdata.local.daos.FavoriteSeriesDao
 import com.gmail.eamosse.idbdata.local.daos.TokenDao
 import com.gmail.eamosse.idbdata.local.databases.IdbDataBase
 import dagger.Module
@@ -32,7 +34,9 @@ object DataModule {
         return Room.databaseBuilder(
             appContext,
             IdbDataBase::class.java, "idb_database.db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
@@ -40,6 +44,15 @@ object DataModule {
         return database.tokenDao()
     }
 
+    @Provides
+    internal fun provideFavoriteMovieDao(database: IdbDataBase): FavoriteMovieDao {
+        return database.favoriteMoviesDao()
+    }
+
+    @Provides
+    internal fun provideFavoriteSeriesDao(database: IdbDataBase): FavoriteSeriesDao {
+        return database.favoriteSeriesDao()
+    }
     @Provides
     internal fun provideHttpClient(@Named("API_KEY") apiKey: String, dao: TokenDao): OkHttpClient {
         return OkHttpClient.Builder()

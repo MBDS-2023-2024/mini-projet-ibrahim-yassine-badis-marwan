@@ -116,7 +116,7 @@ class DashboardViewModel  @Inject constructor(private val repository: MovieRepos
     fun getMovieById(id: Int): Movie? {
         val currentMovies = _movies.value ?: return null // Return early if movies are null
 
-        val movie = currentMovies.find { it.id == id } // Find the movie with the given ID
+        val movie = currentMovies.find { it.id == id.toLong() } // Find the movie with the given ID
         if (movie != null) {
 
             return movie

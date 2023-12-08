@@ -43,22 +43,21 @@ internal data class PopularMoviesResponse(
         @SerializedName("vote_count")
         val voteCount: Int
     ){
-        internal fun toMovie() = com.gmail.eamosse.idbdata.data.Movie(
+        internal fun toMoviePop() = com.gmail.eamosse.idbdata.data.Movie(
             adult = adult,
             backdropPath = backdropPath ?: "7BsvSuDQuoqhWmU2fL7W2GOcZHU.jpg",
-            id = id,
+            id = id.toLong(),
             title = title,
             originalLanguage = originalLanguage,
             originalTitle = originalTitle,
             overview = overview,
             posterPath = posterPath,
-            genreIds = genreIds,
             popularity = popularity,
             releaseDate = releaseDate,
             video = video,
             voteAverage = voteAverage,
-            voteCount = voteCount
-        )
+            voteCount = voteCount,
+            mediaType = "")
     }
 }
 

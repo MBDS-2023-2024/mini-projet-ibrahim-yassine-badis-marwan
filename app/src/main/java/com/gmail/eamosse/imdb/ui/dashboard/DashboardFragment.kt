@@ -25,12 +25,11 @@ import com.gmail.eamosse.imdb.ui.home.HomeViewModel
 import com.gmail.eamosse.imdb.ui.home.adapter.CategoryAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.MovieAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.MovieHandler
+import com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DashboardFragment : Fragment() {
-    private val args: DashboardFragmentArgs by navArgs()
-
+class DashboardFragment : Fragment(), MovieHandler {
     private val dashboardViewModel: DashboardViewModel by activityViewModels()
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var popularMoviesRecyclerView: RecyclerView
@@ -69,6 +68,26 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.upcomingMovies.observe(viewLifecycleOwner, Observer { upcomingMovies ->
             (upcomingMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(upcomingMovies)
         })
+
+
+
+        /*
+
+        with(dashboardViewModel){
+            topRatedMovies.observe(viewLifecycleOwner, Observer {
+                val recyclerView = binding.recyclerTopRatedMovies
+                val layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                recyclerView.layoutManager = layoutManager
+                recyclerView.adapter = MovieAdapter(it, this@DashboardFragment)
+            })
+        }
+
+         */
+
+
+
+
         dashboardViewModel.getPopularMovies()
         dashboardViewModel.getTopRatedMovies()
         dashboardViewModel.getUpcomingMovies()
@@ -80,15 +99,35 @@ class DashboardFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         // You need to create a MovieAdapter and set it to the recyclerView adapter
         val movieAdapter = MovieAdapter(emptyList(), object : MovieHandler {
-            override fun onShowMovieDetails(id: Int) {
+            override fun onShowMovieDetails(id: Long, type: String) {
                 Toast.makeText(context, "hrllo", Toast.LENGTH_SHORT).show()
                 val action = DashboardFragmentDirections
-                    .actionDashboardFragmentToMovieDetailsFragment(id.toString())
+                    .actionDashboardFragmentToMovieDetailsFragment(id.toString(), "movie")
                 NavHostFragment.findNavController(this@DashboardFragment)
                     .navigate(action)
             }
+
+            override fun onShowEmptyListMsg() {
+
+            }
+
+            override fun removeEmptyListMsg() {
+
+            }
         })
         recyclerView.adapter = movieAdapter
+    }
+
+    override fun onShowMovieDetails(id: Long, type: String) {
+
+    }
+
+    override fun onShowEmptyListMsg() {
+
+    }
+
+    override fun removeEmptyListMsg() {
+
     }
 
 

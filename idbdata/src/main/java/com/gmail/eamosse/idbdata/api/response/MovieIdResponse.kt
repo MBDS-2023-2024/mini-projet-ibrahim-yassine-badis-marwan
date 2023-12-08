@@ -54,19 +54,20 @@ internal data class MovieIdResponse(
     )
 
     internal fun toMovie() = Movie(
-        adult = adult,
-        backdropPath = backdropPath ?: "7BsvSuDQuoqhWmU2fL7W2GOcZHU.jpg",
-        id = id,
-        title = title,
-        originalLanguage = originalLanguage,
+        adult = adult ,
+        backdropPath =  backdropPath?: "7BsvSuDQuoqhWmU2fL7W2GOcZHU.jpg",
+        id = id.toLong(),
+        title =  title,
+        originalLanguage =  originalLanguage,
         originalTitle = originalTitle,
         overview = overview,
-        posterPath = posterPath,
-        genreIds = genreList.map { it.id },
-        popularity = popularity,
+        posterPath = posterPath ,
+        mediaType =  "",
+        //genreIds =  genreIds,
+        popularity =  popularity,
         releaseDate = releaseDate,
         video = video,
         voteAverage = voteAverage,
-        voteCount = voteCount
+        voteCount =  voteCount
     )
 }

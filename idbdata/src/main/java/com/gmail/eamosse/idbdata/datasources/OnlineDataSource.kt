@@ -4,12 +4,16 @@ import android.util.Log
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieIdResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
-import com.gmail.eamosse.idbdata.api.response.MovieTrailerResponse
 import com.gmail.eamosse.idbdata.api.response.PopularMoviesResponse
+import com.gmail.eamosse.idbdata.api.response.TrailerResponse
+import com.gmail.eamosse.idbdata.api.response.PopularPersonResponse
+import com.gmail.eamosse.idbdata.api.response.SerieResponse
 import com.gmail.eamosse.idbdata.api.service.MovieService
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.api.response.toToken
 import com.gmail.eamosse.idbdata.data.Movie
+import com.gmail.eamosse.idbdata.data.RatingBody
+import com.gmail.eamosse.idbdata.data.Serie
 import com.gmail.eamosse.idbdata.parse
 import com.gmail.eamosse.idbdata.safeCall
 import com.gmail.eamosse.idbdata.utils.Result
@@ -88,7 +92,18 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
         }
     }
 
-    suspend fun getTrailerByMovieId(id: Int): Result<MovieTrailerResponse.Result> {
+    suspend fun getSeriesByCategoryId(id: Int): Result<List<SerieResponse.Item>> {
+        return safeCall {
+            when (val response = service.getListSeriesById(id).parse()) {
+                is Result.Succes -> {
+                    Result.Succes(response.data.items)
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
+    suspend fun getTrailerByMovieId(id: Int): Result<TrailerResponse.Result> {
         return safeCall {
             when (val response = service.getTrailerByMovieId(id).parse()) {
                 is Result.Succes -> {
@@ -96,6 +111,45 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
                      * On recupere une liste des videos et le trailer se trouve à la fin de la liste
                       */
                     Result.Succes(response.data.results.last())
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
+    suspend fun getTrailerBySeriesId(id: Int): Result<TrailerResponse.Result> {
+        return safeCall {
+            when (val response = service.getTrailerBySeriesId(id).parse()) {
+                is Result.Succes -> {
+                    /**
+                     * On recupere une liste des videos et le trailer se trouve à la fin de la liste
+                     */
+                    Result.Succes(response.data.results.last())
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
+    suspend fun addRating(id: Int, rating: RatingBody): Result<Boolean> {
+        return safeCall {
+            when (val response = service.addRating(id, rating.toRatingBodyEntity()).parse()) {
+                is Result.Succes -> {
+                    /**
+                     * On recupere une liste des videos et le trailer se trouve à la fin de la liste
+                     */
+                    Result.Succes(response.data.success)
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
+    suspend fun getPopularPersons(): Result<List<PopularPersonResponse.Item>> {
+        return safeCall {
+            when (val response = service.getPopularPersons().parse()) {
+                is Result.Succes -> {
+                    Result.Succes(response.data.results)
                 }
                 is Result.Error -> response
             }
@@ -145,7 +199,7 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
     }
     suspend fun getMovies(id: Int): Result<Movie>{
         return safeCall {
-            when (val response = service.getMovieById(id).parse()) {
+            when (val response = service.getMovieById(id.toLong()).parse()) {
                 is Result.Succes -> {
                     Log.d("AAAAA", "Displaying movie titles: ${response.data}")
                     Result.Succes(response.data.toMovie())
@@ -160,5 +214,37 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
     }
 
 
+
+    override suspend fun getFavoriteMovies(): List<Movie> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertFavoriteMovie(movie: Movie) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteFavoriteMovie(movie: Movie) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getFavoriteMovieById(id: Long): Movie? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getFavoriteSeries(): List<Serie> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertFavoriteSeries(serie: Serie) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteFavoriteSeries(series: Serie) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getFavoriteSeriesById(id: Long): Serie? {
+        TODO("Not yet implemented")
+    }
 }
 

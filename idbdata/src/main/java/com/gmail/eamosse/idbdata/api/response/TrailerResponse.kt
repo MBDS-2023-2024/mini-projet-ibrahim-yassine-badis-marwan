@@ -1,10 +1,9 @@
 package com.gmail.eamosse.idbdata.api.response
 
-import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.Trailer
 import com.google.gson.annotations.SerializedName
 
-internal data class MovieTrailerResponse(
+internal data class TrailerResponse(
     @SerializedName("id")
     val id: Int,
     @SerializedName("results")
@@ -32,7 +31,7 @@ internal data class MovieTrailerResponse(
         @SerializedName("id")
         val id: String,
     ){
-        internal fun toMovieTrailer() = Trailer(
+        internal fun toTrailer() = Trailer(
             iso6391= iso_639_1,
             iso31661= iso_3166_1,
             name= name,

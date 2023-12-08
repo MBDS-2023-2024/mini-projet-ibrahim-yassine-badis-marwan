@@ -5,8 +5,20 @@ import com.gmail.eamosse.idbdata.data.Movie
 import com.google.gson.annotations.SerializedName
 
 internal data class MovieResponse(
-    @SerializedName("items")
-    val items: List<Item>
+
+    @SerializedName("page")
+    val page: Int,
+
+    @SerializedName("results")
+    val items: List<Item>,
+
+    @SerializedName("total_pages")
+    val totalPages:Int,
+
+    @SerializedName("total_results")
+    val totalResults:Int
+
+
 ) {
     data class Item(
         @SerializedName("adult")
@@ -41,20 +53,21 @@ internal data class MovieResponse(
         val voteCount: Int,
         ) {
         internal fun toMovie() = Movie(
-            adult = adult,
-            backdropPath =  backdropPath?: "7BsvSuDQuoqhWmU2fL7W2GOcZHU.jpg",
-            id = id,
-            title =  title,
-            originalLanguage =  originalLanguage,
-            originalTitle = originalTitle,
-            overview = overview,
-            posterPath = posterPath,
-            genreIds =  genreIds,
-            popularity =  popularity,
-            releaseDate = releaseDate,
-            video = video,
-            voteAverage = voteAverage,
-            voteCount =  voteCount
+             adult = adult ,
+        backdropPath =  backdropPath?: "7BsvSuDQuoqhWmU2fL7W2GOcZHU.jpg",
+         id = id.toLong(),
+         title =  title,
+         originalLanguage =  originalLanguage,
+         originalTitle = originalTitle,
+         overview = overview,
+         posterPath = posterPath ,
+         mediaType =  mediaType,
+         //genreIds =  genreIds,
+         popularity =  popularity,
+         releaseDate = releaseDate,
+         video = video,
+         voteAverage = voteAverage,
+         voteCount =  voteCount
         )
     }
 

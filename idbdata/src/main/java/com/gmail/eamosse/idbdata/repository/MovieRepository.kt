@@ -1,9 +1,16 @@
 package com.gmail.eamosse.idbdata.repository
 
 import android.util.Log
+
 import com.gmail.eamosse.idbdata.api.response.PopularMoviesResponse
+import androidx.lifecycle.LiveData
+import com.gmail.eamosse.idbdata.api.request.RatingBodyRequest
+
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
+import com.gmail.eamosse.idbdata.data.PopularPerson
+import com.gmail.eamosse.idbdata.data.RatingBody
+import com.gmail.eamosse.idbdata.data.Serie
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
 import com.gmail.eamosse.idbdata.datasources.LocalDataSource
@@ -61,11 +68,13 @@ class MovieRepository @Inject internal constructor(
         }
     }
 
-    suspend fun getTrailerByMovieId(id: Int): Result<Trailer> {
-        return when(val result = online.getTrailerByMovieId(id)) {
+    suspend fun getSeriesByCategoryId(id: Int): Result<List<Serie>> {
+        return when(val result = online.getSeriesByCategoryId(id)) {
             is Result.Succes -> {
-                val trailer = result.data.toMovieTrailer()
-                Result.Succes(trailer)
+                val movies = result.data.map {
+                    it.toSerie()
+                }
+                Result.Succes(movies)
             }
             is Result.Error -> result
         }
@@ -73,7 +82,7 @@ class MovieRepository @Inject internal constructor(
     suspend fun getPopularMovies(): Result<List<Movie>> {
         return when (val result = online.getPopularMovies()) {
             is Result.Succes -> {
-                val popularMovies = result.data.map { it.toMovie()
+                val popularMovies = result.data.map { it.toMoviePop()
                 }
                 Result.Succes(popularMovies)
             }
@@ -85,7 +94,7 @@ class MovieRepository @Inject internal constructor(
     suspend fun getTopRatedMovies(): Result<List<Movie>> {
         return when (val result = online.getTopRatedMovies()) {
             is Result.Succes -> {
-                val popularMovies = result.data.map { it.toMovie()
+                val popularMovies = result.data.map { it.toMoviePop()
                 }
                 Result.Succes(popularMovies)
             }
@@ -96,7 +105,7 @@ class MovieRepository @Inject internal constructor(
     suspend fun getUpcomingMovies(): Result<List<Movie>> {
         return when (val result = online.getUpcomingMovies()) {
             is Result.Succes -> {
-                val upcomingMovies = result.data.map { it.toMovie()
+                val upcomingMovies = result.data.map { it.toMoviePop()
                 }
                 Result.Succes(upcomingMovies)
             }
@@ -118,5 +127,85 @@ class MovieRepository @Inject internal constructor(
         }
     }
 
+
+    suspend fun getTrailerByMovieId(id: Int): Result<Trailer> {
+        return when(val result = online.getTrailerByMovieId(id)) {
+            is Result.Succes -> {
+                val trailer = result.data.toTrailer()
+                Result.Succes(trailer)
+            }
+            is Result.Error -> result
+        }
+    }
+
+    suspend fun getTrailerBySeriesId(id: Int): Result<Trailer> {
+        return when(val result = online.getTrailerBySeriesId(id)) {
+            is Result.Succes -> {
+                val trailer = result.data.toTrailer()
+                Result.Succes(trailer)
+            }
+            is Result.Error -> result
+        }
+    }
+
+    suspend fun addRating(id: Int, rating: RatingBody): Result<Boolean> {
+        return when(val result = online.addRating(id,rating)) {
+            is Result.Succes -> {
+                val ratingResponse = result.data
+                Result.Succes(ratingResponse)
+            }
+            is Result.Error -> result
+        }
+    }
+
+
+    suspend fun insertFavoriteMovie(favoriteMovie: Movie) {
+        Log.i("insertfavorite", "je suis dans repository")
+        local.insertFavoriteMovie(favoriteMovie)
+    }
+
+    suspend fun getFavoriteMovies(): List<Movie> {
+        Log.i("getfavorite", "je suis dans repository")
+        return local.getFavoriteMovies()
+    }
+
+    suspend fun deleteFavoriteMovie(favoriteMovie: Movie){
+        local.deleteFavoriteMovie(favoriteMovie)
+    }
+
+    suspend fun getFavoriteMovieById(id: Long): Movie?{
+        return local.getFavoriteMovieById(id)
+    }
+
+    suspend fun insertFavoriteSeries(favoriteSeries: Serie) {
+        local.insertFavoriteSeries(favoriteSeries)
+    }
+
+
+    suspend fun getFavoriteSeries(): List<Serie> {
+        return local.getFavoriteSeries()
+    }
+
+    suspend fun deleteFavoriteSeries(favoriteSeries: Serie){
+        local.deleteFavoriteSeries(favoriteSeries)
+    }
+
+    suspend fun getFavoriteSeriesById(id: Long): Serie?{
+        return local.getFavoriteSeriesById(id)
+    }
+
+    suspend fun getListAllPopularPersons(): Result<List<PopularPerson>> {
+        return when(val result = online.getPopularPersons()) {
+            is Result.Succes -> {
+                // On utilise la fonction map pour convertir les catégories de la réponse serveur
+                // en liste de categories d'objets de l'application
+                val popularPersons = result.data.map {
+                    it.toPopularPerson()
+                }
+                Result.Succes(popularPersons)
+            }
+            is Result.Error -> result
+        }
+    }
 
 }

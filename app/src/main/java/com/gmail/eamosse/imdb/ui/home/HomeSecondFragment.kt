@@ -25,25 +25,32 @@ import com.gmail.eamosse.imdb.databinding.FragmentHomeBinding
 import com.gmail.eamosse.imdb.databinding.FragmentHomeSecondBinding
 import com.gmail.eamosse.imdb.ui.home.adapter.MovieAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.MovieHandler
+import com.gmail.eamosse.imdb.ui.home.adapter.SerieAdapter
+import com.gmail.eamosse.imdb.ui.home.adapter.SerieHandler
 
-class HomeSecondFragment : Fragment(), MovieHandler {
+class HomeSecondFragment : Fragment(), MovieHandler, SerieHandler {
 
     private val args: HomeSecondFragmentArgs by navArgs()
     private val homeViewModel: HomeViewModel by activityViewModels()
     private lateinit var binding: FragmentHomeSecondBinding
     private lateinit var name: String
+    private var id: String = ""
+    private var moviesForDetails: List<Movie> = emptyList()
+    private var seriesForDetails: List<Movie> = emptyList()
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeSecondBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         homeViewModel.clearMovies()
+        homeViewModel.clearSeries()
+        moviesForDetails = emptyList()
+        seriesForDetails = emptyList()
 
     }
 
@@ -52,10 +59,15 @@ class HomeSecondFragment : Fragment(), MovieHandler {
 
         binding.movieList.adapter = MovieAdapter(emptyList(), this)
 
-        val id: String = args.myId
+        id = args.myId
         name = args.GenreName
         with(homeViewModel){
+
             getMoviesByCategoryId(id.toInt())
+            binding.serieList.isVisible = false
+            getSeriesByCategoryId(id.toInt())
+
+
 
             homeViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
                 binding.progressBar.isVisible = isLoading
@@ -63,16 +75,10 @@ class HomeSecondFragment : Fragment(), MovieHandler {
             })
 
             movies.observe(viewLifecycleOwner, Observer { it ->
-                if (it.isNotEmpty()){
-                    binding.secondHomeTextViewNotFound.isVisible = false
                     binding.secondHomeTextViewNotFound.isVisible = false
                     binding.movieList.adapter = MovieAdapter(it, this@HomeSecondFragment)
-                }
-                else {
-                    binding.secondHomeTextViewNotFound.isVisible = true
-                    binding.secondHomeTextViewNotFound.text = "We can't find any $name films at the moment. But there are plenty of other genres to explore in the meantime!"
-                }
-
+                    moviesForDetails = it
+                    getSeriesByCategoryId(id.toInt())
             })
 
             error.observe(viewLifecycleOwner, Observer {
@@ -80,6 +86,26 @@ class HomeSecondFragment : Fragment(), MovieHandler {
                 //Toast.makeText(context, "probléme de recuperation de la liste", Toast.LENGTH_SHORT).show()
 
             })
+
+
+
+
+            homeViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+                binding.progressBar.isVisible = isLoading
+                binding.secondHomeTextViewNotFound.isVisible = !isLoading
+            })
+
+            series.observe(viewLifecycleOwner, Observer { it ->
+                    binding.secondHomeTextViewNotFound.isVisible = false
+                    binding.serieList.adapter = SerieAdapter(it, this@HomeSecondFragment)
+            })
+
+            error.observe(viewLifecycleOwner, Observer {
+                //afficher l'erreur
+                //Toast.makeText(context, "probléme de recuperation de la liste", Toast.LENGTH_SHORT).show()
+
+            })
+
         }
 
         val selectedColor = this.activity?.let { ContextCompat.getColor(it, R.color.white) }
@@ -96,30 +122,92 @@ class HomeSecondFragment : Fragment(), MovieHandler {
 
             if (checkedId == R.id.movies_btn ) {
                 if (selectedColor != null && deselectedColor != null) {
+                    binding.serieList.isVisible = false
+                    binding.movieList.isVisible = true
                     binding.moviesBtn.setBackgroundColor(selectedColor)
                     binding.moviesBtn.setTextColor(deselectedColor)
                     binding.seriesBtn.setBackgroundColor(deselectedColor)
                     binding.seriesBtn.setTextColor(selectedColor)
+                    getMovies()
                 }
                 // Handle Movies button logic here
             } else if (checkedId == R.id.series_btn ) {
                 if (selectedColor != null && deselectedColor != null) {
+                    binding.serieList.isVisible = true
+                    binding.movieList.isVisible = false
                     binding.seriesBtn.setBackgroundColor(selectedColor)
                     binding.seriesBtn.setTextColor(deselectedColor)
                     binding.moviesBtn.setBackgroundColor(deselectedColor)
                     binding.moviesBtn.setTextColor(selectedColor)
-                    }
+                    getSeries()
                 }
-                // Handle Series button logic here
             }
+            // Handle Series button logic here
+        }
+
 
         }
 
-    override fun onShowMovieDetails(id: Int) {
+    private fun getMovies(){
+
+           if(moviesForDetails != null && moviesForDetails.isNotEmpty()){
+               binding.secondHomeTextViewNotFound.isVisible = false
+               binding.movieList.adapter = MovieAdapter(moviesForDetails, this@HomeSecondFragment)
+           }
+            else {
+               binding.secondHomeTextViewNotFound.isVisible = true
+               binding.secondHomeTextViewNotFound.text = "We can't find any $name films at the moment. But there are plenty of other genres to explore in the meantime!"
+           }
+    }
+
+    private fun getSeries(){
+
+
+
+            if(seriesForDetails.isNotEmpty()){
+                binding.secondHomeTextViewNotFound.isVisible = false
+                binding.movieList.adapter = MovieAdapter(seriesForDetails, this@HomeSecondFragment)
+            }
+            else {
+                binding.secondHomeTextViewNotFound.isVisible = true
+                binding.secondHomeTextViewNotFound.text = "We can't find any $name series at the moment. But there are plenty of other genres to explore in the meantime!"
+            }
+
+
+    }
+    override fun onShowMovieDetails(id: Long, type: String) {
         val action = HomeSecondFragmentDirections
-            .actionHomeSecondFragmentToMovieDetailsFragment(id.toString())
+            .actionHomeSecondFragmentToMovieDetailsFragment(id.toString(), type)
         NavHostFragment.findNavController(this@HomeSecondFragment)
             .navigate(action)
+    }
+
+    override fun onShowEmptyListMsg() {
+        binding.secondHomeTextViewNotFound.isVisible = true
+        binding.secondHomeTextViewNotFound.text = "We can't find any $name films at the moment. But there are plenty of other genres to explore in the meantime!"
+    }
+
+    override fun removeEmptyListMsg() {
+        binding.secondHomeTextViewNotFound.isVisible = false
+    }
+
+    override fun onShowSerieDetails(id: Long, type: String) {
+        onShowMovieDetails(id, type)
+    }
+
+
+    override fun onShowEmptyListSerieMsg() {
+        binding.secondHomeTextViewNotFound.text = "We can't find any $name series at the moment. But there are plenty of other genres to explore in the meantime!"
+        binding.secondHomeTextViewNotFound.isVisible = true
+    }
+
+    override fun removeEmptyListSerieMsg() {
+        binding.secondHomeTextViewNotFound.isVisible = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.toggleButtonGroup.check(R.id.movies_btn)
     }
 
     /*
