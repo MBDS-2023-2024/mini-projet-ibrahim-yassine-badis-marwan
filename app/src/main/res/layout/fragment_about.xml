@@ -47,13 +47,13 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="- Categories of movies/series"
+                        android:text="- Categories of movies/series."
                         android:paddingBottom="4dp"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="- List of movies by categories and authors"
+                        android:text="- List of movies by categories."
                         android:paddingBottom="4dp"/>
 
                     <TextView
@@ -83,21 +83,16 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="- About view containing the application's features, LinkedIn profiles of group members, and a list of libraries used"
+                        android:text="- About view containing "
                         android:paddingBottom="4dp"/>
-
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="- Add Bibiography of actors"
+                        android:paddingBottom="4dp"/>
                 </LinearLayout>
 
-                <!-- Group Members' LinkedIn Profiles -->
-                <TextView
-                    android:textColor="@color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="\nGroup Members' LinkedIn Profiles:"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="8dp"/>
+
 
 
             </RelativeLayout>
@@ -105,7 +100,7 @@
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="\nFeatures"
+                android:text="\nGroup Members' LinkedIn Profiles"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:paddingTop="16dp"
@@ -149,7 +144,7 @@
                     android:layout_toEndOf="@id/marwaneLinkedInIcon"
                     android:autoLink="web"
                     android:textStyle="bold"
-                    android:text="Yassine BERRIRI:  www.linkedin.com/in/yassine"
+                    android:text="Marwane LARBI:  https://www.linkedin.com/in/marwanelarbi/"
                     android:onClick="openLinkedInProfile"/>
             </RelativeLayout>
 
@@ -190,7 +185,7 @@
                     android:layout_toEndOf="@id/yassineLinkedInIcon"
                     android:autoLink="web"
                     android:textStyle="bold"
-                    android:text="Yassine BERRIRI:  www.linkedin.com/in/yassine"
+                    android:text="Yassine BERRIRI:  https://www.linkedin.com/in/yassine-berriri-a013091b8/"
                     android:onClick="openLinkedInProfile"/>
             </RelativeLayout>
             <LinearLayout
@@ -229,7 +224,7 @@
                     android:layout_toEndOf="@id/badisLinkedInIcon"
                     android:autoLink="web"
                     android:textStyle="bold"
-                    android:text="Badis BOUCHEFFA :  www.linkedin.com/in/yassine"
+                    android:text="Badis BOUCHEFFA :https://www.linkedin.com/in/badis-boucheffa/"
                     android:onClick="openLinkedInProfile"/>
             </RelativeLayout>
             <LinearLayout
@@ -268,7 +263,7 @@
                     android:layout_toEndOf="@id/ibrahimLinkedInIcon"
                     android:autoLink="web"
                     android:textStyle="bold"
-                    android:text="Ibrahim KRIMI :  www.linkedin.com/in/yassine"
+                    android:text="Ibrahim KRIMI :  https://www.linkedin.com/in/ibrahim-krimi-a9a355173/"
                     android:onClick="openLinkedInProfile"/>
             </RelativeLayout>
             <TextView
