@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         //Charger les éléments principaux de la bottom bar
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.aboutFragment
             )
         )
         //Indiquer les éléments principaux de la bottom bar
@@ -42,4 +42,5 @@ class MainActivity : AppCompatActivity() {
         //Finalement, on lie la bottom bar et la nav controller
         navView.setupWithNavController(navController)
     }
+
 }

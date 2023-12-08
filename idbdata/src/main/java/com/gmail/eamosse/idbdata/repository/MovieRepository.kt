@@ -1,8 +1,11 @@
 package com.gmail.eamosse.idbdata.repository
 
 import android.util.Log
+
+import com.gmail.eamosse.idbdata.api.response.PopularMoviesResponse
 import androidx.lifecycle.LiveData
 import com.gmail.eamosse.idbdata.api.request.RatingBodyRequest
+
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.PopularPerson
@@ -76,8 +79,53 @@ class MovieRepository @Inject internal constructor(
             is Result.Error -> result
         }
     }
+    suspend fun getPopularMovies(): Result<List<Movie>> {
+        return when (val result = online.getPopularMovies()) {
+            is Result.Succes -> {
+                val popularMovies = result.data.map { it.toMoviePop()
+                }
+                Result.Succes(popularMovies)
+            }
+            is Result.Error -> {
+                result}
+        }
+    }
 
+    suspend fun getTopRatedMovies(): Result<List<Movie>> {
+        return when (val result = online.getTopRatedMovies()) {
+            is Result.Succes -> {
+                val popularMovies = result.data.map { it.toMoviePop()
+                }
+                Result.Succes(popularMovies)
+            }
+            is Result.Error -> result
+        }
+    }
 
+    suspend fun getUpcomingMovies(): Result<List<Movie>> {
+        return when (val result = online.getUpcomingMovies()) {
+            is Result.Succes -> {
+                val upcomingMovies = result.data.map { it.toMoviePop()
+                }
+                Result.Succes(upcomingMovies)
+            }
+            is Result.Error -> result
+        }
+    }
+
+    suspend fun getMovies(id: Int): Result<Movie> {
+        return when(val result = online.getMovies(id)) {
+            is Result.Succes -> {
+                Log.d("repo CCCCC", "Displaying movie title: ${result.data}")
+                Result.Succes(result.data)
+            }
+            is Result.Error ->{
+                Log.d("DDDDDDD ", "Displaying movie title: ")
+
+                result
+            }
+        }
+    }
 
 
     suspend fun getTrailerByMovieId(id: Int): Result<Trailer> {

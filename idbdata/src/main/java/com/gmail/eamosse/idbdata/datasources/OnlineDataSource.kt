@@ -1,7 +1,10 @@
 package com.gmail.eamosse.idbdata.datasources
 
+import android.util.Log
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
+import com.gmail.eamosse.idbdata.api.response.MovieIdResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
+import com.gmail.eamosse.idbdata.api.response.PopularMoviesResponse
 import com.gmail.eamosse.idbdata.api.response.TrailerResponse
 import com.gmail.eamosse.idbdata.api.response.PopularPersonResponse
 import com.gmail.eamosse.idbdata.api.response.SerieResponse
@@ -156,6 +159,61 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
     override suspend fun saveToken(token: Token) {
         TODO("I don't know how to save a token, the local datasource probably does")
     }
+
+    suspend fun getPopularMovies(): Result<List<PopularMoviesResponse.Items>> {
+        return safeCall {
+            when (val response = service.getPopularMovies().parse()) {
+                is Result.Succes -> {
+                    Log.d("online data source 1212121212121221", "Number of Popular Movies:")
+                    Result.Succes(response.data.results)
+                }
+                is Result.Error -> {
+                    Log.d("online data source 33333333333333333", "Number of Popular Movies: ")
+
+                    response}
+            }
+        }
+    }
+
+
+    suspend fun getTopRatedMovies(): Result<List<PopularMoviesResponse.Items>> {
+        return safeCall {
+            when (val response = service.getTopRatedMovies().parse()) {
+                is Result.Succes -> {
+                    Result.Succes(response.data.results)
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
+    suspend fun getUpcomingMovies(): Result<List<PopularMoviesResponse.Items>> {
+        return safeCall {
+            when (val response = service.getUpcomingMovies().parse()) {
+                is Result.Succes -> {
+                    Result.Succes(response.data.results)
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+    suspend fun getMovies(id: Int): Result<Movie>{
+        return safeCall {
+            when (val response = service.getMovieById(id.toLong()).parse()) {
+                is Result.Succes -> {
+                    Log.d("AAAAA", "Displaying movie titles: ${response.data}")
+                    Result.Succes(response.data.toMovie())
+                }
+                is Result.Error -> {
+                    Log.d("BBBBBBBBBBBB", "Displaying movie titles: ")
+
+                    response
+                }
+            }
+        }
+    }
+
+
 
     override suspend fun getFavoriteMovies(): List<Movie> {
         TODO("Not yet implemented")

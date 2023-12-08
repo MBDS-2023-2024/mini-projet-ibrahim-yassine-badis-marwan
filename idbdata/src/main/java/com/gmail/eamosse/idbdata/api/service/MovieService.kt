@@ -2,11 +2,15 @@ package com.gmail.eamosse.idbdata.api.service
 
 import com.gmail.eamosse.idbdata.api.request.RatingBodyRequest
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
+import com.gmail.eamosse.idbdata.api.response.MovieIdResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
+import com.gmail.eamosse.idbdata.api.response.PopularMoviesResponse
+
 import com.gmail.eamosse.idbdata.api.response.TrailerResponse
 import com.gmail.eamosse.idbdata.api.response.PopularPersonResponse
 import com.gmail.eamosse.idbdata.api.response.RatingResponse
 import com.gmail.eamosse.idbdata.api.response.SerieResponse
+
 import com.gmail.eamosse.idbdata.api.response.TokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -39,10 +43,22 @@ internal interface MovieService {
     ): Response<SerieResponse>
 
     @GET("movie/{id}")
-    suspend fun getMovieById(@Path("id") id: Int): Response<MovieResponse>
+    suspend fun getMovieById(@Path("id") id: Long): Response<MovieIdResponse>
 
     @GET("movie/{movie_id}/videos")
     suspend fun getTrailerByMovieId(@Path("movie_id") id: Int): Response<TrailerResponse>
+
+
+
+    @GET("movie/popular")
+    suspend fun getPopularMovies(): Response<PopularMoviesResponse>
+
+    @GET("movie/top_rated")
+    suspend fun getTopRatedMovies(): Response<PopularMoviesResponse>
+
+    @GET("movie/upcoming")
+    suspend fun getUpcomingMovies(): Response<PopularMoviesResponse>
+
 
     @GET("tv/{series_id}/videos")
     suspend fun getTrailerBySeriesId(@Path("series_id") id: Int): Response<TrailerResponse>
@@ -57,10 +73,8 @@ internal interface MovieService {
     suspend fun getPopularPersons(): Response<PopularPersonResponse>
 
 
-
-
-
     // add url person/popular
+
     //chaines  movie/38/watch/providers
     // video   movie/movie_id/videos?language=en-US'
     // add Rating movie/{movie_id}/rating  https://developer.themoviedb.org/reference/movie-add-rating
