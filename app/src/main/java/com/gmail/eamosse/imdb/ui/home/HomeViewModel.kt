@@ -9,10 +9,14 @@ import androidx.lifecycle.viewModelScope
 
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
+
+import com.gmail.eamosse.idbdata.data.MovieProviderPackage.CountryResult
+
 import com.gmail.eamosse.idbdata.data.PopularPerson
 import com.gmail.eamosse.idbdata.data.Rating
 import com.gmail.eamosse.idbdata.data.RatingBody
 import com.gmail.eamosse.idbdata.data.Serie
+
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
 import com.gmail.eamosse.idbdata.repository.MovieRepository
@@ -69,6 +73,12 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     val trailer: LiveData<Trailer>
         get() = _trailer
 
+
+    /***Provider****/
+    private val _provider: MutableLiveData<Collection<CountryResult>> = MutableLiveData()
+    val provider: MutableLiveData<Collection<CountryResult>>
+        get() = _provider
+
     /***Rating****/
     private var _ratingResult: MutableLiveData<Boolean> = MutableLiveData()
     val ratingResult: LiveData<Boolean>
@@ -94,7 +104,6 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     private val _popularPersons: MutableLiveData<List<PopularPerson>> = MutableLiveData()
     val popularPersons: LiveData<List<PopularPerson>>
         get() = _popularPersons
-
 
 
     init {
@@ -219,6 +228,24 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         }
     }
 
+
+    fun getProvidersByMovieId(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getProvidersByMovieId(id)) {
+                is Result.Succes -> {
+                    Log.d("repo DDDDDD", "Displaying movie title: ${result.data}")
+                    _provider.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _error.postValue(result.message)
+                }
+
+
+                else -> {}
+            }
+        }
+    }
+
     fun getTrailerBySeriesId(id: Int) {
         _isLoading.postValue(true) // Début du chargement
         viewModelScope.launch(Dispatchers.IO) {
@@ -226,10 +253,12 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
                 is Result.Succes -> {
                     _isLoading.postValue(false)
                     _trailer.postValue(result.data)
+
                 }
                 is Result.Error -> {
                     _error.postValue(result.message)
                 }
+
 
                 else -> {}
             }
@@ -356,11 +385,11 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
                 is Result.Error -> {
                     _error.postValue(result.message)
                 }
-
                 else -> {}
             }
         }
     }
+
 
     fun getListPopularPersons(id: Long): MutableList<PopularPerson>{
         val listPersonsInMovie: MutableList<PopularPerson> = mutableListOf()

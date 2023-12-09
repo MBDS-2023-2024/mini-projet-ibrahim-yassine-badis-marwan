@@ -8,9 +8,13 @@ import com.gmail.eamosse.idbdata.api.request.RatingBodyRequest
 
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
+
+import com.gmail.eamosse.idbdata.data.MovieProviderPackage.CountryResult
+
 import com.gmail.eamosse.idbdata.data.PopularPerson
 import com.gmail.eamosse.idbdata.data.RatingBody
 import com.gmail.eamosse.idbdata.data.Serie
+
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
 import com.gmail.eamosse.idbdata.datasources.LocalDataSource
@@ -88,6 +92,8 @@ class MovieRepository @Inject internal constructor(
             }
             is Result.Error -> {
                 result}
+
+
         }
     }
 
@@ -148,11 +154,27 @@ class MovieRepository @Inject internal constructor(
         }
     }
 
+
+    suspend fun getProvidersByMovieId(id: Int): Result<Collection<CountryResult>> {
+        return when(val result = online.getProvidersByMovieId(id)) {
+            is Result.Succes -> {
+                val providers = result.data.map {
+                    it.toCountryResult()
+                }
+                Result.Succes(providers)
+            }
+
+
+            is Result.Error -> result
+        }
+    }
+
     suspend fun addRating(id: Int, rating: RatingBody): Result<Boolean> {
         return when(val result = online.addRating(id,rating)) {
             is Result.Succes -> {
                 val ratingResponse = result.data
                 Result.Succes(ratingResponse)
+
             }
             is Result.Error -> result
         }
@@ -180,6 +202,7 @@ class MovieRepository @Inject internal constructor(
     suspend fun insertFavoriteSeries(favoriteSeries: Serie) {
         local.insertFavoriteSeries(favoriteSeries)
     }
+
 
 
     suspend fun getFavoriteSeries(): List<Serie> {
