@@ -13,9 +13,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.widget.TextView
 import com.gmail.eamosse.imdb.R
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class AboutFragment : Fragment() {
-
+    private lateinit var dbRef : DatabaseReference
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -23,6 +25,12 @@ class AboutFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_about, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        dbRef= FirebaseDatabase.getInstance().getReference("marwane")
+
+        saveMarwane()
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("AboutFragment", "onViewCreated")
@@ -63,6 +71,10 @@ class AboutFragment : Fragment() {
     private fun openLinkedIn(url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
+    }
+    private fun saveMarwane(){
+        dbRef.setValue("Hello, World!")
+
     }
 
 
