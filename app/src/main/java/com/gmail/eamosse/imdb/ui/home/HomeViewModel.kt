@@ -246,6 +246,23 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         }
     }
 
+    fun getProvidersBySerieId(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getProvidersBySerieId(id)) {
+                is Result.Succes -> {
+                    Log.d("repo seriiie", "Displaying serie title: ${result.data}")
+                    _provider.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _error.postValue(result.message)
+                }
+
+
+                else -> {}
+            }
+        }
+    }
+
     fun getTrailerBySeriesId(id: Int) {
         _isLoading.postValue(true) // Début du chargement
         viewModelScope.launch(Dispatchers.IO) {
