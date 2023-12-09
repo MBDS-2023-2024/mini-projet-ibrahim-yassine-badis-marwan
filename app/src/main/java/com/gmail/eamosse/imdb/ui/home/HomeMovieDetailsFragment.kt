@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.webkit.WebView
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -15,26 +16,43 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+
 import com.gmail.eamosse.idbdata.api.response.WatchProvidersResponse
+
+
+
 import com.gmail.eamosse.idbdata.data.Movie
+import com.gmail.eamosse.idbdata.data.Rating
+import com.gmail.eamosse.idbdata.data.RatingBody
+import com.gmail.eamosse.idbdata.data.Serie
 import com.gmail.eamosse.imdb.R
 import com.gmail.eamosse.imdb.databinding.FragmentHomeMovieDetailsBinding
+
 import com.gmail.eamosse.imdb.databinding.FragmentHomeSecondBinding
 import com.gmail.eamosse.imdb.ui.home.adapter.CategoryAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.MovieAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.ProviderAdapter
 
+import com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleAdapter
+import com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleHandler
 
-class HomeMovieDetailsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+
+class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
 
     private val args: HomeMovieDetailsFragmentArgs by navArgs()
     private val homeViewModel: HomeViewModel by activityViewModels()
     private lateinit var binding: FragmentHomeMovieDetailsBinding
     private var movie: Movie? = null
+
     private var isFavorite = false
     private lateinit var providerA: WatchProvidersResponse
 
+
+    private var serie: Serie? = null
+
+
+    private lateinit var id: String
+    private lateinit var type: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,30 +66,125 @@ class HomeMovieDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val id: String = args.id
 
-        with(homeViewModel){
-            movie = getMovieById(id.toInt())
+
+
+        id = args.id
+
+        with(homeViewModel) {
+
+            val myId = args.id.toInt()
+
+
+
+
             getTrailerByMovieId(id.toInt())
             getProvidersByMovieId(id.toInt())
 
 
 
 
-            if (movie != null){
-                displayMovieInfo()
-            }
-            else {
-               // displayErrorMessage()
+            id = args.id
+            type = args.type
+
+            if (type == "movie"){
+                getMoviesById(myId).observe(viewLifecycleOwner, Observer { movieResult ->
+                    if (movieResult != null) {
+                        Log.d("repo eeee", "Displaying movie title: ${movieResult.title}")
+                        movie = movieResult
+                        displayMovieInfo()
+                    } else {
+
+                    }
+                })
             }
 
-            homeViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
-                binding.progressBar.isVisible = isLoading
-            })
 
-            trailer.observe(viewLifecycleOwner, Observer {
-                displayVideo(it.key)
-            })
+            with(homeViewModel) {
+
+                /***PopularPerson***/
+                getAllPopularPersons()
+
+                popularPersons.observe(viewLifecycleOwner, Observer {
+                    val recyclerView = binding.recyclerPopularPeople
+                    val layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    recyclerView.layoutManager = layoutManager
+                    recyclerView.adapter = PopularPeopleAdapter(it, this@HomeMovieDetailsFragment)
+                })
+
+
+                /**Favorite**/
+                if (type == "movie") {
+                    isFavorite(id.toLong())
+                    //getFavoriteMovies()
+
+                    favoriteM.observe(viewLifecycleOwner) {
+                        if (it != null) {
+                            binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
+                            isFavorite = true
+                        } else {
+                            binding.btnFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
+                            isFavorite = false
+                        }
+                    };
+
+                } else {
+                    isFavoriteSeries(id.toLong())
+                    //getFavoriteMovies()
+
+                    favoriteS.observe(viewLifecycleOwner) {
+                        if (it != null) {
+                            binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
+                            isFavorite = true
+                        } else {
+                            binding.btnFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
+                            isFavorite = false
+                        }
+                    };
+
+                }
+
+                if (type == "movie") {
+                    movie = getMovieById(id.toInt())
+                    getTrailerByMovieId(id.toInt())
+                } else {
+                    serie = getSerieById(id.toInt())
+                    getTrailerBySeriesId(id.toInt())
+                }
+
+
+
+                if (type == "movie" && movie != null) {
+                    displayMovieInfo()
+                } else if (type == "serie" && serie != null) {
+                    displaySerieInfo()
+                } else {
+                    // displayErrorMessage()
+                }
+
+
+                homeViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+                    binding.progressBar.isVisible = isLoading
+                })
+
+                trailer.observe(viewLifecycleOwner, Observer {
+                    displayVideo(it.key)
+                })
+
+                error.observe(viewLifecycleOwner, Observer {
+
+                    binding.progressBar.isVisible = false
+                })
+            }
+
+            binding.movieImage.setOnClickListener {
+                makeItINFavorite()
+            }
+
+            binding.btnFavorite.setOnClickListener {
+                makeItINFavorite()
+            }
 
 
             provider.observe(viewLifecycleOwner, Observer {
@@ -79,56 +192,113 @@ class HomeMovieDetailsFragment : Fragment() {
                 val layoutBuyManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 recyclerBuyView.layoutManager = layoutBuyManager
-                recyclerBuyView.adapter = ProviderAdapter(it.toList()[31].buy)
+                if (it.size > 31 && it.toList()[31] != null){
+                    recyclerBuyView.adapter = ProviderAdapter(it.toList()[31].buy)
+                }
 
                 val recyclerRentView= binding.recyclerRentProviderMovies
                 val layoutRentManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 recyclerRentView.layoutManager = layoutRentManager
-                recyclerRentView.adapter = ProviderAdapter(it.toList()[31].rent)
+                if (it.size > 31 && it.toList()[31] != null){
+                    recyclerRentView.adapter = ProviderAdapter(it.toList()[31].rent)
+                }
 
                 val recyclerFlatrateView= binding.recyclerFlatrateProviderMovies
                 val layoutFlatrateManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 recyclerFlatrateView.layoutManager = layoutFlatrateManager
-                recyclerFlatrateView.adapter = ProviderAdapter(it.toList()[31].flatrate)
+                if (it.size > 31 && it.toList()[31] != null){
+                    recyclerFlatrateView.adapter = ProviderAdapter(it.toList()[31].flatrate)
+                }
             })
 
 
             error.observe(viewLifecycleOwner, Observer {
                 //afficher l'erreur
-                Toast.makeText(context, "probléme de recuperation de trailer", Toast.LENGTH_SHORT).show()
+              //  Toast.makeText(context, "probléme de recuperation de trailer", Toast.LENGTH_SHORT).show()
                 //displayVideo(it.key)
                 binding.progressBar.isVisible = false
             })
         }
 
-        binding.movieImage.setOnClickListener {
-            makeItINFavorite()
+            binding.editTextNote.setOnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    with(homeViewModel) {
+                        postAddRating(
+                            id.toInt(),
+                            RatingBody(binding.editTextNote.text.toString().toDouble())
+                        )
+                        homeViewModel.ratingResult.observe(viewLifecycleOwner) {
+                            if (it == true) {
+                                Toast.makeText(context, "succes", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(context, "probleme", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    true
+                } else {
+                    false
+                }
+            }
+
+
+
         }
 
-        binding.btnFavorite.setOnClickListener {
-            makeItINFavorite()
-        }
-
-    }
 
     private fun makeItINFavorite() {
         isFavorite = !isFavorite
 
         if (isFavorite) {
             binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
+            with(homeViewModel) {
+                if (type == "movie") {
+                    addToFavorites(id.toInt());
+                } else {
+                    addToFavoriteSeries(id.toInt());
+                }
+
+            }
         } else {
             binding.btnFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
+            with(homeViewModel) {
+                if (type == "movie") {
+                    deleteFavoriteMovie(id.toInt());
+                } else {
+                    deleteFavoriteSeries(id.toInt())
+                }
+
+            }
         }
     }
 
+
+
+
     private fun displayMovieInfo() {
         displayImage(movie?.posterPath)
-        binding.movieRating.text = getString(R.string.rating) + ": " + movie?.voteAverage + " ( "+ movie?.voteCount + " " + getString(R.string.votes) + ")"
+        binding.movieRating.text =
+            getString(R.string.rating) + ": " + movie?.voteAverage + " ( " + movie?.voteCount + " " + getString(
+                R.string.votes
+            ) + ")"
         binding.movieTitle.text = movie?.title
         binding.movieDescription.text = movie?.overview
-        binding.movieReleaseDate.text = getString(R.string.releaseDate)+ ": " + movie?.releaseDate
+        binding.movieReleaseDate.text =
+            getString(R.string.releaseDate) + ": " + movie?.releaseDate
+    }
+
+    private fun displaySerieInfo() {
+        displayImage(serie?.posterPath)
+        binding.movieRating.text =
+            getString(R.string.rating) + ": " + serie?.voteAverage + " ( " + serie?.voteCount + " " + getString(
+                R.string.votes
+            ) + ")"
+        binding.movieTitle.text = serie?.originalName
+        binding.movieDescription.text = serie?.overview
+        binding.movieReleaseDate.text =
+            getString(R.string.releaseDate) + ": " + serie?.firstAirDate
     }
 
 
@@ -146,7 +316,7 @@ class HomeMovieDetailsFragment : Fragment() {
     }
 
     private fun displayVideo(key: String?) {
-        if (key != null){
+        if (key != null) {
             binding.videoNotFound.isVisible = false
             binding.webviewTrailer.isVisible = true
             val webView: WebView = binding.webviewTrailer
@@ -159,8 +329,7 @@ class HomeMovieDetailsFragment : Fragment() {
         </html>
         """
             webView.loadData(youtubeVideoHtml, "text/html", "utf-8")
-        }
-        else {
+        } else {
             binding.videoNotFound.isVisible = true
         }
     }
@@ -175,4 +344,20 @@ class HomeMovieDetailsFragment : Fragment() {
         homeViewModel.clearMovieDetails()
     }
 
-}
+
+    override fun onShowPeopleDetails(id: Int) {
+
+    }
+
+    override fun onShowEmptyListPeopleMsg() {
+
+    }
+
+    override fun removeEmptyListPeopleMsg() {
+
+    }
+
+
+
+    }
+
