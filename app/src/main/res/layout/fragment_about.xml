@@ -32,6 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="About Us :"
+                android:id="@+id/aboutUsTextView"
                 android:textSize="38sp"
                 android:textColor="@color/green3"
                 android:textStyle="bold"
