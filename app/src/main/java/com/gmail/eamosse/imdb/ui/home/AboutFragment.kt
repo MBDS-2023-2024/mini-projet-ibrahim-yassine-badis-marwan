@@ -27,7 +27,9 @@ class AboutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         Log.d("AboutFragment", "onViewCreated")
         val aboutUsTextView = view.findViewById<TextView>(R.id.aboutUsTextView)
-        animateText(aboutUsTextView, "About Us")
+        animateText(aboutUsTextView, " About Us ")
+        val textLinkedIn = view.findViewById<TextView>(R.id.TextTitleLinkedIn)
+        animateText(textLinkedIn, " Group Members' LinkedIn Profiles ")
         view.findViewById<TextView>(R.id.marwaneLinkedInText).setOnClickListener {
             openLinkedIn("https://www.linkedin.com/in/marwanelarbi/")
         }
