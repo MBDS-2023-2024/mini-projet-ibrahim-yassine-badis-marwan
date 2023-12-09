@@ -35,9 +35,12 @@ import com.gmail.eamosse.imdb.ui.home.adapter.ProviderAdapter
 
 import com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleHandler
+import com.gmail.eamosse.imdb.ui.home.adapter.ReviewAdapter
+import com.gmail.eamosse.imdb.ui.home.adapter.ReviewHandler
+import com.gmail.eamosse.imdb.ui.home.adapter.SerieAdapter
 
 
-class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
+class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler, ReviewHandler {
 
     private val args: HomeMovieDetailsFragmentArgs by navArgs()
     private val homeViewModel: HomeViewModel by activityViewModels()
@@ -47,9 +50,7 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
     private var isFavorite = false
     private lateinit var providerA: WatchProvidersResponse
 
-
     private var serie: Serie? = null
-
 
     private lateinit var id: String
     private lateinit var type: String
@@ -65,29 +66,21 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-
-
         id = args.id
 
         with(homeViewModel) {
-
             val myId = args.id.toInt()
 
-
-
-
-            getTrailerByMovieId(id.toInt())
-            getProvidersByMovieId(id.toInt())
-
+            //getTrailerByMovieId(id.toInt())
+            //getProvidersByMovieId(id.toInt())
+            //getProvidersBySerieId(id.toInt())
 
 
 
             id = args.id
             type = args.type
 
-            if (type == "movie"){
+            if (type == "movie") {
                 getMoviesById(myId).observe(viewLifecycleOwner, Observer { movieResult ->
                     if (movieResult != null) {
                         Log.d("repo eeee", "Displaying movie title: ${movieResult.title}")
@@ -100,8 +93,19 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
             }
 
 
-            with(homeViewModel) {
 
+            /***PopularPerson***/
+            getAllPopularPersons()
+
+            popularPersons.observe(viewLifecycleOwner, Observer {
+                val recyclerView = binding.recyclerPopularPeople
+                val layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                recyclerView.layoutManager = layoutManager
+                recyclerView.adapter = PopularPeopleAdapter(it, this@HomeMovieDetailsFragment)
+            })
+
+            with(homeViewModel) {
                 /***PopularPerson***/
                 getAllPopularPersons()
 
@@ -112,7 +116,6 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
                     recyclerView.layoutManager = layoutManager
                     recyclerView.adapter = PopularPeopleAdapter(it, this@HomeMovieDetailsFragment)
                 })
-
 
                 /**Favorite**/
                 if (type == "movie") {
@@ -142,7 +145,6 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
                             isFavorite = false
                         }
                     };
-
                 }
 
                 if (type == "movie") {
@@ -153,7 +155,13 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
                     getTrailerBySeriesId(id.toInt())
                 }
 
-
+                if (type == "movie") {
+                    movie = getMovieById(id.toInt())
+                    getProvidersByMovieId(id.toInt())
+                } else {
+                    serie = getSerieById(id.toInt())
+                    getProvidersBySerieId(id.toInt())
+                }
 
                 if (type == "movie" && movie != null) {
                     displayMovieInfo()
@@ -192,33 +200,163 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
                 val layoutBuyManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 recyclerBuyView.layoutManager = layoutBuyManager
+                recyclerBuyView.adapter = ProviderAdapter(it.toList()[0].buy)
+                /*
                 if (it.size > 31 && it.toList()[31] != null){
-                    recyclerBuyView.adapter = ProviderAdapter(it.toList()[31].buy)
+                    recyclerBuyView.adapter = ProviderAdapter(it.toList()[0].buy)
                 }
+
+                 */
 
                 val recyclerRentView= binding.recyclerRentProviderMovies
                 val layoutRentManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 recyclerRentView.layoutManager = layoutRentManager
+                recyclerRentView.adapter = ProviderAdapter(it.toList()[0].rent)
+                /*
                 if (it.size > 31 && it.toList()[31] != null){
-                    recyclerRentView.adapter = ProviderAdapter(it.toList()[31].rent)
+                    recyclerRentView.adapter = ProviderAdapter(it.toList()[0].rent)
                 }
+
+                 */
 
                 val recyclerFlatrateView= binding.recyclerFlatrateProviderMovies
                 val layoutFlatrateManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 recyclerFlatrateView.layoutManager = layoutFlatrateManager
+                recyclerFlatrateView.adapter = ProviderAdapter(it.toList()[0].flatrate)
+                /*
                 if (it.size > 31 && it.toList()[31] != null){
-                    recyclerFlatrateView.adapter = ProviderAdapter(it.toList()[31].flatrate)
+                    recyclerFlatrateView.adapter = ProviderAdapter(it.toList()[0].flatrate)
                 }
+
+                 */
             })
 
 
+            /**Favorite**/
+            if (type == "movie") {
+                isFavorite(id.toLong())
+                //getFavoriteMovies()
+
+                favoriteM.observe(viewLifecycleOwner) {
+                    if (it != null) {
+                        binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
+                        isFavorite = true
+                    } else {
+                        binding.btnFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
+                        isFavorite = false
+                    }
+                };
+
+            } else {
+                isFavoriteSeries(id.toLong())
+                //getFavoriteMovies()
+
+                favoriteS.observe(viewLifecycleOwner) {
+                    if (it != null) {
+                        binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
+                        isFavorite = true
+                    } else {
+                        binding.btnFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
+                        isFavorite = false
+                    }
+                };
+
+            }
+
+            if (type == "movie") {
+                movie = getMovieById(id.toInt())
+                getTrailerByMovieId(id.toInt())
+            } else {
+                serie = getSerieById(id.toInt())
+                getTrailerBySeriesId(id.toInt())
+            }
+
+
+
+            if (type == "movie" && movie != null) {
+                displayMovieInfo()
+            } else if (type == "serie" && serie != null) {
+                displaySerieInfo()
+            } else {
+                // displayErrorMessage()
+            }
+
+
+            homeViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+                binding.progressBar.isVisible = isLoading
+            })
+
+            trailer.observe(viewLifecycleOwner, Observer {
+                displayVideo(it.key)
+            })
+
             error.observe(viewLifecycleOwner, Observer {
-                //afficher l'erreur
-              //  Toast.makeText(context, "probléme de recuperation de trailer", Toast.LENGTH_SHORT).show()
-                //displayVideo(it.key)
+
                 binding.progressBar.isVisible = false
+            })
+
+
+        binding.movieImage.setOnClickListener {
+            makeItINFavorite()
+        }
+
+        binding.btnFavorite.setOnClickListener {
+            makeItINFavorite()
+        }
+
+
+        provider.observe(viewLifecycleOwner, Observer {
+            val recyclerBuyView = binding.recyclerBuyProviderMovies
+            val layoutBuyManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            recyclerBuyView.layoutManager = layoutBuyManager
+            if (it.size > 31 && it.toList()[31] != null) {
+                recyclerBuyView.adapter = ProviderAdapter(it.toList()[31].buy)
+            }
+
+            val recyclerRentView = binding.recyclerRentProviderMovies
+            val layoutRentManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            recyclerRentView.layoutManager = layoutRentManager
+            if (it.size > 31 && it.toList()[31] != null) {
+                recyclerRentView.adapter = ProviderAdapter(it.toList()[31].rent)
+            }
+
+            val recyclerFlatrateView = binding.recyclerFlatrateProviderMovies
+            val layoutFlatrateManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            recyclerFlatrateView.layoutManager = layoutFlatrateManager
+            if (it.size > 31 && it.toList()[31] != null) {
+                recyclerFlatrateView.adapter = ProviderAdapter(it.toList()[31].flatrate)
+            }
+        })
+
+
+        error.observe(viewLifecycleOwner, Observer {
+            //afficher l'erreur
+            //  Toast.makeText(context, "probléme de recuperation de trailer", Toast.LENGTH_SHORT).show()
+            //displayVideo(it.key)
+            binding.progressBar.isVisible = false
+        })
+
+        if (type == "movie"){
+            getReviewsByMovieId(id.toInt())
+        }
+            else {
+                getReviewsBySeriesId(id.toInt())
+        }
+            reviews.observe(viewLifecycleOwner, Observer {
+              //  binding.secondHomeTextViewNotFound.isVisible = false
+                if (it.isNotEmpty()){
+                    val recyclerView = binding.reviewListMovies
+                    val layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    recyclerView.layoutManager = layoutManager
+                    recyclerView.adapter = ReviewAdapter(it, this@HomeMovieDetailsFragment)
+                }
+
             })
         }
 
@@ -246,6 +384,11 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
 
 
         }
+
+
+
+
+
 
 
     private fun makeItINFavorite() {
@@ -342,6 +485,7 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
     override fun onDestroyView() {
         super.onDestroyView()
         homeViewModel.clearMovieDetails()
+        homeViewModel.clearReviews()
     }
 
 
@@ -357,7 +501,12 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
 
     }
 
-
-
+    override fun onShowEmptyListReviews() {
+        binding.textViewEmptyCommentsList.isVisible = true
     }
+
+    override fun removeEmptyListReviews() {
+        binding.textViewEmptyCommentsList.isVisible = false
+    }
+}
 

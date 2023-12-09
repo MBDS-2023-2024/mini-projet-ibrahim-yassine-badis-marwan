@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:text="Popular Movies"
             android:textColor="@color/white"
-
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
@@ -75,9 +74,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/divider2"
             app:layout_constraintVertical_bias="0"
-            app:layout_constraintHorizontal_bias="0"
-
-            />
+            app:layout_constraintHorizontal_bias="0" />
 
         <!-- Divider 2 -->
         <View
@@ -101,7 +98,7 @@
             app:layout_constraintTop_toBottomOf="@+id/divider2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/divider3"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintHorizontal_bias="0" />
 
@@ -113,8 +110,47 @@
             app:layout_constraintTop_toBottomOf="@+id/upcoming_movies_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/favorite_movies_title"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0" />
+
+        <!-- Divider 3 -->
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_upcoming_movies"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Favorite Movies Title -->
+        <TextView
+            android:id="@+id/favorite_movies_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Favorite Movies"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/divider3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintHorizontal_bias="0" />
+
+        <!-- Favorite Movies -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_favorite_movies"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/favorite_movies_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

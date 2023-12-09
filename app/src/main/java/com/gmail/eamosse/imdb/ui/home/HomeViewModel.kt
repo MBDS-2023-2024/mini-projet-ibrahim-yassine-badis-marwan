@@ -2,7 +2,6 @@ package com.gmail.eamosse.imdb.ui.home
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,8 +12,8 @@ import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.MovieProviderPackage.CountryResult
 
 import com.gmail.eamosse.idbdata.data.PopularPerson
-import com.gmail.eamosse.idbdata.data.Rating
 import com.gmail.eamosse.idbdata.data.RatingBody
+import com.gmail.eamosse.idbdata.data.Review
 import com.gmail.eamosse.idbdata.data.Serie
 
 import com.gmail.eamosse.idbdata.data.Token
@@ -104,6 +103,11 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     private val _popularPersons: MutableLiveData<List<PopularPerson>> = MutableLiveData()
     val popularPersons: LiveData<List<PopularPerson>>
         get() = _popularPersons
+
+    /***Reviews****/
+    private val _reviews: MutableLiveData<List<Review>> = MutableLiveData()
+    val reviews: LiveData<List<Review>>
+        get() = _reviews
 
 
     init {
@@ -246,6 +250,23 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         }
     }
 
+    fun getProvidersBySerieId(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getProvidersBySerieId(id)) {
+                is Result.Succes -> {
+                    Log.d("repo seriiie", "Displaying serie title: ${result.data}")
+                    _provider.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _error.postValue(result.message)
+                }
+
+
+                else -> {}
+            }
+        }
+    }
+
     fun getTrailerBySeriesId(id: Int) {
         _isLoading.postValue(true) // Début du chargement
         viewModelScope.launch(Dispatchers.IO) {
@@ -314,6 +335,7 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     }
 
     private lateinit var _favoriteMovies : List<Movie>
+
     fun getFavoriteMovies(){
         viewModelScope.launch(Dispatchers.IO) {
             /*
@@ -406,6 +428,34 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     }
 
 
+    fun getReviewsByMovieId(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getReviewsByMovieId(id)) {
+                is Result.Succes -> {
+                    _reviews.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _error.postValue(result.message)
+                }
+                else -> {}
+            }
+        }
+    }
+
+    fun getReviewsBySeriesId(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getReviewsBySeriesId(id)) {
+                is Result.Succes -> {
+                    _reviews.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _error.postValue(result.message)
+                }
+                else -> {}
+            }
+        }
+    }
+
 
     fun clearMovies(){
         _moviesForDetails = _movies.value!!
@@ -415,6 +465,10 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     fun clearSeries(){
         _seriesForDetails = _series.value!!
         _series.postValue(emptyList())
+    }
+
+    fun clearReviews(){
+        _reviews.postValue(emptyList())
     }
 
     fun clearMovieDetails(){

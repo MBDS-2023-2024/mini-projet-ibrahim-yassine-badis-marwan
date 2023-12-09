@@ -35,7 +35,7 @@ class DashboardFragment : Fragment(), MovieHandler {
     private lateinit var popularMoviesRecyclerView: RecyclerView
     private lateinit var topRatedMoviesRecyclerView: RecyclerView
     private lateinit var upcomingMoviesRecyclerView: RecyclerView
-
+    private  lateinit var favoriteMoviesRecyclerView: RecyclerView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,6 +57,9 @@ class DashboardFragment : Fragment(), MovieHandler {
         upcomingMoviesRecyclerView = binding.recyclerUpcomingMovies
         setupRecyclerView(upcomingMoviesRecyclerView)
 
+        favoriteMoviesRecyclerView = binding.recyclerFavoriteMovies
+        setupRecyclerView(favoriteMoviesRecyclerView)
+
         dashboardViewModel.popularMovies.observe(viewLifecycleOwner, Observer { popularMovies ->
             (popularMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(popularMovies)
         })
@@ -69,7 +72,9 @@ class DashboardFragment : Fragment(), MovieHandler {
             (upcomingMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(upcomingMovies)
         })
 
-
+        dashboardViewModel.favoriteMovies.observe(viewLifecycleOwner, Observer { favoriteMovies ->
+            (favoriteMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(favoriteMovies)
+        })
 
         /*
 
@@ -91,6 +96,8 @@ class DashboardFragment : Fragment(), MovieHandler {
         dashboardViewModel.getPopularMovies()
         dashboardViewModel.getTopRatedMovies()
         dashboardViewModel.getUpcomingMovies()
+        dashboardViewModel.getFavoriteMovies()
+
 
     }
 
@@ -100,7 +107,6 @@ class DashboardFragment : Fragment(), MovieHandler {
         // You need to create a MovieAdapter and set it to the recyclerView adapter
         val movieAdapter = MovieAdapter(emptyList(), object : MovieHandler {
             override fun onShowMovieDetails(id: Long, type: String) {
-                Toast.makeText(context, "hrllo", Toast.LENGTH_SHORT).show()
                 val action = DashboardFragmentDirections
                     .actionDashboardFragmentToMovieDetailsFragment(id.toString(), "movie")
                 NavHostFragment.findNavController(this@DashboardFragment)

@@ -15,29 +15,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-    <LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="24dp">
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/mbdsimage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <TextView
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="About Us :"
-                android:id="@+id/aboutUsTextView"
-                android:textSize="38sp"
-                android:textColor="@color/green3"
-                android:textStyle="bold"
-                android:gravity="center"/>
-        </FrameLayout>
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/mbdsimage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="About Us :"
+                    android:id="@+id/aboutUsTextView"
+                    android:textSize="38sp"
+                    android:textColor="@color/green3"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+            </FrameLayout>
 
             <!-- En-tête avec image ronde -->
             <RelativeLayout
@@ -56,224 +56,224 @@
 
             </RelativeLayout>
 
-        <!--Ajout des Profil LinkedIn -->
+            <!--Ajout des Profil LinkedIn -->
 
-        <TextView
-            android:id="@+id/TextTitleLinkedIn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Group Members' LinkedIn Profiles"
-            android:textSize="22sp"
-            android:textColor="@color/green3"
-            android:textStyle="bold"
-            android:paddingBottom="5pt"
-            android:gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/TextTitleLinkedIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Group Members' LinkedIn Profiles"
+                android:textSize="22sp"
+                android:textColor="@color/green3"
+                android:textStyle="bold"
+                android:paddingBottom="5pt"
+                android:gravity="center_vertical"/>
 
-        <!-- Profil LinkedIn pour Marwane -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="@color/gray"
-            android:layout_marginBottom="16dp">
-
-            <LinearLayout
+            <!-- Profil LinkedIn pour Marwane -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                app:cardElevation="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/gray"
+                android:layout_marginBottom="16dp">
 
-                <!-- Image de profil Marwane -->
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/marwaneProfileImage"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/marwane"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="8dp"/>
-
-                <!-- Texte et lien LinkedIn pour Marwane -->
-                <TextView
-                    android:id="@+id/marwaneLinkedIn"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Marwane LARBI \n "
-                    android:textStyle="normal"
-                    android:autoLink="web"
-                    android:textColor="@color/black"
-                    android:gravity="center"/>
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/marwaneLinkedInText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Visit Marwane's LinkedIn Profile"
-                    android:textStyle="bold"
-                    android:textColor="@color/link_blue"
-                    android:gravity="center"
-                    android:autoLink="web"
-                    android:linksClickable="true"/>
+                    <!-- Image de profil Marwane -->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/marwaneProfileImage"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/marwane"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"/>
+
+                    <!-- Texte et lien LinkedIn pour Marwane -->
+                    <TextView
+                        android:id="@+id/marwaneLinkedIn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Marwane LARBI \n "
+                        android:textStyle="normal"
+                        android:autoLink="web"
+                        android:textColor="@color/black"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/marwaneLinkedInText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Visit Marwane's LinkedIn Profile"
+                        android:textStyle="bold"
+                        android:textColor="@color/link_blue"
+                        android:gravity="center"
+                        android:autoLink="web"
+                        android:linksClickable="true"/>
 
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
 
 
-        <!-- Profil LinkedIn pour Yasssine -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="@color/gray"
-            android:layout_marginBottom="16dp">
-
-            <LinearLayout
+            <!-- Profil LinkedIn pour Yasssine -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                app:cardElevation="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/gray"
+                android:layout_marginBottom="16dp">
 
-                <!-- Image de profil Marwane -->
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/yassineLinkedInIcon"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="8dp"
-                    android:src="@drawable/yassine" />
-
-                <!-- Texte et lien LinkedIn pour Marwane -->
-                <TextView
-                    android:id="@+id/yassineLinkedIn"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autoLink="web"
-                    android:gravity="center"
-                    android:text="Yassine BERRIRI \n "
-                    android:textColor="@color/black"
-                    android:textStyle="normal" />
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/yassineLinkedInText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autoLink="web"
-                    android:gravity="center"
-                    android:linksClickable="true"
-                    android:text="Visit Yassine's LinkedIn Profile"
-                    android:textColor="@color/link_blue"
-                    android:textStyle="bold" />
+                    <!-- Image de profil Marwane -->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/yassineLinkedInIcon"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/yassine" />
+
+                    <!-- Texte et lien LinkedIn pour Marwane -->
+                    <TextView
+                        android:id="@+id/yassineLinkedIn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoLink="web"
+                        android:gravity="center"
+                        android:text="Yassine BERRIRI \n "
+                        android:textColor="@color/black"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/yassineLinkedInText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoLink="web"
+                        android:gravity="center"
+                        android:linksClickable="true"
+                        android:text="Visit Yassine's LinkedIn Profile"
+                        android:textColor="@color/link_blue"
+                        android:textStyle="bold" />
 
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
 
-        <!-- Profil LinkedIn pour Marwane -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="@color/gray"
-            android:layout_marginBottom="16dp">
-
-            <LinearLayout
+            <!-- Profil LinkedIn pour Marwane -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                app:cardElevation="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/gray"
+                android:layout_marginBottom="16dp">
 
-                <!-- Image de profil Marwane -->
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/badisProfileImage"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/badis"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="8dp"/>
-
-                <!-- Texte et lien LinkedIn pour Marwane -->
-                <TextView
-                    android:id="@+id/badisLinkedIn"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Badis BOUCHEFFA \n "
-                    android:textStyle="normal"
-                    android:autoLink="web"
-                    android:textColor="@color/black"
-                    android:gravity="center"/>
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/badisLinkedInText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Visit Badis's LinkedIn Profile"
-                    android:textStyle="bold"
-                    android:textColor="@color/link_blue"
-                    android:gravity="center"
-                    android:autoLink="web"
-                    android:linksClickable="true"/>
+                    <!-- Image de profil Marwane -->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/badisProfileImage"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/badis"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"/>
+
+                    <!-- Texte et lien LinkedIn pour Marwane -->
+                    <TextView
+                        android:id="@+id/badisLinkedIn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Badis BOUCHEFFA \n "
+                        android:textStyle="normal"
+                        android:autoLink="web"
+                        android:textColor="@color/black"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/badisLinkedInText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Visit Badis's LinkedIn Profile"
+                        android:textStyle="bold"
+                        android:textColor="@color/link_blue"
+                        android:gravity="center"
+                        android:autoLink="web"
+                        android:linksClickable="true"/>
 
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        <!-- Profil LinkedIn pour Marwane -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="@color/gray"
-            android:layout_marginBottom="16dp">
-
-            <LinearLayout
+            <!-- Profil LinkedIn pour Marwane -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                app:cardElevation="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/gray"
+                android:layout_marginBottom="16dp">
 
-                <!-- Image de profil Marwane -->
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ibrahimProfileImage"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ibrahim"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="8dp"/>
-
-                <!-- Texte et lien LinkedIn pour Marwane -->
-                <TextView
-                    android:id="@+id/ibrahimLinkedIn"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ibrahim KRIMI \n "
-                    android:textStyle="normal"
-                    android:autoLink="web"
-                    android:textColor="@color/black"
-                    android:gravity="center"/>
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/ibrahimLinkedInText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Visit Ibrahim's LinkedIn Profile"
-                    android:textStyle="bold"
-                    android:textColor="@color/link_blue"
-                    android:gravity="center"
-                    android:autoLink="web"
-                    android:linksClickable="true"/>
+                    <!-- Image de profil Marwane -->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ibrahimProfileImage"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ibrahim"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"/>
+
+                    <!-- Texte et lien LinkedIn pour Marwane -->
+                    <TextView
+                        android:id="@+id/ibrahimLinkedIn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ibrahim KRIMI \n "
+                        android:textStyle="normal"
+                        android:autoLink="web"
+                        android:textColor="@color/black"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/ibrahimLinkedInText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Visit Ibrahim's LinkedIn Profile"
+                        android:textStyle="bold"
+                        android:textColor="@color/link_blue"
+                        android:gravity="center"
+                        android:autoLink="web"
+                        android:linksClickable="true"/>
 
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Carte pour les objectifs fonctionnels avec ombre et animation -->
-        <com.google.android.material.card.MaterialCardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_functional_objectives"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -308,53 +308,53 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-        <!-- Card for Used Libraries with Shadow and Animation -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_used_libraries"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="@color/green2"
-            android:transitionName="cardTransition">
-
-            <LinearLayout
+            <!-- Card for Used Libraries with Shadow and Animation -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_used_libraries"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:layout_marginBottom="16dp"
+                app:cardElevation="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/green2"
+                android:transitionName="cardTransition">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Used Libraries"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/gray"
-                    android:layout_marginBottom="12dp" />
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/usedLibraries"
-                    android:textSize="16sp"
-                    android:textColor="@color/gray"
-                    android:lineSpacingExtra="4dp"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Project AnneFlix under the Miage MBDS License"
-            android:textSize="18dp"
-            android:textColor="@color/green3"
-            android:textStyle="normal"
-            android:layout_marginTop="10dp"
-            android:gravity="center"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Used Libraries"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/gray"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/usedLibraries"
+                        android:textSize="16sp"
+                        android:textColor="@color/gray"
+                        android:lineSpacingExtra="4dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Project AnneFlix under the Miage MBDS License"
+                android:textSize="18dp"
+                android:textColor="@color/green3"
+                android:textStyle="normal"
+                android:layout_marginTop="10dp"
+                android:gravity="center"/>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
 
         </LinearLayout>
     </ScrollView>
