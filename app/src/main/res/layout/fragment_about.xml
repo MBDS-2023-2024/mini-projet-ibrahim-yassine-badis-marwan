@@ -28,68 +28,112 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="\nFeatures"
-                android:textSize="18sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 android:paddingTop="16dp"
                 android:paddingBottom="8dp"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/card_background"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:textColor="@color/white"
+
+                >
 
                 <!-- List of Features -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:textSize="30sp">
 
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Categories of movies/series."
                         android:paddingBottom="4dp"/>
 
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- List of movies by categories."
                         android:paddingBottom="4dp"/>
 
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Details of movies and series"
                         android:paddingBottom="4dp"/>
 
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="- Featured movies and series"
+                        android:text="- Get Featured movies and series"
                         android:paddingBottom="4dp"/>
 
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="- Get Upcomming Movies"
+                        android:paddingBottom="4dp"/>
+
+                    <TextView
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Watch the trailer of a movie or series"
                         android:paddingBottom="4dp"/>
 
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- List of favorite movies and series (managed in a local database)"
                         android:paddingBottom="4dp"/>
 
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- About view containing "
                         android:paddingBottom="4dp"/>
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Add Bibiography of actors"
                         android:paddingBottom="4dp"/>
+                    <TextView
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="- Add Rating Movie (Token Problem)"
+                        android:paddingBottom="4dp"/>
+
                 </LinearLayout>
 
 
@@ -271,14 +315,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="\nLibrairies utilisées"
-                android:textSize="18sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 android:paddingTop="16dp"
                 android:paddingBottom="8dp"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/card_background"
                 android:padding="16dp">
 
                 <!-- List of Features -->
@@ -288,30 +331,45 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Navigation-fragment"
                         android:paddingBottom="4dp"/>
 
                     <TextView
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Hilt : Injection de dépendances"
                         android:paddingBottom="4dp"/>
 
                     <TextView
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Moshi : Sérialisation et Désérialisation JSON"
                         android:paddingBottom="4dp"/>
 
                     <TextView
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Retrofit: Consommer des web services"
                         android:paddingBottom="4dp"/>
 
                     <TextView
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Coil : Pour afficher les images"
@@ -323,13 +381,6 @@
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="50dp" />
-
-
         </LinearLayout>
-
     </ScrollView>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
