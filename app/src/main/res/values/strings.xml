@@ -28,7 +28,18 @@
 
     <string name="note">Add a rating out of 10</string>
     <string name="persons">List of actors</string>
-    <string name="functionlObjectives">AnneFlix, a cutting-edge streaming app, offers an extensive range of functionalities to enhance user experience. \n Key features include: \n- Film and Series Categories: Explore a wide array of genres, tailored to diverse viewer preferences. \n- Films and Series Listings: Browse through an extensive collection, sorted by categories and authors, for an effortless selection process. \n- In-depth Details: Delve into detailed descriptions for each film and series, providing a comprehensive understanding before viewing. \n- Featured Content: Discover top picks, trending now, and editor’s choices in films and series, keeping you updated with the latest and greatest. \n- Trailers: Watch previews of films and series, offering a sneak peek into the excitement that awaits. \n- Favorites List: Easily mark your favorite movies and series, conveniently managed in a local database for quick access. \n- About View: This section offers a thorough overview of the app\'s functionalities, showcases the LinkedIn profiles of our talented team members, and lists the libraries utilized in the development process.</string>
+    <string name="functionlObjectives">
+AnneFlix, a cutting-edge streaming app, offers an extensive range of functionalities to enhance user experience. \n
+Key features include: \n
+- Film and Series Categories: Explore a wide array of genres, tailored to diverse viewer preferences. \n
+- Films and Series Listings: Browse through an extensive collection, sorted by categories and authors, for an effortless selection process. \n
+- In-depth Details: Delve into detailed descriptions for each film and series, providing a comprehensive understanding before viewing. \n
+- Featured Content: Discover top picks, trending now, and editor’s choices in films and series, keeping you updated with the latest and greatest. \n
+- Trailers: Watch previews of films and series, offering a sneak peek into the excitement that awaits. \n
+- Favorites List: Easily mark your favorite movies and series, conveniently managed in a local database for quick access. \n
+- Comments: View and share thoughts and reviews on movies and series, enhancing community engagement. \n
+- About View: This section offers a thorough overview of the app's functionalities, showcases the LinkedIn profiles of our talented team members, and lists the libraries utilized in the development process.
+</string>
     <string name="usedLibraries">Navigation Fragment: For efficient and intuitive app navigation.\n Hilt: Dependency Injection for streamlined and maintainable code.\n Moshi: JSON Serialization and Deserialization for seamless data handling.\n Retrofit: Consuming web services with ease and efficiency.\n Coil: Effective and memory-efficient image loading and display.\n DAllE : Generation of The Logo MBDS .</string>
 
 

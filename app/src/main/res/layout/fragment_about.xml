@@ -141,31 +141,31 @@
                     android:id="@+id/yassineLinkedInIcon"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/yassine"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="8dp"/>
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/yassine" />
 
                 <!-- Texte et lien LinkedIn pour Marwane -->
                 <TextView
                     android:id="@+id/yassineLinkedIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Yassine BERRIRI \n "
-                    android:textStyle="normal"
                     android:autoLink="web"
+                    android:gravity="center"
+                    android:text="Yassine BERRIRI \n "
                     android:textColor="@color/black"
-                    android:gravity="center"/>
+                    android:textStyle="normal" />
 
                 <TextView
                     android:id="@+id/yassineLinkedInText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Visit Yassine's LinkedIn Profile"
-                    android:textStyle="bold"
-                    android:textColor="@color/link_blue"
-                    android:gravity="center"
                     android:autoLink="web"
-                    android:linksClickable="true"/>
+                    android:gravity="center"
+                    android:linksClickable="true"
+                    android:text="Visit Yassine's LinkedIn Profile"
+                    android:textColor="@color/link_blue"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
