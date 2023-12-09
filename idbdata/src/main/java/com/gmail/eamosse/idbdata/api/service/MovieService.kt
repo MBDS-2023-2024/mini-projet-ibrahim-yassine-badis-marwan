@@ -81,12 +81,16 @@ internal interface MovieService {
     suspend fun getProvidersByMovieId(@Path("movie_id") id: Int): Response<WatchProvidersResponse>
 
 
+
     @GET("movie/{movie_id}/reviews")
     suspend fun getReviewsByMovieId(@Path("movie_id") id: Int): Response<ReviewResponse>
 
     @GET("tv/{series_id}/reviews")
     suspend fun getReviewsBySeriesId(@Path("series_id") id: Int): Response<ReviewResponse>
 
+
+    @GET("tv/{series_id}/watch/providers")
+    suspend fun getProvidersBySerieId(@Path("series_id") id: Int): Response<WatchProvidersResponse>
 
 
     //chaines  movie/38/watch/providers

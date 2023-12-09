@@ -174,6 +174,20 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
         }
     }
 
+    suspend fun getProvidersBySerieId(id: Int): Result<Collection<WatchProvidersResponse.CountryResult>> {
+        return safeCall {
+            when (val response = service.getProvidersBySerieId(id).parse()) {
+                is Result.Succes -> {
+                    Result.Succes(response.data.results.values)
+                }
+
+                is Result.Error -> {
+                    response
+                }
+            }
+        }
+    }
+
         suspend fun getTrailerBySeriesId(id: Int): Result<TrailerResponse.Result> {
             return safeCall {
                 when (val response = service.getTrailerBySeriesId(id).parse()) {
