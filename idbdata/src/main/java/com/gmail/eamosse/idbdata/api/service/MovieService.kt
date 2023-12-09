@@ -79,6 +79,9 @@ internal interface MovieService {
     @GET("movie/{movie_id}/watch/providers")
     suspend fun getProvidersByMovieId(@Path("movie_id") id: Int): Response<WatchProvidersResponse>
 
+    @GET("tv/{series_id}/watch/providers")
+    suspend fun getProvidersBySerieId(@Path("series_id") id: Int): Response<WatchProvidersResponse>
+
     //chaines  movie/38/watch/providers
     // video   movie/movie_id/videos?language=en-US'
     // add Rating movie/{movie_id}/rating  https://developer.themoviedb.org/reference/movie-add-rating

@@ -169,6 +169,20 @@ class MovieRepository @Inject internal constructor(
         }
     }
 
+    suspend fun getProvidersBySerieId(id: Int): Result<Collection<CountryResult>> {
+        return when(val result = online.getProvidersBySerieId(id)) {
+            is Result.Succes -> {
+                val providers = result.data.map {
+                    it.toCountryResult()
+                }
+                Result.Succes(providers)
+            }
+
+
+            is Result.Error -> result
+        }
+    }
+
     suspend fun addRating(id: Int, rating: RatingBody): Result<Boolean> {
         return when(val result = online.addRating(id,rating)) {
             is Result.Succes -> {
