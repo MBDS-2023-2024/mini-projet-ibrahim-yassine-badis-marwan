@@ -2,10 +2,6 @@ package com.gmail.eamosse.idbdata.repository
 
 import android.util.Log
 
-import com.gmail.eamosse.idbdata.api.response.PopularMoviesResponse
-import androidx.lifecycle.LiveData
-import com.gmail.eamosse.idbdata.api.request.RatingBodyRequest
-
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
 
@@ -13,6 +9,7 @@ import com.gmail.eamosse.idbdata.data.MovieProviderPackage.CountryResult
 
 import com.gmail.eamosse.idbdata.data.PopularPerson
 import com.gmail.eamosse.idbdata.data.RatingBody
+import com.gmail.eamosse.idbdata.data.Review
 import com.gmail.eamosse.idbdata.data.Serie
 
 import com.gmail.eamosse.idbdata.data.Token
@@ -169,6 +166,20 @@ class MovieRepository @Inject internal constructor(
         }
     }
 
+    suspend fun getProvidersBySerieId(id: Int): Result<Collection<CountryResult>> {
+        return when(val result = online.getProvidersBySerieId(id)) {
+            is Result.Succes -> {
+                val providers = result.data.map {
+                    it.toCountryResult()
+                }
+                Result.Succes(providers)
+            }
+
+
+            is Result.Error -> result
+        }
+    }
+
     suspend fun addRating(id: Int, rating: RatingBody): Result<Boolean> {
         return when(val result = online.addRating(id,rating)) {
             is Result.Succes -> {
@@ -226,6 +237,30 @@ class MovieRepository @Inject internal constructor(
                     it.toPopularPerson()
                 }
                 Result.Succes(popularPersons)
+            }
+            is Result.Error -> result
+        }
+    }
+
+    suspend fun getReviewsByMovieId(id: Int): Result<List<Review>> {
+        return when(val result = online.getReviewsByMovieId(id)) {
+            is Result.Succes -> {
+                val reviews = result.data.map {
+                    it.toReviewResult()
+                }
+                Result.Succes(reviews)
+            }
+            is Result.Error -> result
+        }
+    }
+
+    suspend fun getReviewsBySeriesId(id: Int): Result<List<Review>> {
+        return when(val result = online.getReviewsBySeriesId(id)) {
+            is Result.Succes -> {
+                val reviews = result.data.map {
+                    it.toReviewResult()
+                }
+                Result.Succes(reviews)
             }
             is Result.Error -> result
         }

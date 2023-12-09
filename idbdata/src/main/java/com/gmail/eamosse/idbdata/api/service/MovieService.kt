@@ -1,5 +1,6 @@
 package com.gmail.eamosse.idbdata.api.service
 
+import ReviewResponse
 import com.gmail.eamosse.idbdata.api.request.RatingBodyRequest
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieIdResponse
@@ -78,6 +79,19 @@ internal interface MovieService {
 
     @GET("movie/{movie_id}/watch/providers")
     suspend fun getProvidersByMovieId(@Path("movie_id") id: Int): Response<WatchProvidersResponse>
+
+
+
+    @GET("movie/{movie_id}/reviews")
+    suspend fun getReviewsByMovieId(@Path("movie_id") id: Int): Response<ReviewResponse>
+
+    @GET("tv/{series_id}/reviews")
+    suspend fun getReviewsBySeriesId(@Path("series_id") id: Int): Response<ReviewResponse>
+
+
+    @GET("tv/{series_id}/watch/providers")
+    suspend fun getProvidersBySerieId(@Path("series_id") id: Int): Response<WatchProvidersResponse>
+
 
     //chaines  movie/38/watch/providers
     // video   movie/movie_id/videos?language=en-US'
