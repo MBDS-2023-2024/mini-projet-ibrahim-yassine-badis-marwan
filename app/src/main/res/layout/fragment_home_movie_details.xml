@@ -232,6 +232,33 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp" />
 
+        <TextView
+            android:id="@+id/review_movie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reviews: "
+            app:layout_constraintTop_toBottomOf="@id/recycler_buy_provider_movies"
+            app:layout_constraintBottom_toTopOf="@+id/review_list_movies"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/white" />
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/review_list_movies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/review_movie"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
 
         <TextView
             android:id="@+id/movie_persons"
@@ -269,6 +296,19 @@
             app:layout_constraintEnd_toStartOf="@+id/editTextNote"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movie_rating"
+            app:layout_constraintVertical_bias="0.5"
+            android:layout_marginTop="25dp"
+            />
+
+        <TextView
+            android:id="@+id/textViewEmptyCommentsList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="No Comments"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/editTextNote"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/review_movie"
             app:layout_constraintVertical_bias="0.5"
             android:layout_marginTop="25dp"
             />

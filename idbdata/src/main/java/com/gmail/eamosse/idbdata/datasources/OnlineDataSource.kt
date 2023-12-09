@@ -1,5 +1,6 @@
 package com.gmail.eamosse.idbdata.datasources
 
+import ReviewResponse
 import android.util.Log
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
 import com.gmail.eamosse.idbdata.api.response.MovieIdResponse
@@ -274,6 +275,35 @@ internal class OnlineDataSource @Inject constructor(private val service: MovieSe
                 }
             }
         }
+
+
+    suspend fun getReviewsByMovieId(id: Int): Result<List<ReviewResponse.ReviewEntity>> {
+        return safeCall {
+            when (val response = service.getReviewsByMovieId(id).parse()) {
+                is Result.Succes -> {
+                    /**
+                     * On recupere une liste des videos et le trailer se trouve à la fin de la liste
+                     */
+                    Result.Succes(response.data.reviews)
+                }
+                is Result.Error -> response
+            }
+        }
+    }
+
+    suspend fun getReviewsBySeriesId(id: Int): Result<List<ReviewResponse.ReviewEntity>> {
+        return safeCall {
+            when (val response = service.getReviewsBySeriesId(id).parse()) {
+                is Result.Succes -> {
+                    /**
+                     * On recupere une liste des videos et le trailer se trouve à la fin de la liste
+                     */
+                    Result.Succes(response.data.reviews)
+                }
+                is Result.Error -> response
+            }
+        }
+    }
 
 }
 
