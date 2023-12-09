@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "364903640701",
+    "firebase_url": "https://my-nextflix-default-rtdb.firebaseio.com",
+    "project_id": "my-nextflix",
+    "storage_bucket": "my-nextflix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364903640701:android:6c5f1f22ba422e6d964b14",
+        "android_client_info": {
+          "package_name": "com.gmail.eamosse.imdb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1R6zToP_8F73UmpqGdWTqAJoQEjyAXoE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
