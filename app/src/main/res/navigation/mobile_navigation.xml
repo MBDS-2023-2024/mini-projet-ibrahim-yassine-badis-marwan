@@ -21,11 +21,39 @@
         android:label="@string/home_second"
         tools:layout="@layout/fragment_home_second">
         <action
-            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/navigation_home" />
+            android:id="@+id/action_HomeSecondFragment_to_MovieDetailsFragment"
+            app:destination="@id/navigation_movie_details">
+            <argument
+                android:name="id"
+                app:argType="string" />
+            <argument
+                android:name="type"
+                app:argType="string" />
+        </action>
 
         <argument
             android:name="myArg"
+            app:argType="string" />
+        <argument
+            android:name="myId"
+            app:argType="string" />
+        <argument
+            android:name="GenreName"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_movie_details"
+        android:name="com.gmail.eamosse.imdb.ui.home.HomeMovieDetailsFragment"
+        android:label="@string/movie_details"
+        tools:layout="@layout/fragment_home_movie_details">
+
+        <argument
+            android:name="id"
+            app:argType="string" />
+
+        <argument
+            android:name="type"
             app:argType="string" />
     </fragment>
 
@@ -33,11 +61,38 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.gmail.eamosse.imdb.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_DashboardFragment_to_MovieDetailsFragment"
+            app:destination="@id/navigation_movie_details">
+            <argument
+                android:name="id"
+                app:argType="string" />
+        </action>
+
+        <argument
+            android:name="myArg"
+            app:argType="string" />
+        <argument
+            android:name="myId"
+            app:argType="string" />
+        <argument
+            android:name="GenreName"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.gmail.eamosse.imdb.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.gmail.eamosse.imdb.ui.home.AboutFragment"
+        android:label="About"
+        tools:layout="@layout/fragment_about" />
+
+
+
+
 </navigation>
