@@ -9,4 +9,6 @@
     <color name="green2">#313E31</color>
     <color name="gray">#707E70</color>
     <color name="green3">#496949</color>
+    <color name="link_blue">#0000EE</color> <!-- Une teinte classique de bleu pour les liens -->
+
 </resources>
