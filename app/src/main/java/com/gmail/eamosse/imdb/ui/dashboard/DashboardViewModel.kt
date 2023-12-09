@@ -26,6 +26,10 @@ class DashboardViewModel  @Inject constructor(private val repository: MovieRepos
 
     private val _upcomingMovies = MutableLiveData<List<Movie>>()
     val upcomingMovies: LiveData<List<Movie>> get() = _upcomingMovies
+
+    private var _favoriteMovies = MutableLiveData<List<Movie>>()
+    val favoriteMovies: LiveData<List<Movie>> get() = _favoriteMovies
+
     /***Error****/
     private val _error: MutableLiveData<String> = MutableLiveData()
     val error: LiveData<String>
@@ -149,4 +153,16 @@ class DashboardViewModel  @Inject constructor(private val repository: MovieRepos
     fun clearMovieDetails(){
         _trailer.postValue(Trailer(null, null, null, null, null, null, null, null, null, ""))
     }
+    fun getFavoriteMovies() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val favoriteMovies = repository.getFavoriteMovies()
+                _favoriteMovies.postValue(favoriteMovies)
+            } catch (e: Exception) {
+                // Handle the exception or log an error message
+                _error.postValue("Error fetching favorite movies: ${e.message}")
+            }
+        }
+    }
+
 }

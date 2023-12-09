@@ -335,6 +335,7 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
     }
 
     private lateinit var _favoriteMovies : List<Movie>
+
     fun getFavoriteMovies(){
         viewModelScope.launch(Dispatchers.IO) {
             /*
