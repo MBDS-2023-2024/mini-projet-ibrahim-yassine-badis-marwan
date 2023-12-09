@@ -17,12 +17,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
+import com.gmail.eamosse.idbdata.api.response.WatchProvidersResponse
+
+
+
 import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.Rating
 import com.gmail.eamosse.idbdata.data.RatingBody
 import com.gmail.eamosse.idbdata.data.Serie
 import com.gmail.eamosse.imdb.R
 import com.gmail.eamosse.imdb.databinding.FragmentHomeMovieDetailsBinding
+
+import com.gmail.eamosse.imdb.databinding.FragmentHomeSecondBinding
+import com.gmail.eamosse.imdb.ui.home.adapter.CategoryAdapter
+import com.gmail.eamosse.imdb.ui.home.adapter.MovieAdapter
+import com.gmail.eamosse.imdb.ui.home.adapter.ProviderAdapter
+
 import com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleHandler
 
@@ -34,9 +44,13 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
     private lateinit var binding: FragmentHomeMovieDetailsBinding
     private var movie: Movie? = null
 
+    private var isFavorite = false
+    private lateinit var providerA: WatchProvidersResponse
+
+
     private var serie: Serie? = null
 
-    private var isFavorite = false
+
     private lateinit var id: String
     private lateinit var type: String
     override fun onCreateView(
@@ -52,6 +66,9 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
         super.onViewCreated(view, savedInstanceState)
 
 
+
+
+
         id = args.id
 
         with(homeViewModel) {
@@ -60,7 +77,12 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
 
 
 
+
             getTrailerByMovieId(id.toInt())
+            getProvidersByMovieId(id.toInt())
+
+
+
 
             id = args.id
             type = args.type
@@ -165,6 +187,41 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
             }
 
 
+            provider.observe(viewLifecycleOwner, Observer {
+                val recyclerBuyView= binding.recyclerBuyProviderMovies
+                val layoutBuyManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                recyclerBuyView.layoutManager = layoutBuyManager
+                if (it.size > 31 && it.toList()[31] != null){
+                    recyclerBuyView.adapter = ProviderAdapter(it.toList()[31].buy)
+                }
+
+                val recyclerRentView= binding.recyclerRentProviderMovies
+                val layoutRentManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                recyclerRentView.layoutManager = layoutRentManager
+                if (it.size > 31 && it.toList()[31] != null){
+                    recyclerRentView.adapter = ProviderAdapter(it.toList()[31].rent)
+                }
+
+                val recyclerFlatrateView= binding.recyclerFlatrateProviderMovies
+                val layoutFlatrateManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                recyclerFlatrateView.layoutManager = layoutFlatrateManager
+                if (it.size > 31 && it.toList()[31] != null){
+                    recyclerFlatrateView.adapter = ProviderAdapter(it.toList()[31].flatrate)
+                }
+            })
+
+
+            error.observe(viewLifecycleOwner, Observer {
+                //afficher l'erreur
+              //  Toast.makeText(context, "probléme de recuperation de trailer", Toast.LENGTH_SHORT).show()
+                //displayVideo(it.key)
+                binding.progressBar.isVisible = false
+            })
+        }
+
             binding.editTextNote.setOnEditorActionListener { v, actionId, event ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     with(homeViewModel) {
@@ -187,13 +244,9 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
             }
 
 
+
         }
 
-
-
-
-
-    }
 
     private fun makeItINFavorite() {
         isFavorite = !isFavorite
@@ -222,6 +275,8 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
     }
 
 
+
+
     private fun displayMovieInfo() {
         displayImage(movie?.posterPath)
         binding.movieRating.text =
@@ -245,6 +300,7 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
         binding.movieReleaseDate.text =
             getString(R.string.releaseDate) + ": " + serie?.firstAirDate
     }
+
 
     private fun displayImage(posterPath: String?) {
         val baseUrl = "https://image.tmdb.org/t/p/w500"
@@ -278,11 +334,16 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
         }
     }
 
+    private fun displayProvider() {
+
+    }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         homeViewModel.clearMovieDetails()
-
     }
+
 
     override fun onShowPeopleDetails(id: Int) {
 
@@ -295,4 +356,8 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler {
     override fun removeEmptyListPeopleMsg() {
 
     }
-}
+
+
+
+    }
+

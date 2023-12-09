@@ -12,6 +12,7 @@ import com.gmail.eamosse.idbdata.api.response.RatingResponse
 import com.gmail.eamosse.idbdata.api.response.SerieResponse
 
 import com.gmail.eamosse.idbdata.api.response.TokenResponse
+import com.gmail.eamosse.idbdata.api.response.WatchProvidersResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -74,6 +75,9 @@ internal interface MovieService {
 
 
     // add url person/popular
+
+    @GET("movie/{movie_id}/watch/providers")
+    suspend fun getProvidersByMovieId(@Path("movie_id") id: Int): Response<WatchProvidersResponse>
 
     //chaines  movie/38/watch/providers
     // video   movie/movie_id/videos?language=en-US'
