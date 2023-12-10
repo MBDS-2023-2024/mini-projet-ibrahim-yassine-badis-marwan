@@ -46,10 +46,23 @@ Informations sur l'application, les membres de l'équipe et les technologies emp
 Pour être complète, votre application doit proposer au moins une parmi les fonctionnalités suivantes :
 
 #### Noter un film, série ou acteur : ✅ 
+![addRating](https://github.com/MBDS-2023-2024/mini-projet-ibrahim-yassine-badis-marwan/assets/96066061/2de02200-9a3d-4e78-ad17-f9f0518f9b1a)
+
 ### Voir les commentaires d'un film : ✅
+
+![Comment](https://github.com/MBDS-2023-2024/mini-projet-ibrahim-yassine-badis-marwan/assets/96066061/53d340bf-c32a-4893-9cea-42caba654336)
+
 ### Voir la biographie d'un acteur/personnage :✅
+
+![Actors](https://github.com/MBDS-2023-2024/mini-projet-ibrahim-yassine-badis-marwan/assets/96066061/a37e57c2-dde2-4b82-b087-962ac921de4a)
+
 ### Voir la liste des plateformes pour regarder un film :✅
+
+![plateformes](https://github.com/MBDS-2023-2024/mini-projet-ibrahim-yassine-badis-marwan/assets/96066061/05a48457-44b5-4301-8abe-40053cbc322b)
+
 ### Synchroniser la liste des films/séries favoris sur Firebase : ✅
+![Firebase](https://github.com/MBDS-2023-2024/mini-projet-ibrahim-yassine-badis-marwan/assets/96066061/32e41bcd-6796-41c0-a5c4-9fbcc7271db5)![Firebase2](https://github.com/MBDS-2023-2024/mini-projet-ibrahim-yassine-badis-marwan/assets/96066061/db9e2e62-f32f-4629-af77-e0ab90439f38)
+
 
 
 # Organisation et Gestion de Projet
