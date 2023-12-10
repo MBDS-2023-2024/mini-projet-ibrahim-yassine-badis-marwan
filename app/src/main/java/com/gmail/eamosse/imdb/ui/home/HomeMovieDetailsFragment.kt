@@ -313,7 +313,14 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler, ReviewHandler
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             recyclerBuyView.layoutManager = layoutBuyManager
             if (it.size > 31 && it.toList()[31] != null) {
-                recyclerBuyView.adapter = ProviderAdapter(it.toList()[31].buy)
+
+                if (it.toList()[31].buy.isEmpty()){
+                    binding.buyProviderMovie.isVisible = false
+                }
+                else {
+                    binding.buyProviderMovie.isVisible = true
+                    recyclerBuyView.adapter = ProviderAdapter(it.toList()[31].buy)
+                }
             }
 
             val recyclerRentView = binding.recyclerRentProviderMovies
@@ -321,7 +328,13 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler, ReviewHandler
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             recyclerRentView.layoutManager = layoutRentManager
             if (it.size > 31 && it.toList()[31] != null) {
-                recyclerRentView.adapter = ProviderAdapter(it.toList()[31].rent)
+                if (it.toList()[31].rent.isEmpty()) {
+                    binding.rentProviderMovie.isVisible = false
+                }
+                else {
+                    binding.rentProviderMovie.isVisible = true
+                    recyclerRentView.adapter = ProviderAdapter(it.toList()[31].rent)
+                }
             }
 
             val recyclerFlatrateView = binding.recyclerFlatrateProviderMovies
@@ -329,7 +342,13 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler, ReviewHandler
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             recyclerFlatrateView.layoutManager = layoutFlatrateManager
             if (it.size > 31 && it.toList()[31] != null) {
-                recyclerFlatrateView.adapter = ProviderAdapter(it.toList()[31].flatrate)
+                if (it.toList()[31].flatrate.isEmpty()){
+                    binding.flatrateProviderMovie.isVisible = false
+                }
+                else{
+                    binding.flatrateProviderMovie.isVisible = true
+                    recyclerFlatrateView.adapter = ProviderAdapter(it.toList()[31].flatrate)
+                }
             }
         })
 
@@ -478,7 +497,6 @@ class HomeMovieDetailsFragment : Fragment(), PopularPeopleHandler, ReviewHandler
     }
 
     private fun displayProvider() {
-
     }
 
 

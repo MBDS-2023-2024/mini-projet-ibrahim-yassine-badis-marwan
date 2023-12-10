@@ -15,7 +15,6 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:fitsSystemWindows="true"
-
        >
 
     <androidx.constraintlayout.widget.ConstraintLayout

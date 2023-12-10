@@ -11,7 +11,7 @@ import com.gmail.eamosse.imdb.R
 import com.gmail.eamosse.imdb.databinding.MovieListItemBinding
 import com.gmail.eamosse.imdb.databinding.SerieListItemBinding
 
-class SerieAdapter(private val items: List<Serie>, serieHandler: SerieHandler) :
+class SerieAdapter(private var items: List<Serie>, serieHandler: SerieHandler) :
     RecyclerView.Adapter<SerieAdapter.ViewHolder>(){
 
     private val mSerieHandler = serieHandler
@@ -56,6 +56,11 @@ class SerieAdapter(private val items: List<Serie>, serieHandler: SerieHandler) :
             this.mSerieHandler.onShowSerieDetails(serie.id.toLong(), "serie")
         }
 
+    }
+
+    fun setItems(series: List<Serie>) {
+        items = series
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = items.size

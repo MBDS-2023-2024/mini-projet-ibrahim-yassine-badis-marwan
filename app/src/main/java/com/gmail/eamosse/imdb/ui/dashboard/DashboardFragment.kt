@@ -26,6 +26,7 @@ import com.gmail.eamosse.imdb.ui.home.adapter.CategoryAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.MovieAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.MovieHandler
 import com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleAdapter
+import com.gmail.eamosse.imdb.ui.home.adapter.SerieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +37,7 @@ class DashboardFragment : Fragment(), MovieHandler {
     private lateinit var topRatedMoviesRecyclerView: RecyclerView
     private lateinit var upcomingMoviesRecyclerView: RecyclerView
     private  lateinit var favoriteMoviesRecyclerView: RecyclerView
+    private  lateinit var favoriteSeriesRecyclerView: RecyclerView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,6 +62,9 @@ class DashboardFragment : Fragment(), MovieHandler {
         favoriteMoviesRecyclerView = binding.recyclerFavoriteMovies
         setupRecyclerView(favoriteMoviesRecyclerView)
 
+        favoriteSeriesRecyclerView = binding.recyclerFavoriteSeries
+        setupRecyclerView(favoriteSeriesRecyclerView)
+
         dashboardViewModel.popularMovies.observe(viewLifecycleOwner, Observer { popularMovies ->
             (popularMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(popularMovies)
         })
@@ -75,6 +80,16 @@ class DashboardFragment : Fragment(), MovieHandler {
         dashboardViewModel.favoriteMovies.observe(viewLifecycleOwner, Observer { favoriteMovies ->
             (favoriteMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(favoriteMovies)
         })
+
+        /*
+        dashboardViewModel.favoriteSeries.observe(viewLifecycleOwner, Observer{
+            favoriteSeries -> (favoriteSeriesRecyclerView.adapter as? SerieAdapter)?.setItems(favoriteSeries)
+        })
+
+         */
+
+
+
 
         /*
 
@@ -96,9 +111,20 @@ class DashboardFragment : Fragment(), MovieHandler {
         dashboardViewModel.getPopularMovies()
         dashboardViewModel.getTopRatedMovies()
         dashboardViewModel.getUpcomingMovies()
+        //dashboardViewModel.getFavoriteMovies()
+       // dashboardViewModel.getFavoriteSeries()
+
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dashboardViewModel.clearFavoriteMovies()
+    }
+
+    override fun onResume() {
+        super.onResume()
         dashboardViewModel.getFavoriteMovies()
-
-
     }
 
 
