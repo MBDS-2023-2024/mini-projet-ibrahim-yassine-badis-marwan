@@ -1,6 +1,6 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/I4c0DUx4)
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/I4c0DUx4)
-# ReadMe pour AnneFlix (The Moovie App)
+# ReadMe pour AnneFlix (The Moovie App) Version Local database
 
 ## Introduction
 Bienvenue sur AnneFlix, une application innovante pour les amateurs de films et de séries, créée par notre équipe dédiée : Yassine Berriri, Marwan Laarbi , Badis Boucheffa et  KRIMI Ibrahim . Inspirée par Netflix et propulsée par l'API TheMoovieDB, AnneFlix offre une expérience de streaming immersive et interactive.
