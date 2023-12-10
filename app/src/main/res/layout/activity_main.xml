@@ -8,6 +8,7 @@
     android:background="@color/black"
   >
 
+
     <!-- android:paddingTop="?attr/actionBarSize" -->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
