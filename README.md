@@ -1,67 +1,56 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/I4c0DUx4)
-# The Moovie App
+# ReadMe pour AnneFlix (The Moovie App)
 
-## Objectifs fonctionnels
-Dans ce projet, vous allez créer l'application AnneFlix (The new Netflix).
-L'objectif est d'exploiter la base de données TheMoovieDB (https://developers.themoviedb.org/3) afin de permettre aux utilisateurs de l'application de visualiser, noter et voir la bande annonce des films et séries disponible sur la base de données.
+## Introduction
+Bienvenue sur AnneFlix, une application innovante pour les amateurs de films et de séries, créée par notre équipe dédiée : Yassine Berriri, Marwan Laarbi , Badis Boucheffa et  KRIMI Ibrahim . Inspirée par Netflix et propulsée par l'API TheMoovieDB, AnneFlix offre une expérience de streaming immersive et interactive.
 
-## Objectifs techniques
-Techniquement, ce projet devrait vous permettre d'expérimenter de manière plus approfondie les notions telles que:
-- Kotlin
-- Architecture Components
-- Data Binding
-- Retrofit
-- Injection de dépendances
-- Navigation
-- Persistence de données
-- ....
+# Fonctionnalités Détaillées
 
-## Quelques librairies à utiliser
-- Navigation-fragment
-- Hilt : Injection de dépendances
-- Moshi : Sérialisation et Désérialisation JSON
-- Retrofit: Consommer des web services
-- Coil : Pour afficher les images
+## Catégories de Films/Séries
+Explorez une riche variété de catégories pour une découverte rapide et intuitive des contenus.
+## Liste des Films par Catégories 
+Naviguez facilement à travers les films et séries, soigneusement classés par catégories.
+# Détails des Films et Séries
+Dans la section Détails des Films et Séries d'AnneFlix, les utilisateurs accèdent à des informations complètes sur chaque Film, incluant le synopsis, les bandes-annonces, les notes, les commentaires, et les détails sur les acteurs
+## Films et Séries à la Une
+Découvrez les titres les plus populaires et les recommandations, régulièrement mises à jour.
+## Visualisation de la Bande Annonce
+Regardez les trailers directement dans l'application pour un aperçu immédiat du contenu
+## Liste de Favoris
+Gérez votre collection personnelle de films et séries favoris, sauvegardés localement.
 
-## Fonctionnalités attendues
-### Obligatoires
-Pour être acceptable, votre application doit proposer les fonctionnalités suivantes
-- Catégories de films/séries
-- Liste des films par catégories et auteurs
-- Détails des films et séries
-- Films et séries à la une
-- Visualiser la bande annonce d'un film ou d'une série
-- Liste de films et séries en favoris (géré dans une base de données locale)
-- Une vue A propos contenant les fonctionalités de l'application, le profile LinkedIn des membres du groupe, le listing des librairies utilisées, ...
+## Vue "About Us"
+Informations sur l'application, les membres de l'équipe et les technologies employées.
 
-### Optionnels
+
+
+# Optionnels
 Pour être complète, votre application doit proposer au moins une parmi les fonctionnalités suivantes :
-- Noter un film, série ou acteur
-- Voir les commentaires d'un film
-- Voir la biographie d'un acteur/personnage
-- Voir la liste des plateformes pour regarder un film
-- Toute autre fonctionnalité intéressante proposée par la plateforme
-- Synchroniser la liste des films/séries favoris sur Firebase
+#### Noter un film, série ou acteur : 
+### Voir les commentaires d'un film : 
+### Voir la biographie d'un acteur/personnage
+### Voir la liste des plateformes pour regarder un film
+### Toute autre fonctionnalité intéressante proposée par la plateforme
+### Synchroniser la liste des films/séries favoris sur Firebase
 
 
-## Organisation
-- Groupes de 3 ou 4 étudiants (ni plus, ni moins)
+# Organisation et Gestion de Projet
 
-## Critères d'acceptance
-- Il n'y a pas de notes de groupes, les commits doivent me permettre d'identifier le travail de chaque membre du groupe.
-- Utiliser obligatoirement une branche par fonctionnalité + pull request pour merger sur la branche principale.
-- Pas de warning dans le code ou dans les fichiers Gradle
+## Tableau Sprint
 
-## Rendu
-- Date limite : 10 Décembre 2023 (avant minuit)
-- Modalités de rendu : Assurez-vous d'effectuer le dernier commit avant la date limite
-- Remplacer le contenu de ce fichier par :
-  - La liste des fonctionnalités développées + captures d'écran de chaque fonctionnalité
-  - Les noms et prénoms des membres du groupe
-  - Captures d'écrans des principales vues
-  - Lien vers une vidéo de démonstration de l'application (sur Youtube)
+Nous avons adopté un tableau sprint pour une gestion de projet efficace, assignant des tâches spécifiques à chaque membre de l'équipe. Cela a facilité le suivi des progrès et le respect des échéances.
 
+## Collaboration et Contributions
+Chaque membre a contribué de façon unique, comme en témoignent les commits individuels. Nous avons privilégié une approche collaborative, en utilisant des branches distinctes pour chaque fonctionnalité et des pull requests pour les fusions. 
 
-## Vous ne savez pas par où commencer ?
-- Jettez un oeil à l'architecture du projet, c'est un projet multi-module
-- Suivez le tutoriel sur le lien suivant [ici](https://github.com/eamosse/the-movie-app/blob/master/home_tuto.md) pour afficher la liste des catégories.
+# Lien vers la Vidéo de Démonstration
+
+Découvrez AnneFlix en action dans notre vidéo de démonstration.
+Nous espérons que vous apprécierez AnneFlix autant que nous avons pris plaisir à le développer. Pour toute question ou retour d'expérience, n'hésitez pas à nous contacter.
+
+### nos Profile LinkedIn : 
+Badis Boucheffa : https://www.linkedin.com/in/badis-boucheffa/
+Ibrahim Krimi : https://www.linkedin.com/in/ibrahim-krimi-a9a355173/ 
+yassine Berriri : https://www.linkedin.com/in/yassine-berriri-a013091b8/ 
+Marwane LARBI : https://www.linkedin.com/in/marwanelarbi/ 
+
