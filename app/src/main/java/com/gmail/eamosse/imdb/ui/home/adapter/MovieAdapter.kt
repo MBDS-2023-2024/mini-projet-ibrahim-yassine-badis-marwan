@@ -62,6 +62,7 @@ class MovieAdapter(private var items: List<Movie>, movieHandler: MovieHandler) :
         items = movies
         notifyDataSetChanged()
     }
+
     override fun getItemCount(): Int = items.size
 
 }

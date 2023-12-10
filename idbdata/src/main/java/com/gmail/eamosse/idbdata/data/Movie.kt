@@ -1,6 +1,5 @@
 package com.gmail.eamosse.idbdata.data
 
-import com.gmail.eamosse.idbdata.local.entities.FavoriteMovieEntity
 import com.google.gson.annotations.SerializedName
 
 data class Movie(
@@ -19,6 +18,22 @@ data class Movie(
     val video: Boolean,
     val voteAverage: Double,
     val voteCount: Int,
-){
-
+) {
+    // Secondary (no-argument) constructor
+    constructor() : this(
+        false,
+        null,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0.0,
+        null,
+        false,
+        0.0,
+        0
+    )
 }

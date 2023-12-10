@@ -1,6 +1,7 @@
 // AboutFragment.kt
 package com.gmail.eamosse.imdb.ui.home
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,11 +14,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.widget.TextView
 import com.gmail.eamosse.imdb.R
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+
+
 
 class AboutFragment : Fragment() {
-    private lateinit var dbRef : DatabaseReference
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,12 +27,12 @@ class AboutFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dbRef= FirebaseDatabase.getInstance().getReference("marwane")
 
-        saveMarwane()
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         Log.d("AboutFragment", "onViewCreated")
         val aboutUsTextView = view.findViewById<TextView>(R.id.aboutUsTextView)
         animateText(aboutUsTextView, " About Us ")
@@ -72,10 +72,7 @@ class AboutFragment : Fragment() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
     }
-    private fun saveMarwane(){
-        dbRef.setValue("Hello, World!")
 
-    }
 
 
 }

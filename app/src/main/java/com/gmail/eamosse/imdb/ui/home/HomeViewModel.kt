@@ -311,7 +311,7 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         // getMovieById(id)?.let { repository.insertFavoriteMovie(it) }
         if (movie != null) {
             viewModelScope.launch(Dispatchers.IO) {
-                repository.insertFavoriteMovie(movie)
+                repository.insertFavoriteMoviesFirebase(movie)
             }
         }
         else {
@@ -326,7 +326,7 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         // getMovieById(id)?.let { repository.insertFavoriteMovie(it) }
         if (series != null) {
             viewModelScope.launch(Dispatchers.IO) {
-                repository.insertFavoriteSeries(series)
+                repository.insertFavoriteSeriesFirebase(series)
             }
         }
         else {
@@ -344,7 +344,7 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
             }
 
              */
-            _favoriteMovies = repository.getFavoriteMovies()
+            _favoriteMovies = repository.getFavoriteMoviesFirebase()
         }
     }
 
@@ -355,7 +355,7 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         // getMovieById(id)?.let { repository.insertFavoriteMovie(it) }
         if (movie != null) {
             viewModelScope.launch(Dispatchers.IO) {
-                repository.deleteFavoriteMovie(movie)
+                repository.deleteFavoriteMoviesFirebase(movie)
             }
         }
         else {
@@ -368,7 +368,7 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         val series = currentSeries?.find { it.id == id.toLong() }
         if (series != null) {
             viewModelScope.launch(Dispatchers.IO) {
-                repository.deleteFavoriteSeries(series)
+                repository.deleteFavoriteSeriesFirebase(series)
             }
         }
         else {
@@ -378,10 +378,10 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
 
     fun isFavorite(id: Long){
         viewModelScope.launch(Dispatchers.IO) {
-            if (repository.getFavoriteMovieById(id) == null){
+            if (repository.getFavoriteMoviesFirebaseById(id) == null){
                 _favoriteM.postValue(null)
             } else {
-                _favoriteM.postValue(repository.getFavoriteMovieById(id))
+                _favoriteM.postValue(repository.getFavoriteMoviesFirebaseById(id))
             }
 
         }
@@ -389,10 +389,10 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
 
     fun isFavoriteSeries(id: Long){
         viewModelScope.launch(Dispatchers.IO) {
-            if (repository.getFavoriteSeriesById(id) == null){
+            if (repository.getFavoriteSeriesFirebaseById(id) == null){
                 _favoriteS.postValue(null)
             } else {
-                _favoriteS.postValue(repository.getFavoriteSeriesById(id))
+                _favoriteS.postValue(repository.getFavoriteSeriesFirebaseById(id))
             }
 
         }

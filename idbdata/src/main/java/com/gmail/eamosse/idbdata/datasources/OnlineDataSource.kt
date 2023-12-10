@@ -3,7 +3,6 @@ package com.gmail.eamosse.idbdata.datasources
 import ReviewResponse
 import android.util.Log
 import com.gmail.eamosse.idbdata.api.response.CategoryResponse
-import com.gmail.eamosse.idbdata.api.response.MovieIdResponse
 import com.gmail.eamosse.idbdata.api.response.MovieResponse
 
 

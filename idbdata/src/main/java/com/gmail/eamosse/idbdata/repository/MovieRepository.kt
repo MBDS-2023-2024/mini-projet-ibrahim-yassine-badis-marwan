@@ -3,7 +3,6 @@ package com.gmail.eamosse.idbdata.repository
 import android.util.Log
 
 import com.gmail.eamosse.idbdata.data.Category
-import com.gmail.eamosse.idbdata.data.Movie
 
 import com.gmail.eamosse.idbdata.data.MovieProviderPackage.CountryResult
 
@@ -14,17 +13,24 @@ import com.gmail.eamosse.idbdata.data.Serie
 
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
+import com.gmail.eamosse.idbdata.datasources.FirebaseDataSourceImpl
 import com.gmail.eamosse.idbdata.datasources.LocalDataSource
 import com.gmail.eamosse.idbdata.datasources.OnlineDataSource
 import com.gmail.eamosse.idbdata.utils.Result
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.tasks.await
+import java.sql.Types.NULL
 import javax.inject.Inject
+import com.gmail.eamosse.idbdata.data.Movie as Movie
 
 /**
  * La classe permettant de gérer les données de l'application
  */
 class MovieRepository @Inject internal constructor(
     private val local: LocalDataSource,
-    private val online: OnlineDataSource
+    private val online: OnlineDataSource,
+    private val firebase: FirebaseDataSourceImpl
 ) {
 
     /**
@@ -192,41 +198,96 @@ class MovieRepository @Inject internal constructor(
     }
 
 
-    suspend fun insertFavoriteMovie(favoriteMovie: Movie) {
-        Log.i("insertfavorite", "je suis dans repository")
-        local.insertFavoriteMovie(favoriteMovie)
-    }
+    /******Firebase******/
 
-    suspend fun getFavoriteMovies(): List<Movie> {
+
+    suspend fun getFavoriteMoviesFromFirebase(): List<Movie> {
         Log.i("getfavorite", "je suis dans repository")
-        return local.getFavoriteMovies()
+        return when (val result = firebase.getFavoriteMovies()) {
+            is Result.Succes -> result.data
+            is Result.Error -> {
+                // Handle the error, log it, show a toast, etc.
+                Log.e("MovieRepository", "Error getting favorite movies: ${result.exception}")
+                emptyList()
+            }
+        }
+    }
+    suspend fun getFavoriteByIdMoviesFromFirebase(id: Long): Movie? {
+        Log.i("getfavorite", "je suis dans repository")
+        return when (val result = firebase.getFavoriteMovieById(id)) {
+            is Result.Succes -> result.data
+            is Result.Error -> {
+                // Handle the error, log it, show a toast, etc.
+                Log.e("MovieRepository", "Error getting favorite movies: ${result.exception}")
+                val nothing = null
+                nothing
+
+            }
+        }
     }
 
-    suspend fun deleteFavoriteMovie(favoriteMovie: Movie){
-        local.deleteFavoriteMovie(favoriteMovie)
+    suspend fun getFavoriteSerieFromFirebase(): List<Serie> {
+        Log.i("getfavorite", "je suis dans repository")
+        return when (val result = firebase.getFavoriteSeries()) {
+
+            is Result.Succes ->{
+                Log.i("awawaaw", "je suis dans repository${result}")
+
+                result.data}
+            is Result.Error -> {
+                // Handle the error, log it, show a toast, etc.
+                Log.e("MovieRepository", "Error getting favorite movies: ${result.exception}")
+                emptyList()
+            }
+        }
+    }
+    suspend fun getFavoriteByIdSerieFromFirebase(id: Long): Serie? {
+        Log.i("getfavorite", "je suis dans repository")
+        return when (val result = firebase.getFavoriteSeriesById(id)) {
+            is Result.Succes -> result.data
+            is Result.Error -> {
+                // Handle the error, log it, show a toast, etc.
+                Log.e("MovieRepository", "Error getting favorite movies: ${result.exception}")
+                val nothing = null
+                nothing
+
+            }
+        }
     }
 
-    suspend fun getFavoriteMovieById(id: Long): Movie?{
-        return local.getFavoriteMovieById(id)
+    suspend fun  insertFavoriteMoviesFirebase(fav : Movie){
+        firebase.insertFavoriteMovie(fav)
+
+    }
+    suspend fun  getFavoriteMoviesFirebase(): List<Movie>{
+        return getFavoriteMoviesFromFirebase()
+    }
+    suspend fun  deleteFavoriteMoviesFirebase(fav : Movie){
+        firebase.deleteFavoriteMovie(fav.id)
     }
 
-    suspend fun insertFavoriteSeries(favoriteSeries: Serie) {
-        local.insertFavoriteSeries(favoriteSeries)
+    suspend fun  getFavoriteMoviesFirebaseById(id : Long):Movie?{
+        return getFavoriteByIdMoviesFromFirebase(id)
+    }
+
+    suspend fun  insertFavoriteSeriesFirebase(fav : Serie){
+        firebase.insertFavoriteSeries(fav)
+
+
+    }
+    suspend fun  getFavoriteSeriesFirebase(): List<Serie>{
+        return getFavoriteSerieFromFirebase()
+    }
+    suspend fun  deleteFavoriteSeriesFirebase(fav : Serie){
+        firebase.deleteFavoriteSeries(fav.id)
+    }
+
+    suspend fun  getFavoriteSeriesFirebaseById(id : Long):Serie?{
+        return getFavoriteByIdSerieFromFirebase(id)
     }
 
 
 
-    suspend fun getFavoriteSeries(): List<Serie> {
-        return local.getFavoriteSeries()
-    }
-
-    suspend fun deleteFavoriteSeries(favoriteSeries: Serie){
-        local.deleteFavoriteSeries(favoriteSeries)
-    }
-
-    suspend fun getFavoriteSeriesById(id: Long): Serie?{
-        return local.getFavoriteSeriesById(id)
-    }
 
     suspend fun getListAllPopularPersons(): Result<List<PopularPerson>> {
         return when(val result = online.getPopularPersons()) {

@@ -4,28 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.gmail.eamosse.imdb.R
 import com.gmail.eamosse.imdb.databinding.FragmentDashboardBinding
-import com.gmail.eamosse.imdb.databinding.FragmentHomeBinding
-import com.gmail.eamosse.imdb.ui.home.HomeSecondFragmentArgs
-import com.gmail.eamosse.imdb.ui.home.HomeSecondFragmentDirections
-import com.gmail.eamosse.imdb.ui.home.HomeViewModel
-import com.gmail.eamosse.imdb.ui.home.adapter.CategoryAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.MovieAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.MovieHandler
-import com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleAdapter
+import com.gmail.eamosse.imdb.ui.home.adapter.SerieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +24,8 @@ class DashboardFragment : Fragment(), MovieHandler {
     private lateinit var topRatedMoviesRecyclerView: RecyclerView
     private lateinit var upcomingMoviesRecyclerView: RecyclerView
     private  lateinit var favoriteMoviesRecyclerView: RecyclerView
+  //  private  lateinit var favoriteSeriesRecyclerView: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,6 +50,9 @@ class DashboardFragment : Fragment(), MovieHandler {
         favoriteMoviesRecyclerView = binding.recyclerFavoriteMovies
         setupRecyclerView(favoriteMoviesRecyclerView)
 
+//        favoriteSeriesRecyclerView = binding.recyclerFavoriteSeries
+  //      setupRecyclerView(favoriteSeriesRecyclerView)
+
         dashboardViewModel.popularMovies.observe(viewLifecycleOwner, Observer { popularMovies ->
             (popularMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(popularMovies)
         })
@@ -75,7 +68,9 @@ class DashboardFragment : Fragment(), MovieHandler {
         dashboardViewModel.favoriteMovies.observe(viewLifecycleOwner, Observer { favoriteMovies ->
             (favoriteMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(favoriteMovies)
         })
-
+     //   dashboardViewModel.favoriteSeries.observe(viewLifecycleOwner, Observer { favoriteSeries ->
+       //     (favoriteSeriesRecyclerView.adapter as? SerieAdapter)?.setItems(favoriteSeries)
+       // })
         /*
 
         with(dashboardViewModel){
@@ -97,6 +92,7 @@ class DashboardFragment : Fragment(), MovieHandler {
         dashboardViewModel.getTopRatedMovies()
         dashboardViewModel.getUpcomingMovies()
         dashboardViewModel.getFavoriteMovies()
+    //    dashboardViewModel.getFavoriteSeries()
 
 
     }

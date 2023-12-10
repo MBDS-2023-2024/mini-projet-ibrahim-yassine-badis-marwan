@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gmail.eamosse.idbdata.data.Category
 import com.gmail.eamosse.idbdata.data.Movie
+import com.gmail.eamosse.idbdata.data.Serie
 import com.gmail.eamosse.idbdata.data.Token
 import com.gmail.eamosse.idbdata.data.Trailer
 import com.gmail.eamosse.idbdata.repository.MovieRepository
@@ -30,6 +31,8 @@ class DashboardViewModel  @Inject constructor(private val repository: MovieRepos
     private var _favoriteMovies = MutableLiveData<List<Movie>>()
     val favoriteMovies: LiveData<List<Movie>> get() = _favoriteMovies
 
+    private var _favoriteSeries = MutableLiveData<List<Serie>>()
+    val favoriteSeries: LiveData<List<Serie>> get() = _favoriteSeries
     /***Error****/
     private val _error: MutableLiveData<String> = MutableLiveData()
     val error: LiveData<String>
@@ -156,8 +159,19 @@ class DashboardViewModel  @Inject constructor(private val repository: MovieRepos
     fun getFavoriteMovies() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val favoriteMovies = repository.getFavoriteMovies()
+                val favoriteMovies = repository.getFavoriteMoviesFirebase()
                 _favoriteMovies.postValue(favoriteMovies)
+            } catch (e: Exception) {
+                // Handle the exception or log an error message
+                _error.postValue("Error fetching favorite movies: ${e.message}")
+            }
+        }
+    }
+    fun getFavoriteSeries() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val favoriteSerie = repository.getFavoriteSeriesFirebase()
+                _favoriteSeries.postValue(favoriteSerie)
             } catch (e: Exception) {
                 // Handle the exception or log an error message
                 _error.postValue("Error fetching favorite movies: ${e.message}")
