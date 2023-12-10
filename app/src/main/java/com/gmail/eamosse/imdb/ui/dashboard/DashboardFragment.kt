@@ -98,8 +98,19 @@ class DashboardFragment : Fragment(), MovieHandler {
 
 
     }
+    /*
+    override fun onDestroy() {
+        super.onDestroy()
+        dashboardViewModel.clearFavoriteMovies()
+        dashboardViewModel.clearFavoriteSeries()
+    }
 
-
+    override fun onResume() {
+        super.onResume()
+        dashboardViewModel.getFavoriteMovies()
+        dashboardViewModel.getFavoriteSeries()
+    }
+*/
     private fun setupRecyclerView(recyclerView: RecyclerView, adapterType: AdapterType) {
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
 

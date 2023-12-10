@@ -180,5 +180,11 @@ class DashboardViewModel  @Inject constructor(private val repository: MovieRepos
             }
         }
     }
+    fun clearFavoriteMovies(){
+        _favoriteMovies.postValue(emptyList())
+    }
+    fun clearFavoriteSeries(){
+        _favoriteSeries.postValue(emptyList())
+    }
 
 }
