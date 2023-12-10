@@ -1,4 +1,5 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/I4c0DUx4)
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/I4c0DUx4)
 # ReadMe pour AnneFlix (The Moovie App)
 
 ## Introduction
@@ -68,14 +69,15 @@ Pour être complète, votre application doit proposer au moins une parmi les fon
 # Organisation et Gestion de Projet
 
 ## Tableau Sprint
-
-![Tableau](https://github.com/MBDS-2023-2024/mini-projet-ibrahim-yassine-badis-marwan/assets/96066061/fcc6d24e-a647-4486-b885-ec17ae2413cf)
+![Tableau](https://github.com/MBDS-2023-2024/mini-projet-ibrahim-yassine-badis-marwan/assets/32772609/207e9340-b83a-4b04-a2a6-0e9a4ba0c626)
 Nous avons adopté un tableau sprint pour une gestion de projet efficace, assignant des tâches spécifiques à chaque membre de l'équipe. Cela a facilité le suivi des progrès et le respect des échéances.
 
 ## Collaboration et Contributions
 Chaque membre a contribué de façon unique, comme en témoignent les commits individuels. Nous avons privilégié une approche collaborative, en utilisant des branches distinctes pour chaque fonctionnalité et des pull requests pour les fusions. 
 
 # Lien vers la Vidéo de Démonstration
+
+## https://www.youtube.com/watch?v=rGyOse91S2Y
 
 Découvrez AnneFlix en action dans notre vidéo de démonstration.
 Nous espérons que vous apprécierez AnneFlix autant que nous avons pris plaisir à le développer. Pour toute question ou retour d'expérience, n'hésitez pas à nous contacter.
@@ -85,4 +87,5 @@ Nous espérons que vous apprécierez AnneFlix autant que nous avons pris plaisir
 ### Ibrahim Krimi : https://www.linkedin.com/in/ibrahim-krimi-a9a355173/ 
 ### yassine Berriri : https://www.linkedin.com/in/yassine-berriri-a013091b8/ 
 ### Marwane LARBI : https://www.linkedin.com/in/marwanelarbi/ 
+
 
