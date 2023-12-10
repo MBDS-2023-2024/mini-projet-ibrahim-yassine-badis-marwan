@@ -49,7 +49,7 @@ Pour être complète, votre application doit proposer au moins une parmi les fon
 ### Voir les commentaires d'un film : ✅
 ### Voir la biographie d'un acteur/personnage :✅
 ### Voir la liste des plateformes pour regarder un film :✅
-### Synchroniser la liste des films/séries favoris sur Firebase : ❌
+### Synchroniser la liste des films/séries favoris sur Firebase : ✅
 
 
 # Organisation et Gestion de Projet
