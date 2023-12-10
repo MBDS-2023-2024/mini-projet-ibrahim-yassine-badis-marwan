@@ -70,8 +70,6 @@ Pour être complète, votre application doit proposer au moins une parmi les fon
 
 ## Tableau Sprint
 ![Tableau](https://github.com/MBDS-2023-2024/mini-projet-ibrahim-yassine-badis-marwan/assets/32772609/207e9340-b83a-4b04-a2a6-0e9a4ba0c626)
-
-![Tableau](https://github.com/MBDS-2023-2024/mini-projet-ibrahim-yassine-badis-marwan/assets/96066061/fcc6d24e-a647-4486-b885-ec17ae2413cf)
 Nous avons adopté un tableau sprint pour une gestion de projet efficace, assignant des tâches spécifiques à chaque membre de l'équipe. Cela a facilité le suivi des progrès et le respect des échéances.
 
 ## Collaboration et Contributions
