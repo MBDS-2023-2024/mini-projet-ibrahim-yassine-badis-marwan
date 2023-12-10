@@ -168,9 +168,11 @@ class DashboardViewModel  @Inject constructor(private val repository: MovieRepos
         }
     }
     fun getFavoriteSeries() {
+
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val favoriteSerie = repository.getFavoriteSeriesFirebase()
+                Log.d("SerieAdapter", "onBindViewHolder called for position $favoriteSerie")
                 _favoriteSeries.postValue(favoriteSerie)
             } catch (e: Exception) {
                 // Handle the exception or log an error message

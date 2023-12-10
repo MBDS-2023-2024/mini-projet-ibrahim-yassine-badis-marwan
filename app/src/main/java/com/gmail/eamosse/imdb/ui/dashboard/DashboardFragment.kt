@@ -14,6 +14,7 @@ import com.gmail.eamosse.imdb.databinding.FragmentDashboardBinding
 import com.gmail.eamosse.imdb.ui.home.adapter.MovieAdapter
 import com.gmail.eamosse.imdb.ui.home.adapter.MovieHandler
 import com.gmail.eamosse.imdb.ui.home.adapter.SerieAdapter
+import com.gmail.eamosse.imdb.ui.home.adapter.SerieHandler
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +25,7 @@ class DashboardFragment : Fragment(), MovieHandler {
     private lateinit var topRatedMoviesRecyclerView: RecyclerView
     private lateinit var upcomingMoviesRecyclerView: RecyclerView
     private  lateinit var favoriteMoviesRecyclerView: RecyclerView
-  //  private  lateinit var favoriteSeriesRecyclerView: RecyclerView
+   private  lateinit var favoriteSeriesRecyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,19 +40,19 @@ class DashboardFragment : Fragment(), MovieHandler {
         super.onViewCreated(view, savedInstanceState)
 
         popularMoviesRecyclerView = binding.recyclerPopularMovies
-        setupRecyclerView(popularMoviesRecyclerView)
+        setupRecyclerView(popularMoviesRecyclerView, AdapterType.MOVIE)
 
         topRatedMoviesRecyclerView = binding.recyclerTopRatedMovies
-        setupRecyclerView(topRatedMoviesRecyclerView)
+        setupRecyclerView(topRatedMoviesRecyclerView, AdapterType.MOVIE)
 
         upcomingMoviesRecyclerView = binding.recyclerUpcomingMovies
-        setupRecyclerView(upcomingMoviesRecyclerView)
+        setupRecyclerView(upcomingMoviesRecyclerView, AdapterType.MOVIE)
 
         favoriteMoviesRecyclerView = binding.recyclerFavoriteMovies
-        setupRecyclerView(favoriteMoviesRecyclerView)
+        setupRecyclerView(favoriteMoviesRecyclerView, AdapterType.MOVIE)
 
-//        favoriteSeriesRecyclerView = binding.recyclerFavoriteSeries
-  //      setupRecyclerView(favoriteSeriesRecyclerView)
+        favoriteSeriesRecyclerView = binding.recyclerFavoriteSeries
+        setupRecyclerView(favoriteSeriesRecyclerView, AdapterType.SERIE)
 
         dashboardViewModel.popularMovies.observe(viewLifecycleOwner, Observer { popularMovies ->
             (popularMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(popularMovies)
@@ -68,9 +69,10 @@ class DashboardFragment : Fragment(), MovieHandler {
         dashboardViewModel.favoriteMovies.observe(viewLifecycleOwner, Observer { favoriteMovies ->
             (favoriteMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(favoriteMovies)
         })
-     //   dashboardViewModel.favoriteSeries.observe(viewLifecycleOwner, Observer { favoriteSeries ->
-       //     (favoriteSeriesRecyclerView.adapter as? SerieAdapter)?.setItems(favoriteSeries)
-       // })
+
+        dashboardViewModel.favoriteSeries.observe(viewLifecycleOwner, Observer { favoriteSeries ->
+            (favoriteSeriesRecyclerView.adapter as? SerieAdapter)?.setItems(favoriteSeries)
+        })
         /*
 
         with(dashboardViewModel){
@@ -92,33 +94,61 @@ class DashboardFragment : Fragment(), MovieHandler {
         dashboardViewModel.getTopRatedMovies()
         dashboardViewModel.getUpcomingMovies()
         dashboardViewModel.getFavoriteMovies()
-    //    dashboardViewModel.getFavoriteSeries()
+        dashboardViewModel.getFavoriteSeries()
 
 
     }
 
 
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
+    private fun setupRecyclerView(recyclerView: RecyclerView, adapterType: AdapterType) {
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        // You need to create a MovieAdapter and set it to the recyclerView adapter
-        val movieAdapter = MovieAdapter(emptyList(), object : MovieHandler {
-            override fun onShowMovieDetails(id: Long, type: String) {
-                val action = DashboardFragmentDirections
-                    .actionDashboardFragmentToMovieDetailsFragment(id.toString(), "movie")
-                NavHostFragment.findNavController(this@DashboardFragment)
-                    .navigate(action)
+
+        when (adapterType) {
+            AdapterType.MOVIE -> {
+                val movieAdapter = MovieAdapter(emptyList(), object : MovieHandler {
+                    override fun onShowMovieDetails(id: Long, type: String) {
+                        val action = DashboardFragmentDirections
+                            .actionDashboardFragmentToMovieDetailsFragment(id.toString(), type)
+                        NavHostFragment.findNavController(this@DashboardFragment)
+                            .navigate(action)
+                    }
+
+                    override fun onShowEmptyListMsg() {
+                        // Handle empty list message for movies if needed
+                    }
+
+                    override fun removeEmptyListMsg() {
+                        // Remove empty list message for movies if needed
+                    }
+                })
+                recyclerView.adapter = movieAdapter
             }
+            AdapterType.SERIE -> {
+                val serieAdapter = SerieAdapter(emptyList(), object : SerieHandler {
+                    override fun onShowSerieDetails(id: Long, type: String) {
+                        val action = DashboardFragmentDirections
+                            .actionDashboardFragmentToMovieDetailsFragment(id.toString(), type)
+                        NavHostFragment.findNavController(this@DashboardFragment)
+                            .navigate(action)
+                    }
 
-            override fun onShowEmptyListMsg() {
+                    override fun onShowEmptyListSerieMsg() {
+                        // Handle empty list message for series if needed
+                    }
 
+                    override fun removeEmptyListSerieMsg() {
+                        // Remove empty list message for series if needed
+                    }
+                })
+                recyclerView.adapter = serieAdapter
             }
-
-            override fun removeEmptyListMsg() {
-
-            }
-        })
-        recyclerView.adapter = movieAdapter
+        }
     }
+    enum class AdapterType {
+        MOVIE,
+        SERIE
+    }
+
 
     override fun onShowMovieDetails(id: Long, type: String) {
 

@@ -223,8 +223,7 @@ class MovieRepository @Inject internal constructor(
                 nothing
 
             }
-        }
-    }
+        }    }
 
     suspend fun getFavoriteSerieFromFirebase(): List<Serie> {
         Log.i("getfavorite", "je suis dans repository")

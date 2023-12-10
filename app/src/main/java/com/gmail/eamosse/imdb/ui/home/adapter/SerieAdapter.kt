@@ -5,14 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.gmail.eamosse.idbdata.data.Movie
 import com.gmail.eamosse.idbdata.data.Serie
 import com.gmail.eamosse.imdb.R
-import com.gmail.eamosse.imdb.databinding.MovieListItemBinding
 import com.gmail.eamosse.imdb.databinding.SerieListItemBinding
 
 class SerieAdapter(private var items: List<Serie>, serieHandler: SerieHandler) :
-    RecyclerView.Adapter<SerieAdapter.ViewHolder>(){
+    RecyclerView.Adapter<SerieAdapter.ViewHolder>() {
 
     private val mSerieHandler = serieHandler
 
@@ -31,11 +29,8 @@ class SerieAdapter(private var items: List<Serie>, serieHandler: SerieHandler) :
                 .placeholder(R.drawable.baseline_video_label_24)
                 .error(R.drawable.baseline_video_label_24)
                 .into(binding.movieImg)
-
         }
-
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SerieAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -43,24 +38,24 @@ class SerieAdapter(private var items: List<Serie>, serieHandler: SerieHandler) :
     }
 
     override fun onBindViewHolder(holder: SerieAdapter.ViewHolder, position: Int) {
-        if (items.isEmpty()){
+        if (items.isEmpty()) {
             this.mSerieHandler.onShowEmptyListSerieMsg()
-        }
-        else {
+        } else {
             this.mSerieHandler.removeEmptyListSerieMsg()
         }
         holder.bind(items[position])
         val serie = items[position]
 
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             this.mSerieHandler.onShowSerieDetails(serie.id.toLong(), "serie")
         }
-
     }
 
     override fun getItemCount(): Int = items.size
-    fun setItems(movies: List<Serie>) {
-        items = movies
+
+    fun setItems(series: List<Serie>) {
+        items = series
         notifyDataSetChanged()
     }
 }
+

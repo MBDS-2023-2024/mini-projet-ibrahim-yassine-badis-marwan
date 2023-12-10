@@ -1,0 +1,199 @@
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>buildscript {\r\n    ext {\r\n        // Versions for all the dependencies we plan to use. It's particularly useful for kotlin\r\n        // where the versions of the plugin needs to be the same as the version of the\r\n        // library defined in the app Gradle file\r\n        kotlin_version = \"1.7.20\"\r\n        room_version=\"2.5.0\"\r\n        koin_version = \"2.0.1\"\r\n        lifecycle_version = \"2.2.0\"\r\n        retrofit = \"2.9.0\"\r\n        room_version = \"2.5.0\"\r\n        hilt_version = '2.44'\r\n        nav_version = \"2.5.3\"\r\n    }\r\n    repositories {\r\n        google()\r\n        mavenCentral()\r\n    }\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:7.3.1'\r\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version\"\r\n        classpath \"com.google.dagger:hilt-android-gradle-plugin:$hilt_version\"\r\n        classpath \"androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version\"\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        mavenCentral()\r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle b/build.gradle
+--- a/build.gradle	(revision 87600d6ac1b04fa68153cee57f6a1300647e969e)
++++ b/build.gradle	(date 1702140287495)
+@@ -21,6 +21,7 @@
+         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
++        classpath 'com.google.gms:google-services:4.4.0'
+     }
+ }
+ 
+Index: idbdata/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'com.android.library'\r\n    id 'kotlin-android'\r\n    id 'kotlin-kapt'\r\n    id 'dagger.hilt.android.plugin'\r\n}\r\n\r\nandroid {\r\n    compileSdkVersion 33\r\n\r\n    defaultConfig {\r\n\r\n        minSdkVersion 24\r\n        targetSdkVersion 33\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n        consumerProguardFiles \"consumer-rules.pro\"\r\n\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n    compileOptions {\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        kotlinOptions {\r\n            jvmTarget = \"1.8\"\r\n        }\r\n    }\r\n\r\n}\r\n\r\ndependencies {\r\n\r\n    implementation 'androidx.core:core-ktx:1.9.0'\r\n    implementation 'androidx.appcompat:appcompat:1.6.1'\r\n\r\n    implementation 'com.google.code.gson:gson:2.9.1'\r\n    implementation 'de.hdodenhof:circleimageview:3.1.0'\r\n\r\n    //Room\r\n    implementation \"androidx.room:room-runtime:$room_version\"\r\n    kapt \"androidx.room:room-compiler:$room_version\"\r\n\r\n    //Retrofit\r\n    implementation \"com.squareup.retrofit2:retrofit:$retrofit\"\r\n    implementation \"com.squareup.retrofit2:converter-gson:$retrofit\"\r\n    implementation(\"com.squareup.okhttp3:logging-interceptor:4.10.0\")\r\n\r\n    // Hilt\r\n    implementation \"com.google.dagger:hilt-android:$hilt_version\"\r\n    kapt \"com.google.dagger:hilt-android-compiler:$hilt_version\"\r\n\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.5'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/idbdata/build.gradle b/idbdata/build.gradle
+--- a/idbdata/build.gradle	(revision 87600d6ac1b04fa68153cee57f6a1300647e969e)
++++ b/idbdata/build.gradle	(date 1702140857601)
+@@ -3,6 +3,7 @@
+     id 'kotlin-android'
+     id 'kotlin-kapt'
+     id 'dagger.hilt.android.plugin'
++    id 'com.google.gms.google-services'
+ }
+ 
+ android {
+@@ -46,6 +47,7 @@
+ 
+     //Room
+     implementation "androidx.room:room-runtime:$room_version"
++    implementation 'com.google.firebase:firebase-database:20.3.0'
+     kapt "androidx.room:room-compiler:$room_version"
+ 
+     //Retrofit
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'com.android.application'\r\n    id 'kotlin-android'\r\n    id 'kotlin-kapt'\r\n    id 'dagger.hilt.android.plugin'\r\n    id 'androidx.navigation.safeargs.kotlin'\r\n}\r\nandroid {\r\n    compileSdkVersion 33\r\n\r\n    defaultConfig {\r\n        applicationId \"com.gmail.eamosse.imdb\"\r\n        minSdkVersion 24\r\n        targetSdkVersion 33\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n    kotlinOptions {\r\n        jvmTarget = '1.8'\r\n    }\r\n    dataBinding {\r\n        enabled = true\r\n    }\r\n\r\n}\r\n\r\ndependencies {\r\n\r\n    implementation 'androidx.core:core-ktx:1.9.0'\r\n    implementation 'androidx.appcompat:appcompat:1.6.1'\r\n    implementation 'com.google.android.material:material:1.8.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'\r\n    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'\r\n    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'\r\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\r\n    // Kotlin\r\n    implementation \"androidx.navigation:navigation-fragment-ktx:$nav_version\"\r\n    implementation \"androidx.navigation:navigation-ui-ktx:$nav_version\"\r\n    implementation 'de.hdodenhof:circleimageview:3.1.0'\r\n\r\n    // Feature module Support\r\n    implementation \"androidx.navigation:navigation-dynamic-features-fragment:$nav_version\"\r\n\r\n    implementation \"com.google.dagger:hilt-android:$hilt_version\"\r\n    kapt \"com.google.dagger:hilt-android-compiler:$hilt_version\"\r\n    // Koin for Kotlin\r\n    implementation project(path: ':idbdata')\r\n\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.5'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'\r\n\r\n    implementation (\"com.github.bumptech.glide:glide:4.11.0\")\r\n    annotationProcessor (\"com.github.bumptech.glide:compiler:4.11.0\")\r\n\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	(revision 87600d6ac1b04fa68153cee57f6a1300647e969e)
++++ b/app/build.gradle	(date 1702140810559)
+@@ -4,6 +4,7 @@
+     id 'kotlin-kapt'
+     id 'dagger.hilt.android.plugin'
+     id 'androidx.navigation.safeargs.kotlin'
++    id 'com.google.gms.google-services'
+ }
+ android {
+     compileSdkVersion 33
+@@ -56,6 +57,8 @@
+     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+ 
+     implementation "com.google.dagger:hilt-android:$hilt_version"
++    implementation 'com.google.firebase:firebase-database:20.3.0'
++    implementation 'com.google.firebase:firebase-database-ktx:20.3.0'
+     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+     // Koin for Kotlin
+     implementation project(path: ':idbdata')
+@@ -68,6 +71,6 @@
+     annotationProcessor ("com.github.bumptech.glide:compiler:4.11.0")
+ 
+ 
+-
+-
++    implementation platform('com.google.firebase:firebase-bom:32.7.0')
++    implementation 'com.google.firebase:firebase-analytics'
+ }
+Index: app/src/main/java/com/gmail/eamosse/imdb/ui/dashboard/DashboardFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.gmail.eamosse.imdb.ui.dashboard\r\n\r\nimport android.os.Bundle\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.TextView\r\nimport android.widget.Toast\r\nimport androidx.fragment.app.Fragment\r\nimport androidx.fragment.app.activityViewModels\r\nimport androidx.fragment.app.viewModels\r\nimport androidx.lifecycle.Observer\r\nimport androidx.lifecycle.ViewModelProviders\r\nimport androidx.navigation.Navigation\r\nimport androidx.navigation.fragment.NavHostFragment\r\nimport androidx.navigation.fragment.navArgs\r\nimport androidx.recyclerview.widget.LinearLayoutManager\r\nimport androidx.recyclerview.widget.RecyclerView\r\nimport com.gmail.eamosse.imdb.R\r\nimport com.gmail.eamosse.imdb.databinding.FragmentDashboardBinding\r\nimport com.gmail.eamosse.imdb.databinding.FragmentHomeBinding\r\nimport com.gmail.eamosse.imdb.ui.home.HomeSecondFragmentArgs\r\nimport com.gmail.eamosse.imdb.ui.home.HomeSecondFragmentDirections\r\nimport com.gmail.eamosse.imdb.ui.home.HomeViewModel\r\nimport com.gmail.eamosse.imdb.ui.home.adapter.CategoryAdapter\r\nimport com.gmail.eamosse.imdb.ui.home.adapter.MovieAdapter\r\nimport com.gmail.eamosse.imdb.ui.home.adapter.MovieHandler\r\nimport com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleAdapter\r\nimport dagger.hilt.android.AndroidEntryPoint\r\n\r\n@AndroidEntryPoint\r\nclass DashboardFragment : Fragment(), MovieHandler {\r\n    private val dashboardViewModel: DashboardViewModel by activityViewModels()\r\n    private lateinit var binding: FragmentDashboardBinding\r\n    private lateinit var popularMoviesRecyclerView: RecyclerView\r\n    private lateinit var topRatedMoviesRecyclerView: RecyclerView\r\n    private lateinit var upcomingMoviesRecyclerView: RecyclerView\r\n    private  lateinit var favoriteMoviesRecyclerView: RecyclerView\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater, container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View {\r\n        // Inflate the layout for this fragment\r\n        binding = FragmentDashboardBinding.inflate(inflater, container, false)\r\n        return binding.root\r\n    }\r\n\r\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\r\n        super.onViewCreated(view, savedInstanceState)\r\n\r\n        popularMoviesRecyclerView = binding.recyclerPopularMovies\r\n        setupRecyclerView(popularMoviesRecyclerView)\r\n\r\n        topRatedMoviesRecyclerView = binding.recyclerTopRatedMovies\r\n        setupRecyclerView(topRatedMoviesRecyclerView)\r\n\r\n        upcomingMoviesRecyclerView = binding.recyclerUpcomingMovies\r\n        setupRecyclerView(upcomingMoviesRecyclerView)\r\n\r\n        favoriteMoviesRecyclerView = binding.recyclerFavoriteMovies\r\n        setupRecyclerView(favoriteMoviesRecyclerView)\r\n\r\n        dashboardViewModel.popularMovies.observe(viewLifecycleOwner, Observer { popularMovies ->\r\n            (popularMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(popularMovies)\r\n        })\r\n\r\n        dashboardViewModel.topRatedMovies.observe(viewLifecycleOwner, Observer { topRatedMovies ->\r\n            (topRatedMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(topRatedMovies)\r\n        })\r\n\r\n        dashboardViewModel.upcomingMovies.observe(viewLifecycleOwner, Observer { upcomingMovies ->\r\n            (upcomingMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(upcomingMovies)\r\n        })\r\n\r\n        dashboardViewModel.favoriteMovies.observe(viewLifecycleOwner, Observer { favoriteMovies ->\r\n            (favoriteMoviesRecyclerView.adapter as? MovieAdapter)?.setItems(favoriteMovies)\r\n        })\r\n\r\n        /*\r\n\r\n        with(dashboardViewModel){\r\n            topRatedMovies.observe(viewLifecycleOwner, Observer {\r\n                val recyclerView = binding.recyclerTopRatedMovies\r\n                val layoutManager =\r\n                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)\r\n                recyclerView.layoutManager = layoutManager\r\n                recyclerView.adapter = MovieAdapter(it, this@DashboardFragment)\r\n            })\r\n        }\r\n\r\n         */\r\n\r\n\r\n\r\n\r\n        dashboardViewModel.getPopularMovies()\r\n        dashboardViewModel.getTopRatedMovies()\r\n        dashboardViewModel.getUpcomingMovies()\r\n        dashboardViewModel.getFavoriteMovies()\r\n\r\n\r\n    }\r\n\r\n\r\n    private fun setupRecyclerView(recyclerView: RecyclerView) {\r\n        recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)\r\n        // You need to create a MovieAdapter and set it to the recyclerView adapter\r\n        val movieAdapter = MovieAdapter(emptyList(), object : MovieHandler {\r\n            override fun onShowMovieDetails(id: Long, type: String) {\r\n                val action = DashboardFragmentDirections\r\n                    .actionDashboardFragmentToMovieDetailsFragment(id.toString(), \"movie\")\r\n                NavHostFragment.findNavController(this@DashboardFragment)\r\n                    .navigate(action)\r\n            }\r\n\r\n            override fun onShowEmptyListMsg() {\r\n\r\n            }\r\n\r\n            override fun removeEmptyListMsg() {\r\n\r\n            }\r\n        })\r\n        recyclerView.adapter = movieAdapter\r\n    }\r\n\r\n    override fun onShowMovieDetails(id: Long, type: String) {\r\n\r\n    }\r\n\r\n    override fun onShowEmptyListMsg() {\r\n\r\n    }\r\n\r\n    override fun removeEmptyListMsg() {\r\n\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/gmail/eamosse/imdb/ui/dashboard/DashboardFragment.kt b/app/src/main/java/com/gmail/eamosse/imdb/ui/dashboard/DashboardFragment.kt
+--- a/app/src/main/java/com/gmail/eamosse/imdb/ui/dashboard/DashboardFragment.kt	(revision 87600d6ac1b04fa68153cee57f6a1300647e969e)
++++ b/app/src/main/java/com/gmail/eamosse/imdb/ui/dashboard/DashboardFragment.kt	(date 1702140669366)
+@@ -26,6 +26,8 @@
+ import com.gmail.eamosse.imdb.ui.home.adapter.MovieAdapter
+ import com.gmail.eamosse.imdb.ui.home.adapter.MovieHandler
+ import com.gmail.eamosse.imdb.ui.home.adapter.PopularPeopleAdapter
++import com.google.firebase.database.DatabaseReference
++import com.google.firebase.database.FirebaseDatabase
+ import dagger.hilt.android.AndroidEntryPoint
+ 
+ @AndroidEntryPoint
+@@ -36,6 +38,8 @@
+     private lateinit var topRatedMoviesRecyclerView: RecyclerView
+     private lateinit var upcomingMoviesRecyclerView: RecyclerView
+     private  lateinit var favoriteMoviesRecyclerView: RecyclerView
++    private lateinit var database: FirebaseDatabase
++    private lateinit var databaseReference: DatabaseReference
+     override fun onCreateView(
+         inflater: LayoutInflater, container: ViewGroup?,
+         savedInstanceState: Bundle?
+@@ -47,6 +51,8 @@
+ 
+     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+         super.onViewCreated(view, savedInstanceState)
++        database = FirebaseDatabase.getInstance()
++
+ 
+         popularMoviesRecyclerView = binding.recyclerPopularMovies
+         setupRecyclerView(popularMoviesRecyclerView)
+Index: .idea/migrations.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/migrations.xml b/.idea/migrations.xml
+new file mode 100644
+--- /dev/null	(date 1702139594952)
++++ b/.idea/migrations.xml	(date 1702139594952)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectMigrations">
++    <option name="MigrateToGradleLocalJavaHome">
++      <set>
++        <option value="$PROJECT_DIR$" />
++      </set>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"GRADLE\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"jbr-17\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n            <option value=\"$PROJECT_DIR$/idbdata\" />\r\n          </set>\r\n        </option>\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--- a/.idea/gradle.xml	(revision 87600d6ac1b04fa68153cee57f6a1300647e969e)
++++ b/.idea/gradle.xml	(date 1702140265727)
+@@ -4,8 +4,6 @@
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+-        <option name="testRunner" value="GRADLE" />
+-        <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+         <option name="gradleJvm" value="jbr-17" />
+         <option name="modules">
+@@ -15,6 +13,7 @@
+             <option value="$PROJECT_DIR$/idbdata" />
+           </set>
+         </option>
++        <option name="resolveExternalAnnotations" value="false" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: .idea/deploymentTargetDropDown.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"deploymentTargetDropDown\">\r\n    <targetSelectedWithDropDown>\r\n      <Target>\r\n        <type value=\"QUICK_BOOT_TARGET\" />\r\n        <deviceKey>\r\n          <Key>\r\n            <type value=\"VIRTUAL_DEVICE_PATH\" />\r\n            <value value=\"C:\\Users\\ibrah\\.android\\avd\\Pixel_6_Pro_API_30.avd\" />\r\n          </Key>\r\n        </deviceKey>\r\n      </Target>\r\n    </targetSelectedWithDropDown>\r\n    <timeTargetWasSelectedWithDropDown value=\"2023-12-09T15:41:37.114632600Z\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetDropDown.xml b/.idea/deploymentTargetDropDown.xml
+--- a/.idea/deploymentTargetDropDown.xml	(revision 87600d6ac1b04fa68153cee57f6a1300647e969e)
++++ b/.idea/deploymentTargetDropDown.xml	(date 1702140265731)
+@@ -1,17 +1,10 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="deploymentTargetDropDown">
+-    <targetSelectedWithDropDown>
+-      <Target>
+-        <type value="QUICK_BOOT_TARGET" />
+-        <deviceKey>
+-          <Key>
+-            <type value="VIRTUAL_DEVICE_PATH" />
+-            <value value="C:\Users\ibrah\.android\avd\Pixel_6_Pro_API_30.avd" />
+-          </Key>
+-        </deviceKey>
+-      </Target>
+-    </targetSelectedWithDropDown>
+-    <timeTargetWasSelectedWithDropDown value="2023-12-09T15:41:37.114632600Z" />
++    <value>
++      <entry key="app">
++        <State />
++      </entry>
++    </value>
+   </component>
+ </project>
+\ No newline at end of file
